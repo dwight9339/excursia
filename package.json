@@ -27,6 +27,7 @@
     "yup": "^1.0.2"
   },
   "devDependencies": {
+    "@types/google.maps": "^3.52.3",
     "@types/node": "^18.15.5",
     "@types/react": "^18.0.28",
     "eslint": "8.36.0",
