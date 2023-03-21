@@ -10,7 +10,7 @@ const HomePage: React.FC = () => {
     // For now, we'll just navigate to the itinerary page
     router.push('/itinerary');
   };
-
+  
   return (
     <div>
       <h1>Excursia</h1>

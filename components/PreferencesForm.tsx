@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { TextField } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
-import { Map as GoogleMap, Marker } from 'google-maps-react';
+import LocationMap from './LocationMap';
 import * as Yup from 'yup';
 
 interface PreferencesFormProps {
@@ -18,7 +18,6 @@ interface FormValues {
 }
 
 const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
-  // TODO: Implement the logic for handling location input and displaying the map marker
 
   const initialValues: FormValues = {
     location: '',
@@ -71,6 +70,10 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
           {/* Map */}
           <div style={{ height: '300px', width: '100%', marginTop: '1rem' }}>
             {/* Todo: Add map component to display user's currently selected location and boundaries */}
+            <LocationMap
+              location={{lat: 38.685, lng: -101.073}}
+              zoom={4}
+            />
           </div>
 
           {/* Start and end times */}
