@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { TextField } from '@mui/material';
-import { DateTimePicker } from '@mui/lab';
-import { GoogleMap, Marker } from 'google-maps-react';
+import { DateTimePicker } from '@mui/x-date-pickers';
+import { Map as GoogleMap, Marker } from 'google-maps-react';
 import * as Yup from 'yup';
 
 interface PreferencesFormProps {
@@ -70,22 +70,13 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
 
           {/* Map */}
           <div style={{ height: '300px', width: '100%', marginTop: '1rem' }}>
-            <GoogleMap
-              // Replace with your own Google Maps API key
-              google={{ apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
-              initialCenter={{
-                lat: 37.7749,
-                lng: -122.4194,
-              }}
-              zoom={14}
-            >
-              {/* TODO: Add Marker component to display the chosen location on the map */}
-            </GoogleMap>
+            {/* Todo: Add map component to display user's currently selected location and boundaries */}
           </div>
 
           {/* Start and end times */}
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
-            <Field
+            {/* Todo: Get date/time pickers working */}
+            {/* <Field
               component={DateTimePicker}
               label="Start Time"
               name="startTime"
@@ -100,7 +91,7 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
               inputVariant="outlined"
               value={values.endTime}
               onChange={(value) => setFieldValue('endTime', value)}
-            />
+            /> */}
           </div>
 
           {/* Other parameters */}

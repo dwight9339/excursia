@@ -1,7 +1,13 @@
-import '../styles/globals.css'
+import '../styles/globals.css';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Component {...pageProps} />
+    </LocalizationProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;
