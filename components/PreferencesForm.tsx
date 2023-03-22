@@ -34,7 +34,7 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
     endTime: Yup.date()
       .required('End time is required')
       .min(Yup.ref('startTime'), 'End time must be after start time'),
-    travelBoundaries: Yup.number()
+    searchRadius: Yup.number()
       .required('Travel boundaries are required')
       .min(1, 'Travel boundaries must be at least 1 meter')
       .max(50000, 'Travel boundaries cannot exceed 50,000 meters'),
