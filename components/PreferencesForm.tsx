@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { TextField } from '@mui/material';
+import { TextField, Slider, Typography } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import LocationSearch from './LocationSearch';
 import LocationMap from './LocationMap';
@@ -58,21 +58,31 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
       {({ values, handleChange, handleBlur, setFieldValue }) => (
         <Form>
           {/* Location */}
-          {/* <Field
-            name="location"
-            label="Location"
-            as={TextField}
-            variant="outlined"
-            fullWidth
-            onChange={handleChange}
-            onBlur={handleBlur}
-          /> */}
           <LocationSearch
             onSelectLocation={(location: google.maps.LatLngLiteral) => {
               console.log(`Selected location ${JSON.stringify(location)}`);
               setFieldValue("location", location);
             }}
           />
+
+          {/* Search Radius Slider */}
+          <div>
+            <Typography id="search-radius-slider" gutterBottom>
+              Search Radius: {values.searchRadius} miles
+            </Typography>
+            <Slider
+              value={values.searchRadius}
+              onChange={(e, newValue) => handleChange({ target: { name: 'searchRadius', value: newValue } })}
+              onBlur={handleBlur}
+              name="searchRadius"
+              min={1}
+              max={60}
+              step={1}
+              valueLabelDisplay="auto"
+              aria-labelledby="search-radius-slider"
+            />
+          </div>
+
           {/* Map */}
           <div style={{ height: '300px', width: '100%', marginTop: '1rem' }}>
             {/* Todo: Add map component to display user's currently selected location and boundaries */}

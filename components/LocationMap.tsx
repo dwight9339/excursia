@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { CircularProgress } from "@mui/material";
-import { useLoadScript, GoogleMap } from "@react-google-maps/api";
+import { useLoadScript, GoogleMap, CircleF } from "@react-google-maps/api";
 
 interface MapParams {
   location: {
@@ -28,7 +28,12 @@ const LocationMap: React.FC<MapParams> = ({ location, searchRadius }) => {
         zoom={10}
         mapTypeId={google.maps.MapTypeId.ROADMAP}
         mapContainerStyle={{ width: '1000px', height: '400px' }}
-      />
+      >
+        <CircleF
+          center={location}
+          radius={searchRadius * 1609.34}
+        />
+      </GoogleMap>
     </div>
   )
 }
