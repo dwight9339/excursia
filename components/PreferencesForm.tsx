@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { TextField } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
+import LocationSearch from './LocationSearch';
 import LocationMap from './LocationMap';
 import * as Yup from 'yup';
 
@@ -10,7 +11,7 @@ interface PreferencesFormProps {
 }
 
 interface FormValues {
-  location: string;
+  location: google.maps.LatLngLiteral;
   startTime: Date;
   endTime: Date;
   travelBoundaries: number;
@@ -20,7 +21,7 @@ interface FormValues {
 const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
 
   const initialValues: FormValues = {
-    location: '',
+    location: {lat:40.2659269, lng:-96.7466913} as google.maps.LatLngLiteral,
     startTime: new Date(),
     endTime: new Date(),
     travelBoundaries: 5000,
@@ -57,7 +58,7 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
       {({ values, handleChange, handleBlur, setFieldValue }) => (
         <Form>
           {/* Location */}
-          <Field
+          {/* <Field
             name="location"
             label="Location"
             as={TextField}
@@ -65,14 +66,19 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
             fullWidth
             onChange={handleChange}
             onBlur={handleBlur}
+          /> */}
+          <LocationSearch
+            onSelectLocation={(location: google.maps.LatLngLiteral) => {
+              console.log(`Selected location ${JSON.stringify(location)}`);
+              setFieldValue("location", location);
+            }}
           />
-
           {/* Map */}
           <div style={{ height: '300px', width: '100%', marginTop: '1rem' }}>
             {/* Todo: Add map component to display user's currently selected location and boundaries */}
             <LocationMap
-              location={{lat: 38.685, lng: -101.073}}
-              zoom={4}
+              location={values.location}
+              zoom={10}
             />
           </div>
 

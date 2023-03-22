@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { CircularProgress } from "@mui/material";
 import { useLoadScript, GoogleMap } from "@react-google-maps/api";
+import LocationSearch from "./LocationSearch";
 
 interface MapParams {
   location: {
@@ -22,12 +23,14 @@ const LocationMap: React.FC<MapParams> = ({ location, zoom }) => {
   }
 
   return (
-    <GoogleMap
-      center={location}
-      zoom={5}
-      mapTypeId={google.maps.MapTypeId.ROADMAP}
-      mapContainerStyle={{ width: '1000px', height: '400px' }}
-    />
+    <div>
+      <GoogleMap
+        center={location}
+        zoom={zoom}
+        mapTypeId={google.maps.MapTypeId.ROADMAP}
+        mapContainerStyle={{ width: '1000px', height: '400px' }}
+      />
+    </div>
   )
 }
 
