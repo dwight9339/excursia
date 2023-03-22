@@ -60,9 +60,15 @@ export default async (req, res) => {
       const pointsOfInterest = response.data.results;
 
       // TODO: Filter points of interest by relevance and time constraints
+      const numTopPicks = 5
+      const topPicks = pointsOfInterest.slice(0, numTopPicks);
+      const otherOptions = pointsOfInterest.slice(numTopPicks);
 
       // Send the generated itinerary as the response
-      res.status(200).json({ itinerary: pointsOfInterest });
+      res.status(200).json({ 
+        topPicks,
+        otherOptions 
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Error generating itinerary' });
