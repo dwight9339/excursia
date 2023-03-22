@@ -14,7 +14,7 @@ interface FormValues {
   location: google.maps.LatLngLiteral;
   startTime: Date;
   endTime: Date;
-  travelBoundaries: number;
+  searchRadius: number;
   interests: string[];
 }
 
@@ -24,7 +24,7 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
     location: {lat:40.2659269, lng:-96.7466913} as google.maps.LatLngLiteral,
     startTime: new Date(),
     endTime: new Date(),
-    travelBoundaries: 5000,
+    searchRadius: 5000,
     interests: [],
   };
 
@@ -78,7 +78,7 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
             {/* Todo: Add map component to display user's currently selected location and boundaries */}
             <LocationMap
               location={values.location}
-              zoom={10}
+              searchRadius={values.searchRadius}
             />
           </div>
 
