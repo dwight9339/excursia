@@ -5,10 +5,28 @@ import { useRouter } from 'next/router';
 const HomePage: React.FC = () => {
   const router = useRouter();
 
-  const handleGenerateItinerary = (preferences: any) => {
-    // TODO: Call the generate-itinerary API with the user preferences
-    // For now, we'll just navigate to the itinerary page
-    router.push('/itinerary');
+  const handleGenerateItinerary = async (preferences: any) => {
+    const requestOptions: RequestInit = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(preferences),
+    };
+
+    try {
+      const response = await fetch('/api/generate-itinerary', requestOptions);
+      const data = await response.json();
+  
+      if (response.ok) {
+        // Handle the received itinerary data
+        console.log(data);
+      } else {
+        // Handle any error messages received
+        console.error('Error generating itinerary:', data.message);
+      }
+    } catch (error) {
+      // Handle any network errors
+      console.error('Error fetching itinerary:', error);
+    }
   };
   
   return (

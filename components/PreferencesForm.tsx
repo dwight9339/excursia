@@ -24,32 +24,29 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
     location: {lat:40.2659269, lng:-96.7466913} as google.maps.LatLngLiteral,
     startTime: new Date(),
     endTime: new Date(),
-    searchRadius: 5000,
+    searchRadius: 10,
     interests: [],
   };
 
   const validationSchema = Yup.object({
     location: Yup.string().required('Location is required'),
-    startTime: Yup.date()
-      // .required('Start time is required')
-    ,
-    endTime: Yup.date()
-      // .required('End time is required')
-      .min(Yup.ref('startTime'), 'End time must be after start time'),
+    // startTime: Yup.date()
+    //   // .required('Start time is required')
+    // ,
+    // endTime: Yup.date()
+    //   .required('End time is required')
+    //   .min(Yup.ref('startTime'), 'End time must be after start time'),
     searchRadius: Yup.number()
       .required('Must select a search radius')
       .min(1, 'Travel boundaries must be at least 1 meter')
       .max(50000, 'Travel boundaries cannot exceed 50,000 meters'),
-    interests: Yup.array().of(
-      Yup.string()
-      // .required('Interest is required')
-    ),
   });
 
   const handleSubmit = (
     values: FormValues,
     { setSubmitting }: FormikHelpers<FormValues>
   ) => {
+    console.log("Form submit");
     onSubmit(values);
     setSubmitting(false);
   };
@@ -57,7 +54,8 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={validationSchema}
+      // validationSchema={validationSchema}
+      validator={() => {}}
       onSubmit={handleSubmit}
     >
       {({ values, handleChange, handleBlur, setFieldValue }) => (

@@ -10,35 +10,59 @@ export default async (req, res) => {
     // Extract user preferences from the request body
     const {
       location,
-      travelBoundaries,
+      searchRadius,
       startTime,
       endTime,
       interests,
     } = req.body;
 
+    const all_search_types = [
+      "amusement park",
+      "aquarium",
+      "art gallery",
+      "bakery",
+      "bar",
+      "book store",
+      "bowling_alley",
+      "cafe",
+      "casino",
+      "cemetary",
+      "church",
+      "clothing_store",
+      "department_store",
+      "movie theater",
+      "museum",
+      "night club",
+      "restaurant",
+      "shoe store",
+      "tourist_attraction",
+      "zoo"
+    ]
+
     try {
       // Prepare the Google Places API request
       const baseUrl =
         'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
-      const apiKey = process.env.GOOGLE_PLACES_API_KEY;
-      const types = interests.join('|');
+      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
+      const requestParams = {
+        // TODO: Tailor search query to user specified preferences
+        keyword: "fun",
+        location: `${location.lat},${location.lng}`,
+        radius: searchRadius * 1609.34,   // Convert miles to meters
+        key: apiKey
+      };
 
       const response = await axios.get(baseUrl, {
-        params: {
-          location: `${location.lat},${location.lng}`,
-          radius: travelBoundaries,
-          type: types,
-          key: apiKey,
-        },
+        params: requestParams
       });
 
       // Extract points of interest from the API response
       const pointsOfInterest = response.data.results;
 
-      // TODO: Generate the itinerary based on the points of interest and user preferences
+      // TODO: Filter points of interest by relevance and time constraints
 
       // Send the generated itinerary as the response
-      res.status(200).json({ itinerary: 'Generated itinerary goes here' });
+      res.status(200).json({ itinerary: pointsOfInterest });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Error generating itinerary' });
