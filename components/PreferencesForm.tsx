@@ -30,15 +30,20 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
 
   const validationSchema = Yup.object({
     location: Yup.string().required('Location is required'),
-    startTime: Yup.date().required('Start time is required'),
+    startTime: Yup.date()
+      // .required('Start time is required')
+    ,
     endTime: Yup.date()
-      .required('End time is required')
+      // .required('End time is required')
       .min(Yup.ref('startTime'), 'End time must be after start time'),
     searchRadius: Yup.number()
-      .required('Travel boundaries are required')
+      .required('Must select a search radius')
       .min(1, 'Travel boundaries must be at least 1 meter')
       .max(50000, 'Travel boundaries cannot exceed 50,000 meters'),
-    interests: Yup.array().of(Yup.string().required('Interest is required')),
+    interests: Yup.array().of(
+      Yup.string()
+      // .required('Interest is required')
+    ),
   });
 
   const handleSubmit = (
@@ -84,7 +89,7 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
           </div>
 
           {/* Map */}
-          <div style={{ height: '300px', width: '100%', marginTop: '1rem' }}>
+          <div style={{ height: '400px', width: '100%', marginTop: '1rem' }}>
             {/* Todo: Add map component to display user's currently selected location and boundaries */}
             <LocationMap
               location={values.location}
