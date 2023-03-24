@@ -1,5 +1,5 @@
 declare interface Activity {
   name: string;
-  allottedTime: number;
-  place: google.maps.Place;
+  allottedTime: number;  // In minutes
+  place: google.maps.places.PlaceResult;
 }
