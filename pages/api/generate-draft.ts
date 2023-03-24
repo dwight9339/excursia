@@ -37,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // TODO: Filter points of interest by relevance and time constraints
       const numTopPicks = 5
       const selectedActivities = pointsOfInterest.slice(0, numTopPicks).map((place: google.maps.places.PlaceResult) => {
-        const activity = {
+        return {
           name: place.name,
           allottedTime: 60,
           place

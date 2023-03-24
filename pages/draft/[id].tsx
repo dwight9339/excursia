@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useDebugValue } from 'react';
 import {
   Container,
   Typography,
@@ -9,18 +9,11 @@ import {
   List
 } from '@mui/material';
 import {
-  DragIndicator as DragIndicatorIcon,
-  Delete as DeleteIcon,
   Add as AddIcon
 } from '@mui/icons-material';
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import { ParsedUrlQuery } from 'querystring';
-// TODO: Implement drag-drop list reordering
-import {
-  DragDropContext,
-  Droppable,
-  Draggable
-} from 'react-beautiful-dnd';
+import ActivityList from './ActivityList';
 
 interface DraftProps {
   draft: DraftItinerary;
@@ -41,21 +34,39 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
   if (!draft) return <div></div>;
   const [locationName, setLocationName] = useState<string>(draft.name);
   const [locationCenter, setLocationCenter] = useState<google.maps.LatLngLiteral | null>(draft.locationCenter);
-  const [selectedActivities, setSelectedActivities] = useState<google.maps.Place[]>(draft.selectedActivities);
-  const [otherOptions, setOtherOptions] = useState<google.maps.Place[]>(draft.otherOptions)
+  const [selectedActivities, setSelectedActivities] = useState<Activity[]>(draft.selectedActivities);
+  const [otherOptions, setOtherOptions] = useState<google.maps.places.PlaceResult[]>(draft.otherOptions)
+
+  useEffect(() => {
+    console.log(`Selected Activities: ${selectedActivities.map((activity) => activity && activity.name)}`);
+  }, [selectedActivities]);
 
   const handleDeleteActivity = (index: number) => {
     const newActivities = [...selectedActivities];
     const removedActivity = newActivities.splice(index, 1)[0];
     setSelectedActivities(newActivities);
-    setOtherOptions((prev) => [...prev, removedActivity]);
+    setOtherOptions((prev) => [...prev, removedActivity.place]);
   };
 
   const handleAddActivity = (index: number) => {
     const newOthers = [...otherOptions];
     const removed = newOthers.splice(index, 1)[0];
-    setSelectedActivities((prev) => [...prev, removed]);
+    setSelectedActivities((prev) => [
+      ...prev, 
+      {
+        name: removed.name,
+        allottedTime: 60,
+        place: removed
+      } as Activity
+    ]);
     setOtherOptions(newOthers);
+  }
+
+  const handleReorder = (startIndex: number, endIndex: number) => {
+    const newActivities = [...selectedActivities];
+    const removed = newActivities.splice(startIndex, 1)[0];
+    newActivities.splice(endIndex, 0, removed);
+    setSelectedActivities(newActivities);
   }
 
   return (
@@ -64,24 +75,13 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
         Itinerary for {locationName}
       </Typography>
       <h3>Selected Activities</h3>
-      <List>
-        {selectedActivities.map((activity: any, index: number) => (
-          <ListItem key={index}>
-            <IconButton edge="start">
-              <DragIndicatorIcon />
-            </IconButton>
-            <ListItemText
-              primary={activity.name}
-              secondary={`${activity.address} - ${activity.description}`}
-            />
-            <IconButton edge="end" onClick={() => handleDeleteActivity(index)}>
-              <DeleteIcon />
-            </IconButton>
-          </ListItem>
-        ))}
-      </List>
+      <ActivityList
+        activities={selectedActivities}
+        onReorder={handleReorder}
+        onDelete={handleDeleteActivity}
+      />
       <h3>More Options Nearby</h3>
-      <List>
+      {/* <List>
         {otherOptions.map((activity: any, index: number) => (
           <ListItem key={index}>
             <ListItemText
@@ -93,7 +93,7 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
             </IconButton>
           </ListItem>
         ))}
-      </List>
+      </List> */}
     </Box>
   );
 };
@@ -106,6 +106,7 @@ export async function getServerSideProps(context: ParsedUrlQuery) {
     if (res) {
       const {_id, ...draft} = res;
       console.log("Draft retrieved");
+      console.log(`Draft: ${JSON.stringify(draft)}`);
       return { props: { draft }};
     } else {
       console.log(`Unable to retrieve draft`);
