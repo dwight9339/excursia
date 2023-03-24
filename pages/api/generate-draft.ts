@@ -36,11 +36,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       // TODO: Filter points of interest by relevance and time constraints
       const numTopPicks = 5
+      const selectedActivities = pointsOfInterest.slice(0, numTopPicks).map((place: google.maps.places.PlaceResult) => {
+        const activity = {
+          name: place.name,
+          allottedTime: 60,
+          place
+        } as Activity;
+      });
 
       const draft = {
         name: "Draft Itinerary",  // TODO: Create better default naming
         locationCenter: location,
-        selectedActivities: pointsOfInterest.slice(0, numTopPicks),
+        selectedActivities,
         otherOptions: pointsOfInterest.slice(numTopPicks)
       } as DraftItinerary;
 
