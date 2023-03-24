@@ -1,6 +1,6 @@
-declare interface SearchResults {
-  locationName: string;
+declare interface DraftItinerary {
+  name: string;
   locationCenter: google.maps.LatLngLiteral;
-  topPicks: google.maps.Place[];
+  selectedActivities: google.maps.Place[];
   otherOptions: google.maps.Place[];
 }
