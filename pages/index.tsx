@@ -13,12 +13,13 @@ const HomePage: React.FC = () => {
     };
 
     try {
-      const response = await fetch('/api/generate-itinerary', requestOptions);
+      const response = await fetch('/api/generate-draft', requestOptions);
       const data = await response.json();
   
       if (response.ok) {
-        // Handle the received itinerary data
-        console.log(data);
+        // TODO: Navigate to draft
+        console.log(`Draft ID: ${data.draft_id}`);
+        router.push(`/draft/${data.draft_id}`);
       } else {
         // Handle any error messages received
         console.error('Error generating itinerary:', data.message);

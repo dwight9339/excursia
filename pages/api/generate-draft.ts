@@ -1,11 +1,9 @@
 import axios from 'axios';
-import dotenv from 'dotenv';
-
-// Load environment variables from .env file
-dotenv.config();
+import { NextApiRequest, NextApiResponse } from 'next';
+import { MongoClient, Db, Collection } from "mongodb";
 
 // Generate the itinerary serverless function
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     // Extract user preferences from the request body
     const {
@@ -15,29 +13,6 @@ export default async (req, res) => {
       endTime,
       interests,
     } = req.body;
-
-    const all_search_types = [
-      "amusement park",
-      "aquarium",
-      "art gallery",
-      "bakery",
-      "bar",
-      "book store",
-      "bowling_alley",
-      "cafe",
-      "casino",
-      "cemetary",
-      "church",
-      "clothing_store",
-      "department_store",
-      "movie theater",
-      "museum",
-      "night club",
-      "restaurant",
-      "shoe store",
-      "tourist_attraction",
-      "zoo"
-    ]
 
     try {
       // Prepare the Google Places API request
@@ -61,17 +36,29 @@ export default async (req, res) => {
 
       // TODO: Filter points of interest by relevance and time constraints
       const numTopPicks = 5
-      const topPicks = pointsOfInterest.slice(0, numTopPicks);
-      const otherOptions = pointsOfInterest.slice(numTopPicks);
 
-      // Send the generated itinerary as the response
-      res.status(200).json({ 
-        topPicks,
-        otherOptions 
-      });
+      const draft = {
+        name: "Draft Itinerary",  // TODO: Create better default naming
+        locationCenter: location,
+        selectedActivities: pointsOfInterest.slice(0, numTopPicks),
+        otherOptions: pointsOfInterest.slice(numTopPicks)
+      } as DraftItinerary;
+
+      // Insert draft itinerary into DB
+      const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
+      await client.connect();
+      const db: Db = client.db(process.env.DB_NAME);
+      const draftsCollection: Collection = db.collection("drafts");
+
+      const insertResult = await draftsCollection.insertOne(draft);
+
+      // Return draft ID
+      insertResult 
+        ? res.status(201).json({ draft_id: insertResult.insertedId })
+        : res.status(500).json({ message: "Unable to create draft"});
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Error generating itinerary' });
+      res.status(500).json({ error: 'Error generating draft itinerary' });
     }
   } else {
     // Return 405 Method Not Allowed for other request methods
