@@ -1,6 +1,6 @@
 declare interface DraftItinerary {
   name: string;
   locationCenter: google.maps.LatLngLiteral;
-  selectedActivities: google.maps.Place[];
+  selectedActivities: Activity[];
   otherOptions: google.maps.Place[];
 }

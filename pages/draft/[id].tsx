@@ -16,11 +16,11 @@ import {
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import { ParsedUrlQuery } from 'querystring';
 // TODO: Implement drag-drop list reordering
-// import {
-//   DragDropContext,
-//   Droppable,
-//   Draggable
-// } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable
+} from 'react-beautiful-dnd';
 
 interface DraftProps {
   draft: DraftItinerary;
