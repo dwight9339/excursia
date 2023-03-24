@@ -10,7 +10,8 @@ import {
 } from '@mui/material';
 import {
   DragIndicator as DragIndicatorIcon,
-  Delete as DeleteIcon
+  Delete as DeleteIcon,
+  Add as AddIcon
 } from '@mui/icons-material';
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import { ParsedUrlQuery } from 'querystring';
@@ -45,16 +46,24 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
 
   const handleDeleteActivity = (index: number) => {
     const newActivities = [...selectedActivities];
-    newActivities.splice(index, 1);
+    const removedActivity = newActivities.splice(index, 1)[0];
     setSelectedActivities(newActivities);
+    setOtherOptions((prev) => [...prev, removedActivity]);
   };
+
+  const handleAddActivity = (index: number) => {
+    const newOthers = [...otherOptions];
+    const removed = newOthers.splice(index, 1)[0];
+    setSelectedActivities((prev) => [...prev, removed]);
+    setOtherOptions(newOthers);
+  }
 
   return (
     <Box>
       <Typography variant="h4" gutterBottom>
         Itinerary for {locationName}
       </Typography>
-
+      <h3>Selected Activities</h3>
       <List>
         {selectedActivities.map((activity: any, index: number) => (
           <ListItem key={index}>
@@ -71,14 +80,27 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
           </ListItem>
         ))}
       </List>
+      <h3>More Options Nearby</h3>
+      <List>
+        {otherOptions.map((activity: any, index: number) => (
+          <ListItem key={index}>
+            <ListItemText
+              primary={activity.name}
+              secondary={`${activity.address} - ${activity.description}`}
+            />
+            <IconButton edge="end" onClick={() => handleAddActivity(index)}>
+              <AddIcon />
+            </IconButton>
+          </ListItem>
+        ))}
+      </List>
     </Box>
   );
 };
 
 export async function getServerSideProps(context: ParsedUrlQuery) {
-  const { id } = context.params;
-
   try {
+    const { id } = context.params;
     const res = await fetchDraft(id);
 
     if (res) {
