@@ -28,16 +28,24 @@ interface ListItemProps {
 }
 
 const ListItem: React.FC<ListItemProps> = ({ activity, index, provided, onDelete }) => {
+  const placeLink = `https://www.google.com/maps/place/?q=place_id:${activity.place.place_id}`;
+  const style = {
+    marginRight: 20
+  }
+
   return (
     <>
       <IconButton
         className="drag-indicator"
         {...provided.dragHandleProps}
+
       >
         <DragIndicatorIcon />
       </IconButton>
-      <span>{activity.name}</span>
-      <span>{activity.allottedTime}</span>
+      <span
+        style={style}>
+          <a href={placeLink} target="_blank">{activity.name}</a>
+      </span>
       <IconButton edge="end" onClick={() => onDelete(index)}>
         <DeleteIcon />
       </IconButton>

@@ -106,7 +106,6 @@ export async function getServerSideProps(context: ParsedUrlQuery) {
     if (res) {
       const {_id, ...draft} = res;
       console.log("Draft retrieved");
-      console.log(`Draft: ${JSON.stringify(draft)}`);
       return { props: { draft }};
     } else {
       console.log(`Unable to retrieve draft`);
