@@ -2,7 +2,8 @@ import React from "react";
 import {
   DragDropContext,
   Droppable,
-  Draggable
+  Draggable,
+  DraggableProvided
 } from 'react-beautiful-dnd';
 import {
   DragIndicator as DragIndicatorIcon,
@@ -22,14 +23,21 @@ interface ActivityListProps {
 interface ListItemProps {
   activity: Activity;
   index: number;
+  provided: DraggableProvided;
   onDelete: (index: number) => void;
 }
 
-const ListItem: React.FC<ListItemProps> = ({ activity, index, onDelete }) => {
+const ListItem: React.FC<ListItemProps> = ({ activity, index, provided, onDelete }) => {
   return (
     <>
-      <p>{activity.name}</p>
-      <p>{activity.allottedTime}</p>
+      <IconButton
+        className="drag-indicator"
+        {...provided.dragHandleProps}
+      >
+        <DragIndicatorIcon />
+      </IconButton>
+      <span>{activity.name}</span>
+      <span>{activity.allottedTime}</span>
       <IconButton edge="end" onClick={() => onDelete(index)}>
         <DeleteIcon />
       </IconButton>
@@ -40,7 +48,7 @@ const ListItem: React.FC<ListItemProps> = ({ activity, index, onDelete }) => {
 const ActivityList: React.FC<ActivityListProps> = ({ activities, onReorder, onDelete }) => {
   const keyedActivities = activities.map((activity: Activity, i: number) => {
     return {id: `${i}`, ...activity};
-  })
+  });
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
     if (result.source.index === result.destination.index) return;
@@ -58,11 +66,11 @@ const ActivityList: React.FC<ActivityListProps> = ({ activities, onReorder, onDe
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    {...provided.dragHandleProps}
                   >
                     <ListItem
                       activity={activity}
                       index={index}
+                      provided={provided}
                       onDelete={onDelete}
                     />
                   </div>
