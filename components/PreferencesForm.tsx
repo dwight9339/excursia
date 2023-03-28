@@ -11,6 +11,7 @@ interface PreferencesFormProps {
 }
 
 interface FormValues {
+  locationName: string;
   location: google.maps.LatLngLiteral;
   startTime: Date;
   endTime: Date;
@@ -21,6 +22,7 @@ interface FormValues {
 const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
 
   const initialValues: FormValues = {
+    locationName: "No Name",
     location: {lat:40.2659269, lng:-96.7466913} as google.maps.LatLngLiteral,
     startTime: new Date(),
     endTime: new Date(),
@@ -62,8 +64,9 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
         <Form>
           {/* Location */}
           <LocationSearch
-            onSelectLocation={(location: google.maps.LatLngLiteral) => {
-              console.log(`Selected location ${JSON.stringify(location)}`);
+            onSelectLocation={(locationName: string, location: google.maps.LatLngLiteral) => {
+              console.log(`Selected location ${locationName}, ${JSON.stringify(location)}`);
+              setFieldValue("locationName", locationName);
               setFieldValue("location", location);
             }}
           />

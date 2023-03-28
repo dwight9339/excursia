@@ -7,6 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     // Extract user preferences from the request body
     const {
+      locationName,
       location,
       searchRadius,
       startTime,
@@ -45,7 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       });
 
       const draft = {
-        name: "Draft Itinerary",  // TODO: Create better default naming
+        name: locationName,  // TODO: Create better default naming
         locationCenter: location,
         selectedActivities,
         otherOptions: pointsOfInterest.slice(numTopPicks)

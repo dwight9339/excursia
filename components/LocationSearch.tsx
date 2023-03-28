@@ -8,7 +8,7 @@ import { useLoadScript } from "@react-google-maps/api";
 import { TextField, List, ListItem, ListItemText, Paper } from '@mui/material';
 
 interface LocationSearchProps {
-  onSelectLocation: (location: google.maps.LatLngLiteral) => void;
+  onSelectLocation: (locationName: string, location: google.maps.LatLngLiteral) => void;
 }
 
 const SearchBar: React.FC<LocationSearchProps> = ({ onSelectLocation }) => {
@@ -33,7 +33,7 @@ const SearchBar: React.FC<LocationSearchProps> = ({ onSelectLocation }) => {
       const results = await getGeocode({ address });
       const { lat, lng } = await getLatLng(results[0]);
       const location = { lat, lng };
-      onSelectLocation(location);
+      onSelectLocation(address, location);
     } catch (error) {
       console.log('Error: ', error);
     }
