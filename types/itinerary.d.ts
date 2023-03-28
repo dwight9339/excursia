@@ -1,5 +1,5 @@
 declare interface Itinerary {
-  locationName: string;
+  name: string;
   locationCenter: google.maps.LatLngLiteral;
   activities: Activity[];
 }
