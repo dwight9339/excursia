@@ -7,6 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     // Extract user preferences from the request body
     const {
+      locationName,
       location,
       searchRadius,
       startTime,
@@ -21,7 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
       const requestParams = {
         // TODO: Tailor search query to user specified preferences
-        keyword: "fun",
+        keyword: "things to do",
         location: `${location.lat},${location.lng}`,
         radius: searchRadius * 1609.34,   // Convert miles to meters
         key: apiKey
@@ -35,7 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const pointsOfInterest = response.data.results;
 
       // TODO: Filter points of interest by relevance and time constraints
-      const numTopPicks = 5
+      const numTopPicks = 20;
       const selectedActivities = pointsOfInterest.slice(0, numTopPicks).map((place: google.maps.places.PlaceResult) => {
         return {
           name: place.name,
@@ -45,7 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       });
 
       const draft = {
-        name: "Draft Itinerary",  // TODO: Create better default naming
+        name: locationName,  // TODO: Create better default naming
         locationCenter: location,
         selectedActivities,
         otherOptions: pointsOfInterest.slice(numTopPicks)
