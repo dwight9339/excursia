@@ -52,7 +52,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       } as DraftItinerary;
 
       // Insert draft itinerary into DB
-      const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
+      const client: MongoClient = new MongoClient(`${process.env.MONGODB_URI}`);
       await client.connect();
       const db: Db = client.db(process.env.DB_NAME);
       const draftsCollection: Collection = db.collection("drafts");

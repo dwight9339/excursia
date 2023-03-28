@@ -1,0 +1,21 @@
+/* components/Header.module.css */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logoContainer {
+  font-size: 24px;
+}
+
+.authButtonsContainer {
+  display: flex;
+}
+
+.authButtonsContainer > button {
+  margin-left: 10px;
+}

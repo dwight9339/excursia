@@ -1,12 +1,17 @@
 import '../styles/globals.css';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { SessionProvider } from 'next-auth/react';
+import Header from "../components/Header";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Component {...pageProps} />
-    </LocalizationProvider>
+    <SessionProvider session={pageProps.session}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Header />
+        <Component {...pageProps} />
+      </LocalizationProvider>
+    </SessionProvider>
   );
 }
 
