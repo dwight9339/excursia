@@ -1,10 +1,17 @@
 // components/Header.tsx
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styles from './Header.module.css';
+import { useEffect } from 'react';
 
 const Header = () => {
-  const { status } = useSession();
+  const { data, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log(`Data: ${JSON.stringify(data)}`);
+  }, [data]);
 
   return (
     <header className={styles.header}>
@@ -21,7 +28,7 @@ const Header = () => {
         ) : (
           <>
             <button onClick={() => signIn()}>Log In</button>
-            <button onClick={() => signIn()}>Sign Up</button>
+            <button onClick={() => router.push("/create-user")}>Sign Up</button>
           </>
         )}
       </div>

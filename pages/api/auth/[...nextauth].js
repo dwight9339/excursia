@@ -1,55 +1,52 @@
 import NextAuth from "next-auth/next";
-import EmailProvider from "next-auth/providers/email";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcrypt";
 import { MongoClient } from "mongodb"
-
-if (!process.env.MONGODB_URI) {
-  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
-}
-
-const uri = process.env.MONGODB_URI;
-const options = {};
-
-let client;
-let clientPromise;
-
-if (process.env.NODE_ENV === "development") {
-  // In development mode, use a global variable so that the value
-  // is preserved across module reloads caused by HMR (Hot Module Replacement).
-  if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
-  }
-  clientPromise = global._mongoClientPromise;
-} else {
-  // In production mode, it's best to not use a global variable.
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
-}
 
 export const authOptions = {
   providers: [
-    EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD
-        }
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        username: { label: "Email/Username", type: "text", placeholder: "Username" },
+        password: { label: "Password", type: "password", placeholder: "Password" }
       },
-      from: process.env.EMAIL_FROM
+      async authorize(credentials, req) {
+        const { username, password } = credentials;
+        try {
+          const mongodbClient = new MongoClient(process.env.MONGO_DB_URI);
+          await mongodbClient.connect();
+          const db = mongodbClient.db(process.env.DB_NAME);
+          const userCollection = db.collection("users");
+          
+          // Query for user with username and password
+          const user = await userCollection.findOne({ username: username });
+          const passwordMatch = await bcrypt.compare(password, user.password);
+
+          if (user) {
+            if (!passwordMatch) {
+              console.log("Password incorrect");
+              return null;
+            }
+            const {_id, password: userPassword, ...userObj} = user;
+            userObj["id"] = _id;
+            console.log(`User: ${JSON.stringify(userObj)}`);
+            return userObj;
+          } else {
+            console.log("User not found");
+            return null;
+          }
+        } catch(err) {
+          console.log(`User fetch error: ${err}`);
+          return null;
+        }
+      }
     })
   ],
-  adapter: MongoDBAdapter(clientPromise, {
-    databaseName: process.env.DB_NAME,
-    collections: {
-      Accounts: "accounts",
-      Sessions: "sessions",
-      Users: "users",
-      VerificationTokens: "tokens"
-    }
-  })
+  session: {
+    strategy: "jwt",
+    maxAge: 3000
+  }
 }
 
 export default NextAuth(authOptions);
