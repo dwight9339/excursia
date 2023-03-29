@@ -4,6 +4,7 @@ import {
   Box
 } from '@mui/material';
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
+import { useSession } from 'next-auth/react';
 import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from "next/router";
 import ActivityList from './ActivityList';
@@ -25,6 +26,10 @@ const fetchDraft = async (id: string) => {
 
 const Draft: React.FC<DraftProps> = ({ draft }) => {
   if (!draft) return <div></div>;
+  const { data, status } = useSession();
+  const router = useRouter();
+  const userData: any = { ...data?.user };
+
   const [itineraryName, setItineraryName] = useState<string>(draft.name);
   const [locationCenter, setLocationCenter] = useState<google.maps.LatLngLiteral | null>(draft.locationCenter);
   const [selectedActivities, setSelectedActivities] = useState<Activity[]>(draft.selectedActivities);
@@ -64,11 +69,17 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
   }
 
   const handleSaveItinerary = async () => {
+    if (!(status === 'authenticated')) {
+      router.push('/api/auth/signin');
+      return;
+    }
+
     setIsSaving(true);
     const itinerary = {
       name: itineraryName,
       locationCenter,
-      activities: selectedActivities
+      activities: selectedActivities,
+      createdBy: userData.id
     } as Itinerary;
 
     try {
@@ -131,7 +142,8 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
 
 export async function getServerSideProps(context: ParsedUrlQuery) {
   try {
-    const { id } = context.params;
+    const params: any = context.params;
+    const { id } = params;
     const res = await fetchDraft(id);
 
     if (res) {
