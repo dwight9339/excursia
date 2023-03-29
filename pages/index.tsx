@@ -1,5 +1,5 @@
 import React from 'react';
-import PreferencesForm from '../components/PreferencesForm';
+import ActivitySearchForm from '../components/ActivitySearchForm';
 import { useRouter } from 'next/router';
 
 const HomePage: React.FC = () => {
@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
   
   return (
     <div>
-      <PreferencesForm onSubmit={handleGenerateItinerary} />
+      <ActivitySearchForm onSubmit={handleGenerateItinerary} />
     </div>
   );
 };

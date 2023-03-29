@@ -18,7 +18,7 @@ import { DateTimePicker } from '@mui/x-date-pickers';
 import LocationSearch from './LocationSearch';
 import LocationMap from './LocationMap';
 import * as Yup from 'yup';
-import styles from "./PreferencesForm.module.css";
+import styles from "./ActivitySearchForm.module.css";
 
 interface PreferencesFormProps {
   onSubmit: (values: FormValues) => void;
@@ -33,7 +33,7 @@ interface FormValues {
   interests: string[];
 }
 
-const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
+const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
 
   const initialValues: FormValues = {
     locationName: "No Name",
@@ -182,4 +182,4 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
   );
 };
 
-export default PreferencesForm;
+export default ActivitySearchForm;
