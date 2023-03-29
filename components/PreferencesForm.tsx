@@ -1,6 +1,19 @@
 import React, { useState, useMemo } from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
-import { TextField, Slider, Typography } from '@mui/material';
+import { Slider, Typography } from '@mui/material';
+import {
+  Restaurant as RestaurantIcon,
+  ShoppingBasket as ShoppingIcon,
+  LocalMovies as EntertainmentIcon,
+  NaturePeople as NatureIcon,
+  Museum as MuseumIcon,
+  History as HistoricalIcon,
+  Church as ReligiousIcon,
+  SportsSoccer as SportsIcon,
+  LocalBar as NightlifeIcon,
+  DirectionsRun as OutdoorIcon,
+  Explore as SightseeingIcon
+} from '@mui/icons-material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import LocationSearch from './LocationSearch';
 import LocationMap from './LocationMap';
@@ -30,6 +43,20 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
     searchRadius: 10,
     interests: [],
   };
+
+  const interests = [
+    "Food",
+    "Shopping",
+    "Entertainment",
+    "Nature",
+    "Museum",
+    "Historical",
+    "Religious",
+    "Sports",
+    "Nightlife",
+    "Outdoor",
+    "Sightseeing"
+  ];
 
   const validationSchema = Yup.object({
     location: Yup.string().required('Location is required'),
@@ -123,6 +150,26 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
 
             {/* Other parameters */}
             {/* TODO: Add other input fields for the user to specify additional preferences */}
+            <div>
+              <Typography id="interests-slider" gutterBottom>
+                Interests
+              </Typography>
+              <div className={styles.interests}>
+                {interests.map((interest) => (
+                  <div key={interest} className={styles.interest}>
+                    <label>
+                      <Field
+                        type="checkbox"
+                        name="interests"
+                        value={interest}
+                        checked={values.interests.includes(interest)}
+                      />
+                      {interest}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             {/* Generate button */}
             <button type="submit" style={{ marginTop: '1rem' }}>
