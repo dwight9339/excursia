@@ -5,6 +5,7 @@ import { DateTimePicker } from '@mui/x-date-pickers';
 import LocationSearch from './LocationSearch';
 import LocationMap from './LocationMap';
 import * as Yup from 'yup';
+import styles from "./PreferencesForm.module.css";
 
 interface PreferencesFormProps {
   onSubmit: (values: FormValues) => void;
@@ -54,81 +55,83 @@ const PreferencesForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      // validationSchema={validationSchema}
-      validator={() => {}}
-      onSubmit={handleSubmit}
-    >
-      {({ values, handleChange, handleBlur, setFieldValue }) => (
-        <Form>
-          {/* Location */}
-          <LocationSearch
-            onSelectLocation={(locationName: string, location: google.maps.LatLngLiteral) => {
-              console.log(`Selected location ${locationName}, ${JSON.stringify(location)}`);
-              setFieldValue("locationName", locationName);
-              setFieldValue("location", location);
-            }}
-          />
-
-          {/* Search Radius Slider */}
-          <div>
-            <Typography id="search-radius-slider" gutterBottom>
-              Search Radius: {values.searchRadius} miles
-            </Typography>
-            <Slider
-              value={values.searchRadius}
-              onChange={(e, newValue) => handleChange({ target: { name: 'searchRadius', value: newValue } })}
-              onBlur={handleBlur}
-              name="searchRadius"
-              min={1}
-              max={60}
-              step={1}
-              valueLabelDisplay="auto"
-              aria-labelledby="search-radius-slider"
+    <div className={styles.container}>
+      <Formik
+        initialValues={initialValues}
+        // validationSchema={validationSchema}
+        validator={() => {}}
+        onSubmit={handleSubmit}
+      >
+        {({ values, handleChange, handleBlur, setFieldValue }) => (
+          <Form className={styles.form}>
+            {/* Location */}
+            <LocationSearch
+              onSelectLocation={(locationName: string, location: google.maps.LatLngLiteral) => {
+                console.log(`Selected location ${locationName}, ${JSON.stringify(location)}`);
+                setFieldValue("locationName", locationName);
+                setFieldValue("location", location);
+              }}
             />
-          </div>
 
-          {/* Map */}
-          <div style={{ height: '400px', width: '100%', marginTop: '1rem' }}>
-            {/* Todo: Add map component to display user's currently selected location and boundaries */}
-            <LocationMap
-              location={values.location}
-              searchRadius={values.searchRadius}
-            />
-          </div>
+            {/* Search Radius Slider */}
+            <div>
+              <Typography id="search-radius-slider" gutterBottom>
+                Search Radius: {values.searchRadius} miles
+              </Typography>
+              <Slider
+                value={values.searchRadius}
+                onChange={(e, newValue) => handleChange({ target: { name: 'searchRadius', value: newValue } })}
+                onBlur={handleBlur}
+                name="searchRadius"
+                min={1}
+                max={60}
+                step={1}
+                valueLabelDisplay="auto"
+                aria-labelledby="search-radius-slider"
+              />
+            </div>
 
-          {/* Start and end times */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
-            {/* Todo: Get date/time pickers working */}
-            {/* <Field
-              component={DateTimePicker}
-              label="Start Time"
-              name="startTime"
-              inputVariant="outlined"
-              value={values.startTime}
-              onChange={(value) => setFieldValue('startTime', value)}
-            />
-            <Field
-              component={DateTimePicker}
-              label="End Time"
-              name="endTime"
-              inputVariant="outlined"
-              value={values.endTime}
-              onChange={(value) => setFieldValue('endTime', value)}
-            /> */}
-          </div>
+            {/* Map */}
+            <div style={{ height: '400px', width: '100%', marginTop: '1rem' }}>
+              {/* Todo: Add map component to display user's currently selected location and boundaries */}
+              <LocationMap
+                location={values.location}
+                searchRadius={values.searchRadius}
+              />
+            </div>
 
-          {/* Other parameters */}
-          {/* TODO: Add other input fields for the user to specify additional preferences */}
+            {/* Start and end times */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
+              {/* Todo: Get date/time pickers working */}
+              {/* <Field
+                component={DateTimePicker}
+                label="Start Time"
+                name="startTime"
+                inputVariant="outlined"
+                value={values.startTime}
+                onChange={(value) => setFieldValue('startTime', value)}
+              />
+              <Field
+                component={DateTimePicker}
+                label="End Time"
+                name="endTime"
+                inputVariant="outlined"
+                value={values.endTime}
+                onChange={(value) => setFieldValue('endTime', value)}
+              /> */}
+            </div>
 
-          {/* Generate button */}
-          <button type="submit" style={{ marginTop: '1rem' }}>
-            Generate
-          </button>
-        </Form>
-      )}
-    </Formik>
+            {/* Other parameters */}
+            {/* TODO: Add other input fields for the user to specify additional preferences */}
+
+            {/* Generate button */}
+            <button type="submit" style={{ marginTop: '1rem' }}>
+              Generate
+            </button>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 };
 
