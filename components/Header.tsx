@@ -28,7 +28,7 @@ const Header = () => {
         ) : (
           <>
             <button onClick={() => signIn()}>Log In</button>
-            <button onClick={() => router.push("/create-user")}>Sign Up</button>
+            <button onClick={() => router.push("/sign-up")}>Sign Up</button>
           </>
         )}
       </div>

@@ -17,7 +17,6 @@ const HomePage: React.FC = () => {
       const data = await response.json();
   
       if (response.ok) {
-        // TODO: Navigate to draft
         console.log(`Draft ID: ${data.draft_id}`);
         router.push(`/draft/${data.draft_id}`);
       } else {
@@ -32,7 +31,6 @@ const HomePage: React.FC = () => {
   
   return (
     <div>
-      <h1>Excursia</h1>
       <PreferencesForm onSubmit={handleGenerateItinerary} />
     </div>
   );

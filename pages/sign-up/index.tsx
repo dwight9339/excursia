@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { signIn } from 'next-auth/react';
 import * as Yup from 'yup';
 
 const SignUp = () => {
@@ -41,7 +42,12 @@ const SignUp = () => {
             });
 
             if (response.ok) {
-              router.push('/login');
+              await signIn('credentials', {
+                redirect: false,
+                username: values.username,
+                password: values.password,
+              });
+              router.push('/');
             } else {
               const { message } = await response.json();
               setServerError(message);
