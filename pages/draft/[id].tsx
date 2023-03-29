@@ -7,7 +7,7 @@ import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import { useSession } from 'next-auth/react';
 import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from "next/router";
-import ActivityList from './ActivityList';
+import ActivityList from '../../components/ActivityList';
 
 interface DraftProps {
   draft: DraftItinerary;
