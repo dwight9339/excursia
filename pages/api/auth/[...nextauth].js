@@ -44,8 +44,24 @@ export const authOptions = {
     })
   ],
   session: {
-    strategy: "jwt",
+    jwt: true,
     maxAge: 3000
+  },
+  jwt: {
+    secret: process.env.NEXTAUTH_SECRET
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        console.log(`JWT User: ${JSON.stringify(user)}`);
+        token.user = user;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user = token.user;
+      return session;
+    }
   }
 }
 
