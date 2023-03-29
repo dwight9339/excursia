@@ -1,7 +1,6 @@
 // pages/profile.tsx
 import type { NextPage } from 'next';
 import { getSession } from 'next-auth/react';
-import type { Session } from 'next-auth';
 import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { MongoClient, Db, Collection, WithId } from 'mongodb';
