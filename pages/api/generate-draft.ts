@@ -16,6 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } = req.body;
 
     try {
+      console.log(`Inerests: ${interests}`);
       // Prepare the Google Places API request
       const baseUrl =
         'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
