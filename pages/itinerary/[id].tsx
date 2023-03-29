@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from "next/router";
 
-interface ItineraryProps {
+interface ItineraryPageProps {
   itinerary: Itinerary;
 }
 
@@ -23,7 +23,7 @@ const fetchItinerary = async (id: string) => {
   return itinerary;
 }
 
-const Itinerary: React.FC<ItineraryProps> = ({ itinerary }) => {
+const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
   if (!itinerary) return <div></div>;
   const { data, status } = useSession();
   const router = useRouter();
@@ -85,4 +85,4 @@ export async function getServerSideProps(context: ParsedUrlQuery) {
   }
 };
 
-export default Itinerary;
+export default ItineraryPage;
