@@ -2,6 +2,7 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './Header.module.css';
 import { useEffect } from 'react';
 
@@ -17,7 +18,12 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.logo}>
         <Link href="/">
-          Excursia
+          <Image
+            src="/images/excursia-logo-2.svg"
+            alt="Excursia Logo"
+            width={250}
+            height={90}
+          />
         </Link>
       </div>
       <div className={styles.authButtons}>
