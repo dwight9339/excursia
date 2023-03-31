@@ -1,0 +1,25 @@
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  height: 50px;
+  width: fit-content;
+}
+
+.listItem .dragHandle {
+  color: white;
+}
+
+.listItem .deleteButton {
+  display: none
+}
+
+.listItem:hover .dragHandle {
+  color: #4e4e4e;
+}
+
+.listItem:hover .deleteButton {
+  display: block
+}
