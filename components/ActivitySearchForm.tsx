@@ -13,7 +13,9 @@ import {
   SportsSoccer as SportsIcon,
   LocalBar as NightlifeIcon,
   DirectionsRun as OutdoorIcon,
-  Explore as SightseeingIcon
+  Explore as SightseeingIcon,
+  Accessible as AccessibleIcon,
+  RiceBowl as VegetarianIcon,
 } from '@mui/icons-material';
 import LocationSearch from './LocationSearch';
 import LocationMap from './LocationMap';
@@ -33,6 +35,7 @@ interface FormValues {
   endTime: Date;
   searchRadius: number;
   interests: string[];
+  accommodations: string[];
 }
 
 const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
@@ -47,6 +50,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
     endTime: new Date(),
     searchRadius: 10,
     interests: [],
+    accommodations: []
   };
 
   const calculateZoomLevel = (searchRadius: number) => {
@@ -161,8 +165,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
               /> */}
             </div>
 
-            {/* Other parameters */}
-            {/* TODO: Add other input fields for the user to specify additional preferences */}
+            {/* Interests */}
             <div>
               <Typography gutterBottom>
                 Interests
@@ -187,6 +190,27 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
                     setFieldValue("interests", [...values.interests, e.target.value]);
                   } else {
                     setFieldValue("interests", values.interests.filter((interest) => interest !== e.target.value));
+                  }
+                }}
+              /> 
+            </div>
+
+            {/* Special accommodations */}
+            <div>
+              <Typography gutterBottom>
+                Accommodations
+              </Typography>
+              <GridCheckbox
+                name="accommodations"
+                items={[
+                  { id: "1", label: "Wheelchair Accessible", icon: <AccessibleIcon />, value: "wheelchair accessible" },
+                  { id: "2", label: "Vegetarian", icon: <VegetarianIcon />, value: "vegetarian" },
+                ]}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  if (e.target.checked) {
+                    setFieldValue("accommodations", [...values.accommodations, e.target.value]);
+                  } else {
+                    setFieldValue("accommodations", values.accommodations.filter((accommodation) => accommodation !== e.target.value));
                   }
                 }}
               /> 
