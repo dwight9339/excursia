@@ -43,7 +43,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
     const METER_PER_PIXEL = searchRadiusInMeters / (minDim / 2);
 
     const zoomLevel = Math.log(EARTH_CIRCUMFERENCE / (METER_PER_PIXEL * 256)) / Math.log(2);
-    return Math.floor(zoomLevel);
+    return Math.floor(zoomLevel) * 0.98;
   };
 
   const validationSchema = Yup.object({
