@@ -56,8 +56,8 @@ const LocationMap: React.FC<MapParams> = ({
         
         options={{
           disableDefaultUI: true,
-          maxZoom: zoomLevel + 0.4,
-          minZoom: zoomLevel - 0.4,
+          maxZoom: zoomLevel + 1,
+          minZoom: zoomLevel - 1,
         }}
       >
         {isDefaultLocation ? null : <CircleF center={location} radius={milesToMeters(searchRadius)} />}
