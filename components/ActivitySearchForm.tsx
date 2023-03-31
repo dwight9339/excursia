@@ -121,6 +121,9 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
                 isDefaultLocation={isDefaultLocation}
                 mapWidth={mapWidth}
                 mapHeight={mapHeight}
+                handleCenterChanged={(center: google.maps.LatLngLiteral) => {
+                  setFieldValue("location", center);
+                }}
               />
             </div>
 
