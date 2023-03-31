@@ -1,16 +1,28 @@
 import React, { useMemo } from "react";
 import { CircularProgress } from "@mui/material";
 import { useLoadScript, GoogleMap, CircleF } from "@react-google-maps/api";
+import { milesToKm, milesToMeters } from "../lib/distanceConversions";
 
 interface MapParams {
   location: {
     lat: number;
     lng: number;
   },
-  searchRadius: number
+  searchRadius: number,
+  zoomLevel: number,
+  isDefaultLocation: boolean,
+  mapWidth: number,
+  mapHeight: number
 }
 
-const LocationMap: React.FC<MapParams> = ({ location, searchRadius }) => {
+const LocationMap: React.FC<MapParams> = ({
+  location,
+  searchRadius,
+  zoomLevel,
+  isDefaultLocation,
+  mapWidth,
+  mapHeight
+}) => {
   const libraries = useMemo(() => ['places'], []);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
@@ -25,14 +37,11 @@ const LocationMap: React.FC<MapParams> = ({ location, searchRadius }) => {
     <div>
       <GoogleMap
         center={location}
-        zoom={4}
+        zoom={zoomLevel}
         mapTypeId={google.maps.MapTypeId.ROADMAP}
-        mapContainerStyle={{ width: '1000px', height: '400px' }}
+        mapContainerStyle={{ width: `${mapWidth}px`, height: `${mapHeight}px` }}
       >
-        <CircleF
-          center={location}
-          radius={searchRadius * 1609.34}
-        />
+        {isDefaultLocation ? null : <CircleF center={location} radius={milesToMeters(searchRadius)} />}
       </GoogleMap>
     </div>
   )

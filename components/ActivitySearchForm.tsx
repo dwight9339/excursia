@@ -1,5 +1,5 @@
-import React, { ChangeEvent } from 'react';
-import { Formik, Form, Field, FormikHelpers } from 'formik';
+import React, { ChangeEvent, useState } from 'react';
+import { Formik, Form, FormikHelpers } from 'formik';
 import { Slider, Typography } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import LocationSearch from './LocationSearch';
@@ -7,6 +7,7 @@ import LocationMap from './LocationMap';
 import InterestCheckbox from './InterestCheckbox';
 import * as Yup from 'yup';
 import styles from "./ActivitySearchForm.module.css";
+import { milesToMeters } from '../lib/distanceConversions';
 
 interface PreferencesFormProps {
   onSubmit: (values: FormValues) => void;
@@ -22,7 +23,10 @@ interface FormValues {
 }
 
 const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
-
+  const [isDefaultLocation, setIsDefaultLocation] = useState<boolean>(true);
+  const [zoomLevel, setZoomLevel] = useState<number>(4);
+  const [mapWidth, setMapWidth] = useState<number>(1000);
+  const [mapHeight, setMapHeight] = useState<number>(400);
   const initialValues: FormValues = {
     locationName: "No Name",
     location: {lat:38.2659269, lng:-96.7466913} as google.maps.LatLngLiteral,
@@ -30,6 +34,16 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
     endTime: new Date(),
     searchRadius: 10,
     interests: [],
+  };
+
+  const calculateZoomLevel = (searchRadius: number) => {
+    const EARTH_CIRCUMFERENCE = 40075016.686; // Earth's circumference in meters
+    const searchRadiusInMeters = milesToMeters(searchRadius); // Search radius in meters
+    const minDim = Math.min(mapWidth, mapHeight); // Find the minimum dimension of the map container
+    const METER_PER_PIXEL = searchRadiusInMeters / (minDim / 2);
+
+    const zoomLevel = Math.log(EARTH_CIRCUMFERENCE / (METER_PER_PIXEL * 256)) / Math.log(2);
+    return Math.floor(zoomLevel);
   };
 
   const validationSchema = Yup.object({
@@ -43,7 +57,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
     searchRadius: Yup.number()
       .required('Must select a search radius')
       .min(1, 'Travel boundaries must be at least 1 meter')
-      .max(50000, 'Travel boundaries cannot exceed 50,000 meters'),
+      .max(100, 'Travel boundaries cannot exceed 100 miles'),
   });
 
   const handleSubmit = (
@@ -69,6 +83,8 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
             <LocationSearch
               onSelectLocation={(locationName: string, location: google.maps.LatLngLiteral) => {
                 console.log(`Selected location ${locationName}, ${JSON.stringify(location)}`);
+                setIsDefaultLocation(false);
+                setZoomLevel(calculateZoomLevel(values.searchRadius));
                 setFieldValue("locationName", locationName);
                 setFieldValue("location", location);
               }}
@@ -81,7 +97,10 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
               </Typography>
               <Slider
                 value={values.searchRadius}
-                onChange={(e, newValue) => handleChange({ target: { name: 'searchRadius', value: newValue } })}
+                onChange={(e, newValue) => {
+                  handleChange({ target: { name: 'searchRadius', value: newValue } });
+                  setZoomLevel(calculateZoomLevel(newValue as number));
+                }}
                 onBlur={handleBlur}
                 name="searchRadius"
                 min={1}
@@ -93,11 +112,15 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
             </div>
 
             {/* Map */}
-            <div style={{ height: '400px', width: '100%', marginTop: '1rem' }}>
+            <div style={{ height: mapHeight, width: '100%', marginTop: '1rem' }}>
               {/* Todo: Add map component to display user's currently selected location and boundaries */}
               <LocationMap
                 location={values.location}
                 searchRadius={values.searchRadius}
+                zoomLevel={zoomLevel}
+                isDefaultLocation={isDefaultLocation}
+                mapWidth={mapWidth}
+                mapHeight={mapHeight}
               />
             </div>
 
