@@ -2,9 +2,22 @@ import React, { ChangeEvent, useState } from 'react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { Slider, Typography } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
+import {
+  Restaurant as RestaurantIcon,
+  ShoppingBasket as ShoppingIcon,
+  LocalMovies as EntertainmentIcon,
+  NaturePeople as NatureIcon,
+  Museum as MuseumIcon,
+  History as HistoricalIcon,
+  Church as ReligiousIcon,
+  SportsSoccer as SportsIcon,
+  LocalBar as NightlifeIcon,
+  DirectionsRun as OutdoorIcon,
+  Explore as SightseeingIcon
+} from '@mui/icons-material';
 import LocationSearch from './LocationSearch';
 import LocationMap from './LocationMap';
-import InterestCheckbox from './InterestCheckbox';
+import GridCheckbox from './GridCheckbox';
 import * as Yup from 'yup';
 import styles from "./ActivitySearchForm.module.css";
 import { milesToMeters } from '../lib/distanceConversions';
@@ -154,17 +167,29 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
               <Typography gutterBottom>
                 Interests
               </Typography>
-              <InterestCheckbox
+              <GridCheckbox
                 name="interests"
+                items={[
+                  { id: "1", label: "Restaurants", icon: <RestaurantIcon />, value: "restaurant" },
+                  { id: "2", label: "Shopping", icon: <ShoppingIcon />, value: "shopping" },
+                  { id: "3", label: "Entertainment", icon: <EntertainmentIcon />, value: "entertainment" },
+                  { id: "4", label: "Nature", icon: <NatureIcon />, value: "nature" },
+                  { id: "5", label: "Museums", icon: <MuseumIcon />, value: "museum" },
+                  { id: "6", label: "Historical", icon: <HistoricalIcon />, value: "historical" },
+                  { id: "7", label: "Religious", icon: <ReligiousIcon />, value: "religious" },
+                  { id: "8", label: "Sports", icon: <SportsIcon />, value: "sports" },
+                  { id: "9", label: "Nightlife", icon: <NightlifeIcon />, value: "nightlife" },
+                  { id: "10", label: "Outdoor", icon: <OutdoorIcon />, value: "outdoor" },
+                  { id: "11", label: "Sightseeing", icon: <SightseeingIcon />, value: "sightseeing" }
+                ]}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  const { value, checked } = e.target;
-                  if (checked) {
-                    setFieldValue('interests', [...values.interests, value]);
+                  if (e.target.checked) {
+                    setFieldValue("interests", [...values.interests, e.target.value]);
                   } else {
-                    setFieldValue('interests', values.interests.filter((interest) => interest !== value));
+                    setFieldValue("interests", values.interests.filter((interest) => interest !== e.target.value));
                   }
                 }}
-              />
+              /> 
             </div>
 
             {/* Generate button */}
