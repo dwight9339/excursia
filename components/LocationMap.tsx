@@ -39,7 +39,7 @@ const LocationMap: React.FC<MapParams> = ({
         center={location}
         zoom={zoomLevel}
         mapTypeId={google.maps.MapTypeId.ROADMAP}
-        mapContainerStyle={{ width: `${mapWidth}px`, height: `${mapHeight}px` }}
+        mapContainerStyle={{ width: mapWidth, height: mapHeight }}
       >
         {isDefaultLocation ? null : <CircleF center={location} radius={milesToMeters(searchRadius)} />}
       </GoogleMap>
