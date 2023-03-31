@@ -12,6 +12,7 @@ import {
 import {
   IconButton
 } from "@mui/material";
+import styles from "./ActivityList.module.css";
  
 
 interface ActivityListProps {
@@ -36,17 +37,20 @@ const ListItem: React.FC<ListItemProps> = ({ activity, index, provided, onDelete
   return (
     <>
       <IconButton
-        className="drag-indicator"
+        className={styles.dragHandle}
         {...provided.dragHandleProps}
 
       >
         <DragIndicatorIcon />
       </IconButton>
-      <span
-        style={style}>
+      <span className={styles.activityName}>
           <a href={placeLink} target="_blank">{activity.name}</a>
       </span>
-      <IconButton edge="end" onClick={() => onDelete(index)}>
+      <IconButton
+        className={styles.deleteButton}
+        edge="end"
+        onClick={() => onDelete(index)}
+      >
         <DeleteIcon />
       </IconButton>
     </>
@@ -67,11 +71,12 @@ const ActivityList: React.FC<ActivityListProps> = ({ activities, onReorder, onDe
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="activityList">
         {(provided) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
+          <div className={styles.listRegion} ref={provided.innerRef} {...provided.droppableProps}>
             {keyedActivities.map((activity, index) => (
               <Draggable key={activity.id} draggableId={activity.id} index={index}>
                 {(provided) => (
                   <div
+                    className={styles.listItem}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                   >

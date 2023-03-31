@@ -25,7 +25,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
 
   const initialValues: FormValues = {
     locationName: "No Name",
-    location: {lat:40.2659269, lng:-96.7466913} as google.maps.LatLngLiteral,
+    location: {lat:38.2659269, lng:-96.7466913} as google.maps.LatLngLiteral,
     startTime: new Date(),
     endTime: new Date(),
     searchRadius: 10,

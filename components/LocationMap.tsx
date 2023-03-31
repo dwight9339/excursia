@@ -25,7 +25,7 @@ const LocationMap: React.FC<MapParams> = ({ location, searchRadius }) => {
     <div>
       <GoogleMap
         center={location}
-        zoom={10}
+        zoom={4}
         mapTypeId={google.maps.MapTypeId.ROADMAP}
         mapContainerStyle={{ width: '1000px', height: '400px' }}
       >

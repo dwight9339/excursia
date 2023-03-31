@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/react';
 import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from "next/router";
 import ActivityList from '../../components/ActivityList';
+import styles from "./Draft.module.css"
 
 interface DraftProps {
   draft: DraftItinerary;
@@ -110,32 +111,26 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
 
   return (
     <Box>
-      <Typography variant="h4" gutterBottom>
-        {itineraryName}
-      </Typography>
-      <h3>Selected Activities</h3>
-      <ActivityList
-        activities={selectedActivities}
-        onReorder={handleReorder}
-        onDelete={handleDeleteActivity}
-      />
-      {/* <h3>More Options Nearby</h3>
-       <List>
-        {otherOptions.map((activity: any, index: number) => (
-          <ListItem key={index}>
-            <ListItemText
-              primary={activity.name}
-              secondary={`${activity.address} - ${activity.description}`}
-            />
-            <IconButton edge="end" onClick={() => handleAddActivity(index)}>
-              <AddIcon />
-            </IconButton>
-          </ListItem>
-        ))}
-      </List> */}
-      <button onClick={handleSaveItinerary} disabled={isSaving}>
-        {isSaving ? 'Saving...' : 'Save'}
-      </button>
+      <div className={styles.container}>
+        <Typography
+          className={styles.draftName}
+          variant="h4"
+          gutterBottom
+        >
+          {itineraryName}
+        </Typography>
+        <div className={styles.selectedActivitiesContainer}>
+          <h3>Selected Activities</h3>
+          <ActivityList
+            activities={selectedActivities}
+            onReorder={handleReorder}
+            onDelete={handleDeleteActivity}
+          />
+          <button onClick={handleSaveItinerary} disabled={isSaving}>
+            {isSaving ? 'Saving...' : 'Save'}
+          </button>
+        </div>
+      </div>
     </Box>
   );
 };
