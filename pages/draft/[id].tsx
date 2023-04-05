@@ -145,6 +145,7 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
           }
         </div>
         <div className={styles.dateTimeSelectContainer}>
+          <h3>Start Time</h3>
           <TimeSelector
             onDateTimeChange={(dateTime) => console.log(dateTime)}
           />
