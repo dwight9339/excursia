@@ -7,6 +7,8 @@ import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import { useSession } from 'next-auth/react';
 import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from "next/router";
+import { Edit as EditIcon } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 import ActivityList from '../../components/ActivityList';
 import styles from "./Draft.module.css"
 
@@ -36,6 +38,7 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
   const [selectedActivities, setSelectedActivities] = useState<Activity[]>(draft.selectedActivities);
   const [otherOptions, setOtherOptions] = useState<google.maps.places.PlaceResult[]>(draft.otherOptions);
   const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [editingTitle, setEditingTitle] = useState<boolean>(false);
 
   useEffect(() => {
     console.log(`Selected Activities: ${selectedActivities.map((activity) => activity && activity.name)}`);
@@ -95,14 +98,11 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
       if (response.ok) {
         const data = await response.json();
         console.log('Itinerary saved with ID:', data.id);
-        // Redirect to a success page or show a success message
       } else {
         console.error('Error saving itinerary:', response.statusText);
-        // Show an error message
       }
     } catch (error) {
       console.error('Error saving itinerary:', error);
-      // Show an error message
     } finally {
       setIsSaving(false);
     }
@@ -112,13 +112,36 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
   return (
     <Box>
       <div className={styles.container}>
-        <Typography
-          className={styles.draftName}
-          variant="h4"
-          gutterBottom
-        >
-          {itineraryName}
-        </Typography>
+        <div className={styles.draftTitleContainer}>
+          {editingTitle ? 
+            <input
+              autoFocus
+              className={styles.draftTitleInput}
+              type="text"
+              value={itineraryName}
+              onChange={(e) => setItineraryName(e.target.value)}
+              onBlur={() => setEditingTitle(false)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setEditingTitle(false);
+                  }
+                }
+              }
+            />
+            :
+            <>
+              <Typography variant="h4" component="h1" className={styles.draftTitle}>
+                {itineraryName}
+              </Typography>
+              <IconButton 
+                className={styles.titleEditButton}
+                onClick={() => setEditingTitle(true)}
+              >
+                <EditIcon />
+              </IconButton>
+            </>
+          }
+        </div>
         <div className={styles.selectedActivitiesContainer}>
           <h3>Selected Activities</h3>
           <ActivityList
