@@ -46,9 +46,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         } as Activity;
       });
 
+      const date = new Date();
+
       const draft = {
         name: locationName,  // TODO: Create better default naming
         locationCenter: location,
+        startTime: date.toUTCString(),
         selectedActivities,
         otherOptions: pointsOfInterest.slice(numTopPicks)
       } as DraftItinerary;

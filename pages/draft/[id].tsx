@@ -11,6 +11,7 @@ import { Edit as EditIcon } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import ActivityList from '../../components/ActivityList';
 import styles from "./Draft.module.css"
+import TimeSelector from '../../components/TimeSelector';
 
 interface DraftProps {
   draft: DraftItinerary;
@@ -39,6 +40,7 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
   const [otherOptions, setOtherOptions] = useState<google.maps.places.PlaceResult[]>(draft.otherOptions);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [editingTitle, setEditingTitle] = useState<boolean>(false);
+  const [startTime, setStartTime] = useState<Date | null>(new Date(draft.startTime));
 
   useEffect(() => {
     console.log(`Selected Activities: ${selectedActivities.map((activity) => activity && activity.name)}`);
@@ -141,6 +143,11 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
               </IconButton>
             </>
           }
+        </div>
+        <div className={styles.dateTimeSelectContainer}>
+          <TimeSelector
+            onDateTimeChange={(dateTime) => console.log(dateTime)}
+          />
         </div>
         <div className={styles.selectedActivitiesContainer}>
           <h3>Selected Activities</h3>
