@@ -13,6 +13,7 @@ import ActivityList from '../../components/ActivityList';
 import styles from "./Draft.module.css"
 import TimeSelector from '../../components/TimeSelector';
 import EditableText from '../../components/EditableText';
+import ItineraryMap from '../../components/ItineraryMap';
 
 interface DraftProps {
   draft: DraftItinerary;
@@ -36,7 +37,7 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
   const userData: any = { ...data?.user };
 
   const [itineraryName, setItineraryName] = useState<string>(draft.name);
-  const [locationCenter, setLocationCenter] = useState<google.maps.LatLngLiteral | null>(draft.locationCenter);
+  const [locationCenter, setLocationCenter] = useState<google.maps.LatLngLiteral | undefined>(draft.locationCenter);
   const [selectedActivities, setSelectedActivities] = useState<Activity[]>(draft.selectedActivities);
   const [otherOptions, setOtherOptions] = useState<google.maps.places.PlaceResult[]>(draft.otherOptions);
   const [isSaving, setIsSaving] = useState<boolean>(false);
@@ -124,6 +125,15 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
           <h3>Start Time</h3>
           <TimeSelector
             onDateTimeChange={(dateTime) => console.log(dateTime)}
+          />
+        </div>
+        <div className={styles.mapContainer}>
+          <ItineraryMap
+            location={locationCenter}
+            activities={selectedActivities}
+            zoomLevel={7}
+            mapWidth={900}
+            mapHeight={600}
           />
         </div>
         <div className={styles.selectedActivitiesContainer}>
