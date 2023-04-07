@@ -38,3 +38,13 @@
 .listItem:hover .deleteButton {
   color: #4e4e4e;
 }
+
+.activityTime {
+  font-size: 15px;
+  font-weight: medium;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  margin-right: 10px;
+}

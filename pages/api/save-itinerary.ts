@@ -4,11 +4,10 @@ import { MongoClient, Db, Collection } from "mongodb";
 // Generate the itinerary serverless function
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    // Extract user preferences from the request body
     const itinerary = req.body;
+    console.log(`itinerary: ${JSON.stringify(itinerary)}`);
 
     try {
-      // Insert draft itinerary into DB
       const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
       await client.connect();
       const db: Db = client.db(process.env.DB_NAME);
@@ -16,7 +15,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const insertResult = await itineraryCollection.insertOne(itinerary);
 
-      // Return itinerary ID
       insertResult 
         ? res.status(201).json({ itinerary_id: insertResult.insertedId })
         : res.status(500).json({ message: "Unable to create itinerary"});

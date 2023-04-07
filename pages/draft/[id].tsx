@@ -43,7 +43,7 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
   const [startTime, setStartTime] = useState<Date | null>(new Date(draft.startTime));
 
   useEffect(() => {
-    console.log(`Selected Activities: ${selectedActivities.map((activity) => activity && activity.name)}`);
+    console.log(`Selected Activities: ${selectedActivities.map((activity) => activity && activity.name + ': ' + activity.allottedTime + ' minutes')}`);
   }, [selectedActivities]);
 
   const handleDeleteActivity = (index: number) => {
@@ -131,6 +131,11 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
           <ActivityList
             activities={selectedActivities}
             onReorder={handleReorder}
+            onTimeUpdate={(index, newTime) => {
+              const newActivities = [...selectedActivities];
+              newActivities[index].allottedTime = newTime;
+              setSelectedActivities(newActivities);
+            }}
             onDelete={handleDeleteActivity}
           />
           <button onClick={handleSaveItinerary} disabled={isSaving}>

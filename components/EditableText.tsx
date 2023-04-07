@@ -8,10 +8,15 @@ import styles from "./EditableText.module.css";
 
 interface EditableTextProps {
   text: string;
+  numeric?: boolean;
   onEdit: (text: string) => void;
 }
 
-const EditableText: React.FC<EditableTextProps> = ({ text, onEdit }) => {
+const EditableText: React.FC<EditableTextProps> = ({
+  text,
+  numeric,
+  onEdit
+}) => {
   const [editing, setEditing] = React.useState<boolean>(false);
   const [value, setValue] = React.useState<string>(text);
 
@@ -40,16 +45,11 @@ const EditableText: React.FC<EditableTextProps> = ({ text, onEdit }) => {
         <input
           className={styles.input}
           autoFocus
-          type="text"
+          type={numeric ? "number" : "text"}
           value={value}
-          onChange={(e) => onEdit(e.target.value)}
-          onBlur={() => setEditing(false)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              setEditing(false);
-            }
-          }
-          }
+          onChange={handleChange}
+          onBlur={handleSave}
+          onKeyDown={handleKeyDown}
         />
         :
         <>
@@ -58,7 +58,7 @@ const EditableText: React.FC<EditableTextProps> = ({ text, onEdit }) => {
           </Typography>
           <IconButton 
             className={styles.editButton}
-            onClick={() => setEditing(true)}
+            onClick={handleEdit}
             size="small"
           >
             <EditIcon />
