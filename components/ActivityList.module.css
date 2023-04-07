@@ -1,11 +1,27 @@
+.listRegion {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  max-width: 500px;
+}
+
 .listItem {
+
+  display: flex;
+  
+}
+
+.infoContainer {
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 0.5rem 1rem;
+  gap: 8px;
+  padding: 3px 9px;
   cursor: pointer;
-  height: 50px;
-  width: fit-content;
+  height: 100px;
+  width: 600px;
+  border: 1px solid black;
+  border-radius: 5px;
 }
 
 .listItem .dragHandle {
@@ -13,7 +29,7 @@
 }
 
 .listItem .deleteButton {
-  display: none
+  color: white;
 }
 
 .listItem:hover .dragHandle {
@@ -21,5 +37,5 @@
 }
 
 .listItem:hover .deleteButton {
-  display: block
+  color: #4e4e4e;
 }

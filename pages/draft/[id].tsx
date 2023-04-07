@@ -138,6 +138,7 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
               <IconButton 
                 className={styles.titleEditButton}
                 onClick={() => setEditingTitle(true)}
+                size="small"
               >
                 <EditIcon />
               </IconButton>

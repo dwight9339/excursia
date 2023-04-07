@@ -12,6 +12,7 @@ import {
 import {
   IconButton
 } from "@mui/material";
+import Image from "next/image";
 import styles from "./ActivityList.module.css";
  
 
@@ -30,12 +31,11 @@ interface ListItemProps {
 
 const ListItem: React.FC<ListItemProps> = ({ activity, index, provided, onDelete }) => {
   const placeLink = `https://www.google.com/maps/place/?q=place_id:${activity.place.place_id}`;
-  const style = {
-    marginRight: 20
-  }
+  const photoRef = activity.place.photos ? activity.place.photos[0].photo_reference : null;
+  const photoUrl = photoRef ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}` : null;
 
   return (
-    <>
+    <div className={styles.listItem}>
       <IconButton
         className={styles.dragHandle}
         {...provided.dragHandleProps}
@@ -43,9 +43,19 @@ const ListItem: React.FC<ListItemProps> = ({ activity, index, provided, onDelete
       >
         <DragIndicatorIcon />
       </IconButton>
-      <span className={styles.activityName}>
-          <a href={placeLink} target="_blank">{activity.name}</a>
-      </span>
+      <div className={styles.infoContainer}>
+        <span className={styles.activityImage}>
+          {photoUrl && <Image
+            src={photoUrl}
+            alt={activity.name}
+            width={70}
+            height={70}
+          />}
+        </span>
+        <span className={styles.activityName}>
+            <a href={placeLink} target="_blank">{activity.name}</a>
+        </span>
+      </div>
       <IconButton
         className={styles.deleteButton}
         edge="end"
@@ -53,7 +63,7 @@ const ListItem: React.FC<ListItemProps> = ({ activity, index, provided, onDelete
       >
         <DeleteIcon />
       </IconButton>
-    </>
+    </div>
   )
 }
 
@@ -75,18 +85,12 @@ const ActivityList: React.FC<ActivityListProps> = ({ activities, onReorder, onDe
             {keyedActivities.map((activity, index) => (
               <Draggable key={activity.id} draggableId={activity.id} index={index}>
                 {(provided) => (
-                  <div
-                    className={styles.listItem}
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                  >
-                    <ListItem
-                      activity={activity}
-                      index={index}
-                      provided={provided}
-                      onDelete={onDelete}
-                    />
-                  </div>
+                  <ListItem
+                    activity={activity}
+                    index={index}
+                    provided={provided}
+                    onDelete={onDelete}
+                  />
                 )}
               </Draggable>
             ))}
