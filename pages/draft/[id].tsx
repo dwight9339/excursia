@@ -12,6 +12,7 @@ import { IconButton } from '@mui/material';
 import ActivityList from '../../components/ActivityList';
 import styles from "./Draft.module.css"
 import TimeSelector from '../../components/TimeSelector';
+import EditableText from '../../components/EditableText';
 
 interface DraftProps {
   draft: DraftItinerary;
@@ -39,7 +40,6 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
   const [selectedActivities, setSelectedActivities] = useState<Activity[]>(draft.selectedActivities);
   const [otherOptions, setOtherOptions] = useState<google.maps.places.PlaceResult[]>(draft.otherOptions);
   const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [editingTitle, setEditingTitle] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<Date | null>(new Date(draft.startTime));
 
   useEffect(() => {
@@ -115,35 +115,10 @@ const Draft: React.FC<DraftProps> = ({ draft }) => {
     <Box>
       <div className={styles.container}>
         <div className={styles.draftTitleContainer}>
-          {editingTitle ? 
-            <input
-              autoFocus
-              className={styles.draftTitleInput}
-              type="text"
-              value={itineraryName}
-              onChange={(e) => setItineraryName(e.target.value)}
-              onBlur={() => setEditingTitle(false)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  setEditingTitle(false);
-                  }
-                }
-              }
-            />
-            :
-            <>
-              <Typography variant="h4" component="h1" className={styles.draftTitle}>
-                {itineraryName}
-              </Typography>
-              <IconButton 
-                className={styles.titleEditButton}
-                onClick={() => setEditingTitle(true)}
-                size="small"
-              >
-                <EditIcon />
-              </IconButton>
-            </>
-          }
+          <EditableText
+            text={itineraryName}
+            onEdit={(newName) => setItineraryName(newName)}
+          />
         </div>
         <div className={styles.dateTimeSelectContainer}>
           <h3>Start Time</h3>
