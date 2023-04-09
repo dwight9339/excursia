@@ -13,11 +13,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const db: Db = client.db(process.env.DB_NAME);
       const itineraryCollection: Collection = db.collection("itinerary");
 
-      const insertResult = await itineraryCollection.insertOne(itinerary);
+      if (!itinerary.id) {
+        // Insert new itinerary
+        const insertResult = await itineraryCollection.insertOne(itinerary);
 
-      insertResult 
-        ? res.status(201).json({ itinerary_id: insertResult.insertedId })
-        : res.status(500).json({ message: "Unable to create itinerary"});
+        insertResult 
+          ? res.status(201).json({ itinerary_id: insertResult.insertedId })
+          : res.status(500).json({ message: "Unable to create itinerary"});
+      } else {
+        // Update existing itinerary
+        const updateResult = await itineraryCollection.updateOne(
+          { _id: itinerary.id },
+          { $set: { ...itinerary } }
+        );
+
+        updateResult 
+          ? res.status(200).json({ itinerary_id: itinerary.id })
+          : res.status(500).json({ message: "Unable to update itinerary"});
+      }
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Error generating draft itinerary' });

@@ -30,7 +30,7 @@ interface PreferencesFormProps {
 
 interface FormValues {
   locationName: string;
-  location: google.maps.LatLngLiteral;
+  startingLocation: google.maps.LatLngLiteral;
   startTime: Date;
   endTime: Date;
   searchRadius: number;
@@ -45,7 +45,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
   const [mapHeight, setMapHeight] = useState<number>(400);
   const initialValues: FormValues = {
     locationName: "No Name",
-    location: {lat:38.2659269, lng:-96.7466913} as google.maps.LatLngLiteral,
+    startingLocation: {lat:38.2659269, lng:-96.7466913} as google.maps.LatLngLiteral,
     startTime: new Date(),
     endTime: new Date(),
     searchRadius: 10,
@@ -64,7 +64,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
   };
 
   const validationSchema = Yup.object({
-    location: Yup.string().required('Location is required'),
+    startingLocation: Yup.string().required('Starting location is required'),
     // startTime: Yup.date()
     //   // .required('Start time is required')
     // ,
@@ -103,7 +103,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
                 setIsDefaultLocation(false);
                 setZoomLevel(calculateZoomLevel(values.searchRadius));
                 setFieldValue("locationName", locationName);
-                setFieldValue("location", location);
+                setFieldValue("startingLocation", location);
               }}
             />
 
@@ -132,7 +132,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
             <div style={{ height: mapHeight, width: '100%', marginTop: '1rem' }}>
               {/* Todo: Add map component to display user's currently selected location and boundaries */}
               <LocationMap
-                location={values.location}
+                location={values.startingLocation}
                 searchRadius={values.searchRadius}
                 zoomLevel={zoomLevel}
                 isDefaultLocation={isDefaultLocation}
@@ -216,9 +216,9 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
               /> 
             </div>
 
-            {/* Generate button */}
+            {/* Create button */}
             <button type="submit" style={{ marginTop: '1rem' }}>
-              Generate
+              Create Itinerary
             </button>
           </Form>
         )}

@@ -5,20 +5,30 @@ import { useRouter } from 'next/router';
 const HomePage: React.FC = () => {
   const router = useRouter();
 
-  const handleGenerateItinerary = async (preferences: any) => {
+  const handleCreateItinerary = async (preferences: any) => {
+    const date = new Date();
+    const newItinerary = {
+      name: preferences.locationName,
+      startingLocation: preferences.startingLocation,
+      startTime: date.toUTCString(),
+      interests: preferences.interests,
+      searchRadius: preferences.searchRadius,
+      activities: []
+    }
+
     const requestOptions: RequestInit = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(preferences),
+      body: JSON.stringify(newItinerary),
     };
 
     try {
-      const response = await fetch('/api/generate-draft', requestOptions);
+      const response = await fetch('/api/save-itinerary', requestOptions);
       const data = await response.json();
   
       if (response.ok) {
-        console.log(`Draft ID: ${data.draft_id}`);
-        router.push(`/draft/${data.draft_id}`);
+        console.log(`Itinerary ID: ${data.itinerary_id}`);
+        router.push(`/itinerary/${data.itinerary_id}/edit`);
       } else {
         // Handle any error messages received
         console.error('Error generating itinerary:', data.message);
@@ -31,7 +41,7 @@ const HomePage: React.FC = () => {
   
   return (
     <div>
-      <ActivitySearchForm onSubmit={handleGenerateItinerary} />
+      <ActivitySearchForm onSubmit={handleCreateItinerary} />
     </div>
   );
 };
