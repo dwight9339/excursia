@@ -14,6 +14,7 @@ import TimeSelector from '../../../components/TimeSelector';
 import EditableText from '../../../components/EditableText';
 import ItineraryMap from '../../../components/ItineraryMap';
 import { fetchItinerary } from '../../../lib/dbFetch';
+import SuggestedActivities from '../../../components/SuggestedActivities';
 
 interface EditItineraryProps {
   itineraryId: string | null;
@@ -136,6 +137,17 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
             }}
             onDelete={handleDeleteActivity}
           />
+        </div>
+        <div className={styles.SuggestedActivitiesContainer}>
+          <h3>Suggested Activities</h3>
+          <SuggestedActivities
+            suggestions={itinerary.suggestions}
+            handleAddActivity={(activity) => {
+              console.log(`Adding activity: ${JSON.stringify(activity)}`);
+            }}
+          />
+        </div>
+        <div className={styles.saveButtonContainer}>
           <button disabled={isSaving}>
             {isSaving ? 'Saving...' : 'Save'}
           </button>
@@ -155,7 +167,7 @@ export async function getServerSideProps(context: ParsedUrlQuery) {
       const {_id, ...itinerary} = res;
       console.log("Itinerary retrieved");
       return { props: {
-        itineraryId: `${_id}`,
+        itineraryId: id,
         itinerary
       }};
     } else {

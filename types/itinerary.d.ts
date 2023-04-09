@@ -6,5 +6,6 @@ declare interface Itinerary {
   interests: string[];
   searchRadius: number;
   activities: Activity[];
+  suggestions: google.maps.places.PlaceResult[];
   createdBy?: string;
 }
