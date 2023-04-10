@@ -1,57 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Grid,
-  Card,
-  CardActionArea,
-  CardContent,
-  Typography,
-  CardMedia,
-  Button,
-} from '@mui/material';
+import React from 'react';
+import { ListItem, ListItemText, ListItemAvatar, Avatar, IconButton, List } from '@mui/material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 interface SuggestedActivitiesProps {
   suggestions: google.maps.places.PlaceResult[];
-  handleAddActivity: (suggestion: google.maps.places.PlaceResult) => void;
+  handleAddActivity: (activity: google.maps.places.PlaceResult) => void;
 }
 
-const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({
-  suggestions,
-  handleAddActivity
-}) => {
-  if (!suggestions) return <div></div>;
-
+const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ suggestions, handleAddActivity }) => {
   return (
-    <Grid container spacing={2}>
-      {suggestions.map((suggestion, index) => (
-        <Grid key={index} item xs={12} sm={6} md={4}>
-          <Card>
-            <CardActionArea>
-              {/* <CardMedia
-                component="img"
-                height="140"
-                image={suggestion.photoUrl}
-                alt={suggestion.name}
-              /> */}
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {suggestion.name}
-                </Typography>
-                {/* <Typography variant="body2" color="text.secondary">
-                  {suggestion.description}
-                </Typography> */}
-              </CardContent>
-            </CardActionArea>
-            <Button
+    <List>
+      {suggestions.map((suggestion, index) => {
+        const photoRef = suggestion.photos ? suggestion.photos[0].photo_reference : null;
+        const photoUrl = photoRef ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}` : "";
+
+        return (
+          <ListItem key={index} alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar alt={suggestion.name} src={photoUrl} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={suggestion.name}
+              secondary={suggestion.formatted_address || suggestion.vicinity}
+            />
+            <IconButton
+              edge="end"
+              color="inherit"
               onClick={() => handleAddActivity(suggestion)}
-              variant="contained"
-              color="primary"
             >
-              Add
-            </Button>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
+              <AddCircleOutlineIcon />
+            </IconButton>
+          </ListItem>
+        );
+      })}
+    </List>
   );
 };
 
