@@ -19,18 +19,18 @@ const TripSummary: React.FC<ItinerarySummaryProps> = ({ activities, directions, 
 
   if (!startTime) return (
     <Box>
-      <Typography variant="h6">Itinerary Summary</Typography>
+      <Typography variant="h6">Trip Summary</Typography>
       <Typography variant="body1">Total time spent traveling: {travelTime}</Typography>
       <Typography variant="body1">Total time spent at activities: {activityTime}</Typography>
     </Box>
   );;
 
-  const endTime = new Date(startTime.getTime());
+  const endTime = new Date(startTime);
   endTime.setMinutes(endTime.getMinutes() + travelTimeMinutes + activityTimeMinutes);
 
   return (
     <Box>
-      <Typography variant="h6">Itinerary Summary</Typography>
+      <Typography variant="h6">Trip Summary</Typography>
       <Typography variant="body1">Total time spent traveling: {travelTime}</Typography>
       <Typography variant="body1">Total time spent at activities: {activityTime}</Typography>
       <Typography variant="body1">End time: {endTime.toLocaleTimeString()}</Typography>

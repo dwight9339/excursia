@@ -138,14 +138,14 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
         </div>
       </div>
       <div className={styles.columnContainer}>
-        <div className={styles.leftColumn}>
+        <div className={styles.column}>
           <h3>Trip Details</h3>
           <div className={styles.dateTimeSelectContainer}>
             <TimeSelector
-              onDateTimeChange={(dateTime) => console.log(dateTime)}
+              onDateTimeChange={(dateTime) => setStartTime(dateTime)}
             />
           </div>
-          <div className={styles.tripSummararyContainer}>
+          <div className={styles.tripSummaryContainer}>
             <TripSummary
               activities={selectedActivities}
               directions={directions}
@@ -168,7 +168,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
             </button>
           </div>
         </div>
-        <div className={styles.middleColumn}>
+        <div className={styles.column}>
           <div className={styles.selectedActivitiesContainer}>
             <h3>Selected Activities</h3>
             <ActivityList
@@ -183,7 +183,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
             />
           </div>
         </div>
-        <div className={styles.rightColumn}>
+        <div className={styles.column}>
           <div className={styles.SuggestedActivitiesContainer}>
             <h3>Suggested Activities</h3>
             <SuggestedActivities

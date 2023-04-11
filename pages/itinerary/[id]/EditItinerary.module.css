@@ -11,3 +11,11 @@
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
 }
+
+.column {
+  padding: 0px 15px;
+}
+
+.tripSummaryContainer {
+  padding: 20px 15px;
+}
