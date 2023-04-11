@@ -21,7 +21,7 @@ const ItineraryMap: React.FC<MapParams> = ({
   activities,
   zoomLevel,
   mapWidth,
-  mapHeight,
+  mapHeight
 }) => {
   const mapRef = useRef<google.maps.Map>(null);
   const libraries = useMemo(() => ["places"], []);
