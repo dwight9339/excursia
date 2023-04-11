@@ -40,7 +40,8 @@ const ListItem: React.FC<ListItemProps> = ({
   onDelete
 }) => {
   const placeLink = `https://www.google.com/maps/place/?q=place_id:${activity.place.place_id}`;
-  const photoRef = activity.place.photos ? activity.place.photos[0].photo_reference : null;
+  const placePhoto: any = {...activity.place.photos?.[0]};
+  const photoRef = activity.place.photos ? placePhoto.photo_reference : null;
   const photoUrl = photoRef ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}` : null;
 
   return (
@@ -48,7 +49,6 @@ const ListItem: React.FC<ListItemProps> = ({
       <IconButton
         className={styles.dragHandle}
         {...provided.dragHandleProps}
-
       >
         <DragIndicatorIcon />
       </IconButton>

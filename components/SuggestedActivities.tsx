@@ -12,7 +12,8 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ suggestions, 
   return (
     <List className={styles.container}>
       {suggestions.map((suggestion, index) => {
-        const photoRef = suggestion.photos ? suggestion.photos[0].photo_reference : null;
+        const placePhoto: any = {...suggestion.photos?.[0]};
+        const photoRef = suggestion.photos ? placePhoto.photo_reference : null;
         const photoUrl = photoRef ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}` : "";
 
         return (
