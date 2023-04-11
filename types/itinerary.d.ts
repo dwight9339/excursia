@@ -7,5 +7,6 @@ declare interface Itinerary {
   searchRadius: number;
   activities: Activity[];
   suggestions: google.maps.places.PlaceResult[];
+  directions: google.maps.DirectionsResult;
   createdBy?: string;
 }

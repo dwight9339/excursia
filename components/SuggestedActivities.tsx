@@ -1,6 +1,7 @@
 import React from 'react';
 import { ListItem, ListItemText, ListItemAvatar, Avatar, IconButton, List } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import styles from "./SuggestedActivities.module.css";
 
 interface SuggestedActivitiesProps {
   suggestions: google.maps.places.PlaceResult[];
@@ -9,7 +10,7 @@ interface SuggestedActivitiesProps {
 
 const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ suggestions, handleAddActivity }) => {
   return (
-    <List>
+    <List className={styles.container}>
       {suggestions.map((suggestion, index) => {
         const photoRef = suggestion.photos ? suggestion.photos[0].photo_reference : null;
         const photoUrl = photoRef ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}` : "";

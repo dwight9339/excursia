@@ -42,19 +42,14 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
     setSelectedActivities(newActivities);
   };
 
-  // const handleAddActivity = (index: number) => {
-  //   const newOthers = [...otherOptions];
-  //   const removed = newOthers.splice(index, 1)[0];
-  //   setSelectedActivities((prev) => [
-  //     ...prev, 
-  //     {
-  //       name: removed.name,
-  //       allottedTime: 60,
-  //       place: removed
-  //     } as Activity
-  //   ]);
-  //   setOtherOptions(newOthers);
-  // }
+  const handleAddActivity = (suggestion: google.maps.places.PlaceResult) => {
+      const newActivity = {
+        name: suggestion.name,
+        allottedTime: 60,
+        place: suggestion
+      } as Activity;
+      setSelectedActivities((prev) => [...prev, newActivity]);
+  };
 
   const handleReorder = (startIndex: number, endIndex: number) => {
     const newActivities = [...selectedActivities];
@@ -70,12 +65,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
   //   }
 
   //   setIsSaving(true);
-  //   const itinerary = {
-  //     name: itineraryName,
-  //     startingLocation: locationCenter,
-  //     activities: selectedActivities,
-  //     createdBy: userData.id
-  //   } as Itinerary;
+    
 
   //   try {
   //     const response = await fetch('/api/save-itinerary', {
@@ -104,53 +94,55 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
     <Box>
       <h1>Editing Itinerary</h1>
       <div className={styles.container}>
-        <div className={styles.titleContainer}>
-          <EditableText
-            text={itineraryName}
-            onEdit={(newName) => setItineraryName(newName)}
-          />
+        <div className={styles.leftColumn}>
+          <div className={styles.titleContainer}>
+            <EditableText
+              text={itineraryName}
+              onEdit={(newName) => setItineraryName(newName)}
+            />
+          </div>
+          <div className={styles.dateTimeSelectContainer}>
+            <h3>Start Time</h3>
+            <TimeSelector
+              onDateTimeChange={(dateTime) => console.log(dateTime)}
+            />
+          </div>
+          <div className={styles.mapContainer}>
+            <ItineraryMap
+              location={startLocation}
+              activities={selectedActivities}
+              zoomLevel={7}
+              mapWidth={900}
+              mapHeight={600}
+            />
+          </div>
+          <div className={styles.selectedActivitiesContainer}>
+            <h3>Selected Activities</h3>
+            <ActivityList
+              activities={selectedActivities}
+              onReorder={handleReorder}
+              onTimeUpdate={(index, newTime) => {
+                const newActivities = [...selectedActivities];
+                newActivities[index].allottedTime = newTime;
+                setSelectedActivities(newActivities);
+              }}
+              onDelete={handleDeleteActivity}
+            />
+          </div>
+          <div className={styles.saveButtonContainer}>
+            <button disabled={isSaving}>
+              {isSaving ? 'Saving...' : 'Save'}
+            </button>
+          </div>
         </div>
-        <div className={styles.dateTimeSelectContainer}>
-          <h3>Start Time</h3>
-          <TimeSelector
-            onDateTimeChange={(dateTime) => console.log(dateTime)}
-          />
-        </div>
-        <div className={styles.mapContainer}>
-          <ItineraryMap
-            location={startLocation}
-            activities={selectedActivities}
-            zoomLevel={7}
-            mapWidth={900}
-            mapHeight={600}
-          />
-        </div>
-        <div className={styles.selectedActivitiesContainer}>
-          <h3>Selected Activities</h3>
-          <ActivityList
-            activities={selectedActivities}
-            onReorder={handleReorder}
-            onTimeUpdate={(index, newTime) => {
-              const newActivities = [...selectedActivities];
-              newActivities[index].allottedTime = newTime;
-              setSelectedActivities(newActivities);
-            }}
-            onDelete={handleDeleteActivity}
-          />
-        </div>
-        <div className={styles.SuggestedActivitiesContainer}>
-          <h3>Suggested Activities</h3>
-          <SuggestedActivities
-            suggestions={itinerary.suggestions}
-            handleAddActivity={(activity) => {
-              console.log(`Adding activity: ${JSON.stringify(activity)}`);
-            }}
-          />
-        </div>
-        <div className={styles.saveButtonContainer}>
-          <button disabled={isSaving}>
-            {isSaving ? 'Saving...' : 'Save'}
-          </button>
+        <div className={styles.rightColumn}>
+          <div className={styles.SuggestedActivitiesContainer}>
+            <h3>Suggested Activities</h3>
+            <SuggestedActivities
+              suggestions={itinerary.suggestions}
+              handleAddActivity={handleAddActivity} 
+            />
+          </div>
         </div>
       </div>
     </Box>
