@@ -1,5 +1,13 @@
-.container {
+.itineraryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 15px;
+}
+
+.columnContainer {
   padding: 20px 15px;
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
 }

@@ -92,17 +92,18 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
 
   return (
     <Box>
-      <h1>Editing Itinerary</h1>
-      <div className={styles.container}>
+      <div className={styles.itineraryHeader}>
+        <div className={styles.titleContainer}>
+          <EditableText
+            text={itineraryName}
+            onEdit={(newName) => setItineraryName(newName)}
+          />
+        </div>
+      </div>
+      <div className={styles.columnContainer}>
         <div className={styles.leftColumn}>
-          <div className={styles.titleContainer}>
-            <EditableText
-              text={itineraryName}
-              onEdit={(newName) => setItineraryName(newName)}
-            />
-          </div>
+          <h3>Trip Details</h3>
           <div className={styles.dateTimeSelectContainer}>
-            <h3>Start Time</h3>
             <TimeSelector
               onDateTimeChange={(dateTime) => console.log(dateTime)}
             />
@@ -112,10 +113,17 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
               location={startLocation}
               activities={selectedActivities}
               zoomLevel={7}
-              mapWidth={900}
+              mapWidth={700}
               mapHeight={600}
             />
           </div>
+          <div className={styles.saveButtonContainer}>
+            <button disabled={isSaving}>
+              {isSaving ? 'Saving...' : 'Save'}
+            </button>
+          </div>
+        </div>
+        <div className={styles.middleColumn}>
           <div className={styles.selectedActivitiesContainer}>
             <h3>Selected Activities</h3>
             <ActivityList
@@ -128,11 +136,6 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
               }}
               onDelete={handleDeleteActivity}
             />
-          </div>
-          <div className={styles.saveButtonContainer}>
-            <button disabled={isSaving}>
-              {isSaving ? 'Saving...' : 'Save'}
-            </button>
           </div>
         </div>
         <div className={styles.rightColumn}>
