@@ -15,6 +15,8 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ suggestions, 
         const placePhoto: any = {...suggestion.photos?.[0]};
         const photoRef = suggestion.photos ? placePhoto.photo_reference : null;
         const photoUrl = photoRef ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}` : "";
+        const suggestionObj: any = {...suggestion};
+        const summary = suggestionObj.editorial_summary?.overview;
 
         return (
           <ListItem key={index} alignItems="flex-start">
@@ -23,7 +25,7 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ suggestions, 
             </ListItemAvatar>
             <ListItemText
               primary={suggestion.name}
-              secondary={suggestion.formatted_address || suggestion.vicinity}
+              secondary={summary || ""}
             />
             <IconButton
               edge="end"

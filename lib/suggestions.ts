@@ -1,5 +1,26 @@
 import axios from 'axios';
 
+const fetchDetails = async (placeIds: string[]): Promise<google.maps.places.PlaceResult[]> => {
+  const baseUrl = 'https://maps.googleapis.com/maps/api/place/details/json';
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
+  const details = [];
+
+  for(let i = 0; i < placeIds.length; i++) {
+    const requestParams = {
+      place_id: placeIds[i],
+      key: apiKey
+    };
+
+    const response = await axios.get(baseUrl, {
+      params: requestParams
+    });
+
+    details.push(response.data.result);
+  }
+
+  return details;
+};
+
 // Fetch suggestions from the Google Places API
 export const fetchSuggestions = async (itinerary: Itinerary): Promise<google.maps.places.PlaceResult[]> => {
   const { interests, searchRadius, startingLocation } = itinerary;
@@ -21,7 +42,11 @@ export const fetchSuggestions = async (itinerary: Itinerary): Promise<google.map
       params: requestParams
     });
 
-    return response.data.results;
+    // Fetch details for each place
+    const placeIds = response.data.results.map((result: google.maps.places.PlaceResult) => result.place_id);
+    const details = await fetchDetails(placeIds);
+
+    return details;
   } catch (error) {
     console.error(error);
     return [];
