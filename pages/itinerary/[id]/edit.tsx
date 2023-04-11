@@ -14,6 +14,7 @@ import EditableText from '../../../components/EditableText';
 import ItineraryMap from '../../../components/ItineraryMap';
 import { fetchItinerary } from '../../../lib/dbFetch';
 import SuggestedActivities from '../../../components/SuggestedActivities';
+import TripSummary from '../../../components/TripSummary';
 
 interface EditItineraryProps {
   itineraryId: string | null;
@@ -142,6 +143,13 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
           <div className={styles.dateTimeSelectContainer}>
             <TimeSelector
               onDateTimeChange={(dateTime) => console.log(dateTime)}
+            />
+          </div>
+          <div className={styles.tripSummararyContainer}>
+            <TripSummary
+              activities={selectedActivities}
+              directions={directions}
+              startTime={startTime}
             />
           </div>
           <div className={styles.mapContainer}>
