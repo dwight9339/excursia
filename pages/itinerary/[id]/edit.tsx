@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Typography,
   Box
@@ -6,8 +6,7 @@ import {
 import { useSession } from 'next-auth/react';
 import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from "next/router";
-import { Edit as EditIcon } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
+import { useLoadScript } from "@react-google-maps/api";
 import ActivityList from '../../../components/ActivityList';
 import styles from "./EditItinerary.module.css"
 import TimeSelector from '../../../components/TimeSelector';
@@ -23,6 +22,11 @@ interface EditItineraryProps {
 
 const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary }) => {
   if (!itinerary) return <div></div>;
+  const libraries = useMemo(() => ["places"], []);
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
+    libraries: libraries as any,
+  });
   const { data, status } = useSession();
   const router = useRouter();
   const userData: any = { ...data?.user };
@@ -32,9 +36,46 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
   const [selectedActivities, setSelectedActivities] = useState<Activity[]>(itinerary.activities);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<Date | null>(new Date(itinerary.startTime));
+  const [directions, setDirections] = useState<google.maps.DirectionsResult | undefined>(itinerary.directions);
+
+  const handleDirectionsResult = (result: google.maps.DirectionsResult | null, status: google.maps.DirectionsStatus) => {
+    if (status !== google.maps.DirectionsStatus.OK) {
+      console.log(`Directions failed: ${status}`);
+      return;
+    } else {
+      console.log(`Directions updated: ${status}`);
+    }
+    setDirections(result || undefined);
+  };
+
+  const getDirections = async () => {
+    const startLocation = itinerary.startingLocation;
+    const endLocation = selectedActivities[selectedActivities.length - 1].place?.geometry?.location;
+    const waypoints = selectedActivities.slice(0, selectedActivities.length - 1).map((activity) => ({
+      location: activity.place?.geometry?.location,
+      stopover: true
+    }));
+
+    if (!startLocation || !endLocation) {
+      return;
+    }
+
+    const directionsService = new google.maps.DirectionsService();
+    directionsService.route(
+      {
+        origin: startLocation,
+        destination: endLocation,
+        waypoints: waypoints,
+        travelMode: google.maps.TravelMode.DRIVING,
+      },
+      handleDirectionsResult
+    );
+  }
 
   useEffect(() => {
-    console.log(`Selected Activities: ${selectedActivities.map((activity) => activity && activity.name + ': ' + activity.allottedTime + ' minutes')}`);
+    if (selectedActivities.length > 0) {
+      getDirections();
+    }
   }, [selectedActivities]);
 
   const handleDeleteActivity = (index: number) => {
@@ -42,13 +83,8 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
     setSelectedActivities(newActivities);
   };
 
-  const handleAddActivity = (suggestion: google.maps.places.PlaceResult) => {
-      const newActivity = {
-        name: suggestion.name,
-        allottedTime: 60,
-        place: suggestion
-      } as Activity;
-      setSelectedActivities((prev) => [...prev, newActivity]);
+  const handleAddActivity = (activity: Activity) => {
+      setSelectedActivities((prev) => [...prev, activity]);
   };
 
   const handleReorder = (startIndex: number, endIndex: number) => {
@@ -110,6 +146,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
           </div>
           <div className={styles.mapContainer}>
             <ItineraryMap
+              directions={directions}
               location={startLocation}
               activities={selectedActivities}
               zoomLevel={7}
@@ -143,7 +180,14 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
             <h3>Suggested Activities</h3>
             <SuggestedActivities
               suggestions={itinerary.suggestions}
-              handleAddActivity={handleAddActivity} 
+              handleAddActivity={(suggestion: google.maps.places.PlaceResult) => {
+                const activity: Activity = {
+                  name: `${suggestion.name}`,
+                  place: suggestion,
+                  allottedTime: 60
+                };
+                handleAddActivity(activity);
+              }} 
             />
           </div>
         </div>

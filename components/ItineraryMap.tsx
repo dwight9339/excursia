@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { CircularProgress } from "@mui/material";
 import {
   useLoadScript,
@@ -9,16 +9,18 @@ import {
 import { getZoomLevelForBounds } from "../lib/mapFunctions";
 
 interface MapParams {
-  location: google.maps.LatLngLiteral | undefined;
+  directions: google.maps.DirectionsResult | undefined;
   activities: Activity[];
+  location: google.maps.LatLngLiteral | undefined;
   zoomLevel: number;
   mapWidth: number;
   mapHeight: number;
 }
 
 const ItineraryMap: React.FC<MapParams> = ({
-  location,
+  directions,
   activities,
+  location,
   zoomLevel,
   mapWidth,
   mapHeight
@@ -29,53 +31,12 @@ const ItineraryMap: React.FC<MapParams> = ({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
     libraries: libraries as any,
   });
-  const [directions, setDirections] = React.useState<google.maps.DirectionsResult | null>(null);
 
   const handleLoad = (map: google.maps.Map) => {
     mapRef.current = map;
   };
 
-  const handleDirectionsResult = (result: google.maps.DirectionsResult | null, status: google.maps.DirectionsStatus) => {
-    if (status !== google.maps.DirectionsStatus.OK) {
-      console.log(`Directions failed: ${status}`);
-      return;
-    } else {
-      console.log(`Directions updated: ${status}`);
-    }
-    setDirections(result);
-  };
-
-  const getDirections = async () => {
-    const startLocation = activities[0].place.geometry?.location;
-    const endLocation = activities[activities.length - 1].place.geometry?.location;
-    const waypoints = activities.slice(1, activities.length - 1).map((activity) => ({
-      location: activity.place.geometry?.location,
-      stopover: true
-    }));
-
-    if (!startLocation || !endLocation) {
-      return;
-    }
-
-    const directionsService = new google.maps.DirectionsService();
-    directionsService.route(
-      {
-        origin: startLocation,
-        destination: endLocation,
-        waypoints: waypoints,
-        travelMode: google.maps.TravelMode.DRIVING,
-      },
-      handleDirectionsResult
-    );
-  }
-
-  useEffect(() => {
-    if (isLoaded && activities.length > 0) {
-      getDirections();
-    }
-  }, [activities])
-
-  if (!isLoaded) {
+  if (!isLoaded || !location) {
     return <CircularProgress />;
   }
 
