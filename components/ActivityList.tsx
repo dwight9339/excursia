@@ -15,6 +15,7 @@ import {
 import Image from "next/image";
 import styles from "./ActivityList.module.css";
 import EditableText from "./EditableText";
+import hash from "object-hash";
  
 
 interface ActivityListProps {
@@ -40,12 +41,16 @@ const ListItem: React.FC<ListItemProps> = ({
   onDelete
 }) => {
   const placeLink = `https://www.google.com/maps/place/?q=place_id:${activity.place.place_id}`;
-  const placePhoto: any = {...activity.place.photos?.[0]};
-  const photoRef = activity.place.photos ? placePhoto.photo_reference : null;
+  const placePhoto: any = {...activity.place?.photos?.[0]};
+  const photoRef = activity.place?.photos ? placePhoto.photo_reference : null;
   const photoUrl = photoRef ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}` : null;
 
   return (
-    <div className={styles.listItem}>
+    <div 
+      className={styles.listItem}
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+    >
       <IconButton
         className={styles.dragHandle}
         {...provided.dragHandleProps}
@@ -90,9 +95,6 @@ const ActivityList: React.FC<ActivityListProps> = ({
   onTimeUpdate,
   onDelete
 }) => {
-  const keyedActivities = activities.map((activity: Activity, i: number) => {
-    return {id: `${i}`, ...activity};
-  });
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
     if (result.source.index === result.destination.index) return;
@@ -104,19 +106,23 @@ const ActivityList: React.FC<ActivityListProps> = ({
       <Droppable droppableId="activityList">
         {(provided) => (
           <div className={styles.listRegion} ref={provided.innerRef} {...provided.droppableProps}>
-            {keyedActivities.map((activity, index) => (
-              <Draggable key={activity.id} draggableId={activity.id} index={index}>
-                {(provided) => (
-                  <ListItem
-                    activity={activity}
-                    index={index}
-                    provided={provided}
-                    onTimeUpdate={onTimeUpdate}
-                    onDelete={onDelete}
-                  />
-                )}
-              </Draggable>
-            ))}
+            {activities.map((activity, index) => {
+              const draggableId = activity.place?.place_id || hash({ index, name: activity.name });
+
+              return (
+                <Draggable key={draggableId} draggableId={draggableId} index={index}>
+                  {(provided) => (
+                    <ListItem
+                      activity={activity}
+                      index={index}
+                      provided={provided}
+                      onTimeUpdate={onTimeUpdate}
+                      onDelete={onDelete}
+                    />
+                  )}
+                </Draggable>
+              );
+            })}
             {provided.placeholder}
           </div>
         )}
