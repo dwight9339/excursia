@@ -83,6 +83,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
 
   const handleDeleteActivity = (index: number) => {
     const newActivities = [...selectedActivities];
+    newActivities.splice(index, 1);
     setSelectedActivities(newActivities);
   };
 
