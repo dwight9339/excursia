@@ -6,6 +6,7 @@ import usePlacesAutocomplete, {
 } from 'use-places-autocomplete';
 import { useLoadScript } from "@react-google-maps/api";
 import { TextField, List, ListItem, ListItemText, Paper } from '@mui/material';
+import { milesToMeters } from '../lib/distanceConversions';
 
 interface LocationSearchProps {
   onSelectLocation: (locationName: string, location: google.maps.LatLngLiteral) => void;

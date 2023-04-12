@@ -55,13 +55,16 @@ const ItineraryMap: React.FC<MapParams> = ({
         }}
       >
         {activities.map((activity, index) => {
-          if (!activity.place.geometry?.location) {
+          const position = activity.place?.geometry?.location || activity.location;
+
+          if (!position) {
             return null;
           }
+
           return (
             <Marker
               key={index}
-              position={activity.place.geometry.location}
+              position={position}
               title={activity.name}
               options={{
                 label: {

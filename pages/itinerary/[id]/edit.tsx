@@ -15,6 +15,7 @@ import ItineraryMap from '../../../components/ItineraryMap';
 import { fetchItinerary } from '../../../lib/dbFetch';
 import SuggestedActivities from '../../../components/SuggestedActivities';
 import TripSummary from '../../../components/TripSummary';
+import AddActivity from '../../../components/AddActivity';
 
 interface EditItineraryProps {
   itineraryId: string | null;
@@ -51,9 +52,10 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
 
   const getDirections = async () => {
     const startLocation = itinerary.startingLocation;
-    const endLocation = selectedActivities[selectedActivities.length - 1].place?.geometry?.location;
+    const finalActivity = selectedActivities[selectedActivities.length - 1];
+    const endLocation = finalActivity.place?.geometry?.location || finalActivity.location;
     const waypoints = selectedActivities.slice(0, selectedActivities.length - 1).map((activity) => ({
-      location: activity.place?.geometry?.location,
+      location: activity.place?.geometry?.location || activity.location,
       stopover: true
     }));
 
@@ -196,6 +198,12 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
                 };
                 handleAddActivity(activity);
               }} 
+            />
+          </div>
+          <div className={styles.addActivityContainer}>
+            <h3>Add Activity</h3>
+            <AddActivity
+              onSubmit={handleAddActivity}
             />
           </div>
         </div>
