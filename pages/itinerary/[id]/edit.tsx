@@ -39,6 +39,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<Date | null>(new Date(itinerary.startTime));
   const [directions, setDirections] = useState<google.maps.DirectionsResult | undefined>(itinerary.directions);
+  const [shouldQueryDirections, setShouldQueryDirections] = useState<boolean>(false);
 
   const handleDirectionsResult = (result: google.maps.DirectionsResult | null, status: google.maps.DirectionsStatus) => {
     if (status !== google.maps.DirectionsStatus.OK) {
@@ -51,6 +52,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
   };
 
   const getDirections = async () => {
+    if (!isLoaded) return;
     const startLocation = itinerary.startingLocation;
     const finalActivity = selectedActivities[selectedActivities.length - 1];
     const endLocation = finalActivity.place?.geometry?.location || finalActivity.location;
@@ -76,19 +78,21 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
   }
 
   useEffect(() => {
-    if (selectedActivities.length > 0) {
+    if (shouldQueryDirections && selectedActivities.length > 0) {
       getDirections();
     }
-  }, [selectedActivities]);
+  }, [shouldQueryDirections, selectedActivities]);
 
   const handleDeleteActivity = (index: number) => {
     const newActivities = [...selectedActivities];
     newActivities.splice(index, 1);
     setSelectedActivities(newActivities);
+    setShouldQueryDirections(true);
   };
 
   const handleAddActivity = (activity: Activity) => {
       setSelectedActivities((prev) => [...prev, activity]);
+      setShouldQueryDirections(true);
   };
 
   const handleReorder = (startIndex: number, endIndex: number) => {
@@ -96,39 +100,55 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
     const removed = newActivities.splice(startIndex, 1)[0];
     newActivities.splice(endIndex, 0, removed);
     setSelectedActivities(newActivities);
+    setShouldQueryDirections(true);
   }
 
-  // const handleSaveItinerary = async () => {
-  //   if (!(status === 'authenticated')) {
-  //     router.push('/api/auth/signin');
-  //     return;
-  //   }
+  const handleSaveItinerary = async () => {
+    if (!(status === 'authenticated')) {
+      router.push('/api/auth/signin');
+      return;
+    }
 
-  //   setIsSaving(true);
-    
+    if (!itineraryId
+      || !itineraryName
+      || !startLocation) {
+      return;
+    }
 
-  //   try {
-  //     const response = await fetch('/api/save-itinerary', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(itinerary),
-  //     });
+    setIsSaving(true);
+    try {
+      const updatedItinerary: Itinerary = {
+        id: `${itineraryId}`,
+        name: itineraryName,
+        startingLocation: startLocation,
+        activities: selectedActivities,
+        startTime: startTime?.toISOString() || '',
+        directions: directions,
+        interests: itinerary.interests,
+        searchRadius: itinerary.searchRadius,
+        suggestions: itinerary.suggestions,
+        createdBy: userData.id
+      }
+      const response = await fetch('/api/save-itinerary', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedItinerary),
+      });
   
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       console.log('Itinerary saved with ID:', data.id);
-  //     } else {
-  //       console.error('Error saving itinerary:', response.statusText);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error saving itinerary:', error);
-  //   } finally {
-  //     setIsSaving(false);
-  //   }
-  // };
-  
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Itinerary saved with ID:', data.id);
+      } else {
+        console.error('Error saving itinerary:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error saving itinerary:', error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <Box>
@@ -166,7 +186,10 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
             />
           </div>
           <div className={styles.saveButtonContainer}>
-            <button disabled={isSaving}>
+            <button 
+              disabled={isSaving}
+              onClick={handleSaveItinerary}
+            >
               {isSaving ? 'Saving...' : 'Save'}
             </button>
           </div>

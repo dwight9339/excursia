@@ -1,25 +1,42 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { MongoClient, Db, Collection } from "mongodb";
+import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import { fetchSuggestions } from '../../lib/suggestions';
+
+const insertNewItinerary = async (itinerary: Itinerary, db: Db) => {
+  const itineraryCollection: Collection = db.collection("itinerary");
+  const suggestions = await fetchSuggestions(itinerary);
+  itinerary.suggestions = suggestions;
+  const insertResult = await itineraryCollection.insertOne(itinerary);
+
+  return insertResult;
+};
+
+const updateItinerary = async (itinerary: Itinerary, db: Db) => {
+  const itineraryCollection: Collection = db.collection("itinerary");
+  const updateResult = await itineraryCollection.updateOne(
+    { _id: new ObjectId(itinerary.id) },
+    { $set: { ...itinerary } }
+  );
+
+  return updateResult;
+};
 
 // Generate the itinerary serverless function
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const itinerary = req.body;
-    console.log(`itinerary: ${JSON.stringify(itinerary)}`);
 
     try {
       const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
       await client.connect();
       const db: Db = client.db(process.env.DB_NAME);
       const itineraryCollection: Collection = db.collection("itinerary");
-      const currentItinerary = await itineraryCollection.findOne({ _id: itinerary.id });
+      const itineraryId: ObjectId = new ObjectId(itinerary.id);
+      const currentItinerary = await itineraryCollection.findOne({ _id: itineraryId });
 
       if (!currentItinerary) {
         // Insert new itinerary
-        const suggestions = await fetchSuggestions(itinerary);
-        itinerary.suggestions = suggestions;
-        const insertResult = await itineraryCollection.insertOne(itinerary);
+        const insertResult = await insertNewItinerary(itinerary, db);
 
         insertResult 
           ? res.status(201).json({ itinerary_id: insertResult.insertedId })
@@ -36,10 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           itinerary.suggestions = suggestions;
         }
 
-        const updateResult = await itineraryCollection.updateOne(
-          { _id: itinerary.id },
-          { $set: { ...itinerary } }
-        );
+        const updateResult = await updateItinerary(itinerary, db);
 
         updateResult 
           ? res.status(200).json({ itinerary_id: itinerary.id })

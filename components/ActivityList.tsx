@@ -102,6 +102,12 @@ const ActivityList: React.FC<ActivityListProps> = ({
     onReorder(result.source.index, result.destination.index);
   };
 
+  if (!activities?.length) return (
+    <div className={styles.listRegion}>
+      <p className={styles.emptyListMessage}>Add some activities to get started!</p>
+    </div>
+  );
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="activityList">

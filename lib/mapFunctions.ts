@@ -3,11 +3,12 @@ export function getZoomLevelForBounds(
   mapWidth: number,
   mapHeight: number
 ): number {
+  const myBounds = new google.maps.LatLngBounds(bounds);
   const GLOBE_WIDTH = 256; // Width of a square map at zoom level 0 in pixels.
   const ZOOM_MAX = 21;
 
-  const sw = bounds.getSouthWest();
-  const ne = bounds.getNorthEast();
+  const sw = myBounds.getSouthWest();
+  const ne = myBounds.getNorthEast();
 
   const latFraction = (latRad(ne.lat()) - latRad(sw.lat())) / Math.PI;
   const lngDiff = ne.lng() - sw.lng();
