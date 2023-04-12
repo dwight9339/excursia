@@ -16,6 +16,7 @@ import { fetchItinerary } from '../../../lib/dbFetch';
 import SuggestedActivities from '../../../components/SuggestedActivities';
 import TripSummary from '../../../components/TripSummary';
 import AddActivity from '../../../components/AddActivity';
+import RouteOptions from '../../../components/RouteOptions';
 
 interface EditItineraryProps {
   itineraryId: string | null;
@@ -40,6 +41,12 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
   const [startTime, setStartTime] = useState<Date | null>(new Date(itinerary.startTime));
   const [directions, setDirections] = useState<google.maps.DirectionsResult | undefined>(itinerary.directions);
   const [shouldQueryDirections, setShouldQueryDirections] = useState<boolean>(false);
+  const [routeOptions, setRouteOptions] = useState<RouteOptions>({
+    loopToStart: false,
+    travelMode: google.maps.TravelMode.DRIVING,
+    avoidHighways: false,
+    avoidTolls: false,
+  });
 
   const handleDirectionsResult = (result: google.maps.DirectionsResult | null, status: google.maps.DirectionsStatus) => {
     if (status !== google.maps.DirectionsStatus.OK) {
@@ -55,7 +62,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
     if (!isLoaded) return;
     const startLocation = itinerary.startingLocation;
     const finalActivity = selectedActivities[selectedActivities.length - 1];
-    const endLocation = finalActivity.place?.geometry?.location || finalActivity.location;
+    const endLocation = routeOptions.loopToStart ? startLocation : finalActivity.place?.geometry?.location || finalActivity.location;
     const waypoints = selectedActivities.slice(0, selectedActivities.length - 1).map((activity) => ({
       location: activity.place?.geometry?.location || activity.location,
       stopover: true
@@ -101,7 +108,13 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
     newActivities.splice(endIndex, 0, removed);
     setSelectedActivities(newActivities);
     setShouldQueryDirections(true);
-  }
+  };
+
+  const handleSaveRouteOptions = (options: RouteOptions) => {
+    setRouteOptions(options);
+    setShouldQueryDirections(true);
+    getDirections();
+  };
 
   const handleSaveItinerary = async () => {
     if (!(status === 'authenticated')) {
@@ -173,6 +186,12 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
               activities={selectedActivities}
               directions={directions}
               startTime={startTime}
+            />
+          </div>
+          <div className={styles.routeOptionsContainer}>
+            <RouteOptions
+              routeOptions={routeOptions}
+              onRouteOptionsChange={handleSaveRouteOptions}
             />
           </div>
           <div className={styles.mapContainer}>
