@@ -41,12 +41,19 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
   const [startTime, setStartTime] = useState<Date | null>(new Date(itinerary.startTime));
   const [directions, setDirections] = useState<google.maps.DirectionsResult | undefined>(itinerary.directions);
   const [shouldQueryDirections, setShouldQueryDirections] = useState<boolean>(false);
-  const [routeOptions, setRouteOptions] = useState<RouteOptions>({
-    loopToStart: false,
-    travelMode: google.maps.TravelMode.DRIVING,
-    avoidHighways: false,
-    avoidTolls: false,
-  });
+  const [routeOptions, setRouteOptions] = useState<any>({});
+
+  useEffect(() => {
+    if (isLoaded) {
+      setRouteOptions({
+        loopToStart: false,
+        travelMode: google.maps.TravelMode.DRIVING,
+        avoidHighways: false,
+        avoidTolls: false,
+      } as RouteOptions);
+    }
+  }, [isLoaded]);
+  
 
   const handleDirectionsResult = (result: google.maps.DirectionsResult | null, status: google.maps.DirectionsStatus) => {
     if (status !== google.maps.DirectionsStatus.OK) {

@@ -1,6 +1,7 @@
 // components/RouteOptions.tsx
 import React from 'react';
 import { FormGroup, FormControlLabel, Checkbox, MenuItem, FormControl, Select } from '@mui/material';
+import { useLoadScript } from "@react-google-maps/api";
 
 interface RouteOptionsProps {
   routeOptions: RouteOptions;
@@ -8,6 +9,12 @@ interface RouteOptionsProps {
 }
 
 const RouteOptions: React.FC<RouteOptionsProps> = ({ routeOptions, onRouteOptionsChange }) => {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
+    libraries: ["places"]
+  });
+  if (!isLoaded) return null;
+
   const handleOptionChange = (optionName: keyof RouteOptions) => (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
