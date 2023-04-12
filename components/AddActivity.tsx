@@ -15,6 +15,8 @@ interface FormValues {
 }
 
 const AddActivity: React.FC<AddActivityProps> = ({ onSubmit }) => {
+  const [resetKey, setResetKey] = useState<number>(0);
+
   const initialValues: FormValues = {
     name: '',
     description: '',
@@ -44,6 +46,7 @@ const AddActivity: React.FC<AddActivityProps> = ({ onSubmit }) => {
     onSubmit(activity);
     setSubmitting(false);
     resetForm();
+    setResetKey(resetKey + 1);
   };
 
   return (
@@ -78,8 +81,8 @@ const AddActivity: React.FC<AddActivityProps> = ({ onSubmit }) => {
             />
 
             <LocationSearch
+              key={resetKey}
               onSelectLocation={(locationName, location) => {
-                console.log(`Activity location: ${JSON.stringify(location)}`);
                 setFieldValue('location', location);
               }}
             />
