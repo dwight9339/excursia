@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
-  Typography,
+  Button,
   Box
 } from '@mui/material';
 import { useSession } from 'next-auth/react';
@@ -89,6 +89,54 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
       getDirections();
     }
   }, [shouldQueryDirections, selectedActivities]);
+
+  const optimizeOrder = useCallback(async () => {
+    if (!isLoaded || selectedActivities.length < 2) return;
+    const startLocation = itinerary.startingLocation;
+    const endLocation = routeOptions.loopToStart
+      ? startLocation
+      : selectedActivities[selectedActivities.length - 1].place?.geometry?.location ||
+        selectedActivities[selectedActivities.length - 1].location;
+  
+    const waypoints = selectedActivities.map((activity) => ({
+      location: activity.place?.geometry?.location || activity.location,
+      stopover: true,
+    }));
+  
+    if (!startLocation || !endLocation) {
+      return;
+    }
+
+    try {
+      const directionsService = new google.maps.DirectionsService();
+      directionsService.route(
+        {
+          origin: startLocation,
+          destination: endLocation,
+          waypoints: waypoints,
+          optimizeWaypoints: true,
+          travelMode: routeOptions.travelMode,
+          avoidHighways: routeOptions.avoidHighways,
+          avoidTolls: routeOptions.avoidTolls,
+        },
+        (result, status) => {
+          if (status !== google.maps.DirectionsStatus.OK) {
+            console.log(`Directions failed: ${status}`);
+            return;
+          } else {
+            console.log(`Directions updated: ${status}`);
+          }
+          const optimizedWaypoints = result.routes[0].waypoint_order;
+          const optimizedActivities = optimizedWaypoints.map((index) => selectedActivities[index]);
+          setSelectedActivities(optimizedActivities);
+          setDirections(result);
+        }
+      );
+    } catch (err) {
+      console.log(`Error optimizing order: ${err}`);
+    }
+  }, [selectedActivities, routeOptions, startTime, isLoaded]);
+  
 
   const handleDeleteActivity = (index: number) => {
     const newActivities = [...selectedActivities];
@@ -226,6 +274,9 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
               }}
               onDelete={handleDeleteActivity}
             />
+          </div>
+          <div className={styles.optimizeButtonContainer}>
+            <button onClick={optimizeOrder}>Optimize</button>
           </div>
         </div>
         <div className={styles.column}>
