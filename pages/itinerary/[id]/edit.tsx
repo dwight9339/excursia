@@ -127,7 +127,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
           avoidTolls: routeOptions.avoidTolls,
         },
         (result, status) => {
-          if (status !== google.maps.DirectionsStatus.OK) {
+          if (status !== google.maps.DirectionsStatus.OK || !result) {
             console.log(`Directions failed: ${status}`);
             return;
           } else {

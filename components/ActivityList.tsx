@@ -1,10 +1,4 @@
-import React from "react";
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DraggableProvided
-} from 'react-beautiful-dnd';
+import React, { useEffect } from "react";
 import {
   DragIndicator as DragIndicatorIcon,
   Delete as DeleteIcon
@@ -12,12 +6,13 @@ import {
 import {
   IconButton
 } from "@mui/material";
+import type { DraggableProvided } from "react-beautiful-dnd";
 import Image from "next/image";
 import styles from "./ActivityList.module.css";
 import EditableText from "./EditableText";
 import hash from "object-hash";
+import dynamic from "next/dynamic";
  
-
 interface ActivityListProps {
   activities: Activity[],
   onReorder: (startIndex: number, endIndex: number) => void;
@@ -47,19 +42,22 @@ const ListItem: React.FC<ListItemProps> = ({
   const photoUrl = photoRef ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}` : null;
 
   return (
-    <div 
+    <div
       className={styles.listItem}
       ref={provided.innerRef}
       {...provided.draggableProps}
     >
       <IconButton
-        className={styles.dragHandle}
         {...provided.dragHandleProps}
       >
-        <DragIndicatorIcon />
-      </IconButton>
-      <div className={styles.infoContainer}>
-        <span className={styles.activityImage}>
+          <DragIndicatorIcon />
+      </IconButton> 
+      <div 
+        className={styles.infoContainer}
+      >
+        <span 
+          className={styles.activityImage}
+        >
           {photoUrl && <Image
             src={photoUrl}
             alt={activity.name}
@@ -67,10 +65,14 @@ const ListItem: React.FC<ListItemProps> = ({
             height={70}
           />}
         </span>
-        <span className={styles.activityName}>
+        <span 
+          className={styles.activityName}
+        >
             <a href={placeLink} target="_blank">{activity.name}</a>
         </span>
-        <span className={styles.activityTime}>
+        <span 
+          className={styles.activityTime}
+        >
           <EditableText
             text={activity.allottedTime.toString()}
             numeric
@@ -108,11 +110,30 @@ const ActivityList: React.FC<ActivityListProps> = ({
     </div>
   );
 
+  const DragDropContext = dynamic(
+    () => import('react-beautiful-dnd').then(mod => mod.DragDropContext),
+    { ssr: false }
+  );
+
+  const Droppable = dynamic(
+    () => import('react-beautiful-dnd').then(mod => mod.Droppable),
+    { ssr: false }
+  );
+
+  const Draggable = dynamic(
+    () => import('react-beautiful-dnd').then(mod => mod.Draggable),
+    { ssr: false }
+  ); 
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="activityList">
         {(provided) => (
-          <div className={styles.listRegion} ref={provided.innerRef} {...provided.droppableProps}>
+          <div 
+            className={styles.listRegion}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
             {activities.map((activity, index) => {
               const draggableId = activity.place?.place_id || hash({ index, name: activity.name });
 
@@ -126,6 +147,13 @@ const ActivityList: React.FC<ActivityListProps> = ({
                       onTimeUpdate={onTimeUpdate}
                       onDelete={onDelete}
                     />
+                    // <div
+                    //   ref={provided.innerRef}
+                    //   {...provided.draggableProps}
+                    //   {...provided.dragHandleProps}
+                    // >
+                    //   {activity.name}
+                    // </div>
                   )}
                 </Draggable>
               );
