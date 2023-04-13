@@ -243,12 +243,12 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
               startTime={startTime}
             />
           </div>
-          <div className={styles.routeOptionsContainer}>
+          {/* <div className={styles.routeOptionsContainer}>
             <RouteOptions
               routeOptions={routeOptions}
               onRouteOptionsChange={handleSaveRouteOptions}
             />
-          </div>
+          </div> */}
           <div className={styles.mapContainer}>
             <ItineraryMap
               directions={directions}
