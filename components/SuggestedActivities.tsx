@@ -12,17 +12,17 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ suggestions, 
   return (
     <List className={styles.container}>
       {suggestions.map((suggestion, index) => {
-        const placePhoto: any = {...suggestion.photos?.[0]};
-        const photoRef = suggestion.photos ? placePhoto.photo_reference : null;
-        const photoUrl = photoRef ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}` : "";
+        // const placePhoto: any = {...suggestion.photos?.[0]};
+        // const photoRef = suggestion.photos ? placePhoto.photo_reference : null;
+        // const photoUrl = photoRef ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}` : "";
         const suggestionObj: any = {...suggestion};
         const summary = suggestionObj.editorial_summary?.overview;
 
         return (
           <ListItem key={index} alignItems="flex-start">
-            <ListItemAvatar>
+            {/* <ListItemAvatar>
               <Avatar alt={suggestion.name} src={photoUrl} />
-            </ListItemAvatar>
+            </ListItemAvatar> */}
             <ListItemText
               primary={suggestion.name}
               secondary={summary || ""}
