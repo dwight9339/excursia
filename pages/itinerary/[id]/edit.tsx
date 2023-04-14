@@ -282,9 +282,9 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
               onDelete={handleDeleteActivity}
             />
           </div>
-          <div className={styles.optimizeButtonContainer}>
+          {/* <div className={styles.optimizeButtonContainer}>
             <button onClick={optimizeOrder}>Optimize</button>
-          </div>
+          </div> */}
         </div>
         <div className={styles.column}>
           <div className={styles.SuggestedActivitiesContainer}>
