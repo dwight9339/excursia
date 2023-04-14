@@ -45,7 +45,8 @@ const ItineraryMap: React.FC<MapParams> = ({
       <GoogleMap
         onLoad={handleLoad}
         center={location}
-        zoom={directions ? getZoomLevelForBounds(directions.routes[0].bounds, mapWidth, mapHeight) : zoomLevel}
+        // zoom={directions ? getZoomLevelForBounds(directions.routes[0].bounds, mapWidth, mapHeight) : zoomLevel}
+        zoom={zoomLevel}
         mapTypeId={google.maps.MapTypeId.ROADMAP}
         mapContainerStyle={{ width: mapWidth, height: mapHeight }}
         options={{
@@ -74,14 +75,14 @@ const ItineraryMap: React.FC<MapParams> = ({
             />
           );
         })}
-        {directions && 
+        {/* {directions && 
           <DirectionsRenderer 
             directions={directions}
             options={{
               suppressMarkers: true
             }}
           />
-        }
+        } */}
       </GoogleMap>
     </div>
   );

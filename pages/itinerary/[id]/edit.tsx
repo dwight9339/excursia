@@ -91,11 +91,11 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
     );
   }
 
-  useEffect(() => {
-    if (shouldQueryDirections && selectedActivities.length > 0) {
-      getDirections();
-    }
-  }, [shouldQueryDirections, selectedActivities]);
+  // useEffect(() => {
+  //   if (shouldQueryDirections && selectedActivities.length > 0) {
+  //     getDirections();
+  //   }
+  // }, [shouldQueryDirections, selectedActivities]);
 
   const optimizeOrder = useCallback(async () => {
     if (!isLoaded || selectedActivities.length < 2) return;
