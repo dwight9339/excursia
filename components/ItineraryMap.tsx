@@ -38,7 +38,7 @@ const ItineraryMap: React.FC<MapParams> = ({
   const [activityBounds, setActivityBounds] = useState<any>();
 
   useEffect(() => {
-    if (isLoaded && location) {
+    if (isLoaded && location && activities.length > 0) {
       const activityLocations: google.maps.LatLng[] = activities
         .map((activity) => {
           if (activity.place?.geometry?.location) {
@@ -49,9 +49,9 @@ const ItineraryMap: React.FC<MapParams> = ({
         });
       const activityBounds = getBoundsFromLatLngs([...activityLocations, new google.maps.LatLng(location)]);
       setZoom(getZoomLevelForBounds(activityBounds, mapWidth, mapHeight));
-      setCenter(activityBounds.getCenter() || location);
+      setCenter(activityBounds.getCenter());
     }
-  }, [activities]);
+  }, [isLoaded, location, activities]);
   
   const handleLoad = (map: google.maps.Map) => {
     mapRef.current = map;
