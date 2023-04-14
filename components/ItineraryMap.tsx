@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useState, useEffect } from "react";
 import { CircularProgress } from "@mui/material";
 import {
   useLoadScript,
@@ -8,6 +8,7 @@ import {
 } from "@react-google-maps/api";
 import { getZoomLevelForBounds, getBoundsFromLatLngs } from "../lib/mapFunctions";
 import { get } from "https";
+import { CenterFocusStrong } from "@mui/icons-material";
 
 interface MapParams {
   directions: google.maps.DirectionsResult | undefined;
@@ -32,17 +33,26 @@ const ItineraryMap: React.FC<MapParams> = ({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
     libraries: libraries as any,
   });
-  const activityLocations: google.maps.LatLng[] = activities
-    .map((activity) => {
-      if (activity.place?.geometry?.location) {
-        return activity.place.geometry.location;
-      } else if (activity.location) {
-        return new google.maps.LatLng(activity.location);
-      }
-    });
-  const activityBounds = getBoundsFromLatLngs([...activityLocations, new google.maps.LatLng(location)]);
-  const activityZoom = activityLocations ? getZoomLevelForBounds(activityBounds, mapWidth, mapHeight) : null;
+  const [zoom, setZoom] = useState<number>(zoomLevel);
+  const [center, setCenter] = useState<any>(location);
+  const [activityBounds, setActivityBounds] = useState<any>();
 
+  useEffect(() => {
+    if (isLoaded && location) {
+      const activityLocations: google.maps.LatLng[] = activities
+        .map((activity) => {
+          if (activity.place?.geometry?.location) {
+            return activity.place.geometry.location;
+          } else if (activity.location) {
+            return new google.maps.LatLng(activity.location);
+          }
+        });
+      const activityBounds = getBoundsFromLatLngs([...activityLocations, new google.maps.LatLng(location)]);
+      setZoom(getZoomLevelForBounds(activityBounds, mapWidth, mapHeight));
+      setCenter(activityBounds.getCenter() || location);
+    }
+  }, [activities]);
+  
   const handleLoad = (map: google.maps.Map) => {
     mapRef.current = map;
   };
@@ -55,9 +65,9 @@ const ItineraryMap: React.FC<MapParams> = ({
     <div>
       <GoogleMap
         onLoad={handleLoad}
-        center={activities.length > 0 ? activityBounds.getCenter() : location}
+        center={center}
         // zoom={directions ? getZoomLevelForBounds(directions.routes[0].bounds, mapWidth, mapHeight) : zoomLevel}
-        zoom={activityZoom || zoomLevel}
+        zoom={zoom}
         mapTypeId={google.maps.MapTypeId.ROADMAP}
         mapContainerStyle={{ width: mapWidth, height: mapHeight }}
         options={{
@@ -66,6 +76,9 @@ const ItineraryMap: React.FC<MapParams> = ({
           // minZoom: zoomLevel - 1,
         }}
       >
+        <Marker
+          position={location}          
+        />
         {activities.map((activity, index) => {
           const position = activity.place?.geometry?.location || activity.location;
 
