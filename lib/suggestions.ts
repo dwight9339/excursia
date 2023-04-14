@@ -43,10 +43,12 @@ export const fetchSuggestions = async (itinerary: Itinerary): Promise<google.map
     });
 
     // Fetch details for each place
-    const placeIds = response.data.results.map((result: google.maps.places.PlaceResult) => result.place_id);
-    const details = await fetchDetails(placeIds);
+    // const placeIds = response.data.results.map((result: google.maps.places.PlaceResult) => result.place_id);
+    // const details = await fetchDetails(placeIds);
 
-    return details;
+    // return details;
+
+    return response.data.results;
   } catch (error) {
     console.error(error);
     return [];
