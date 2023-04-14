@@ -31,3 +31,14 @@ export function getZoomLevelForBounds(
     return Math.floor(Math.log(mapPx / worldPx / fraction) / Math.LN2);
   }
 }
+
+export function getBoundsFromLatLngs(latLngs: google.maps.LatLng[]) {
+  const bounds = new google.maps.LatLngBounds();
+
+  latLngs.forEach((latLng) => {
+    bounds.extend(latLng);
+  });
+
+  return bounds;
+}
+

@@ -6,7 +6,8 @@ import {
   Marker,
   DirectionsRenderer,
 } from "@react-google-maps/api";
-import { getZoomLevelForBounds } from "../lib/mapFunctions";
+import { getZoomLevelForBounds, getBoundsFromLatLngs } from "../lib/mapFunctions";
+import { get } from "https";
 
 interface MapParams {
   directions: google.maps.DirectionsResult | undefined;
@@ -31,6 +32,16 @@ const ItineraryMap: React.FC<MapParams> = ({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
     libraries: libraries as any,
   });
+  const activityLocations: google.maps.LatLng[] = activities
+    .map((activity) => {
+      if (activity.place?.geometry?.location) {
+        return activity.place.geometry.location;
+      } else if (activity.location) {
+        return new google.maps.LatLng(activity.location);
+      }
+    });
+  const activityBounds = getBoundsFromLatLngs([...activityLocations, new google.maps.LatLng(location)]);
+  const activityZoom = activityLocations ? getZoomLevelForBounds(activityBounds, mapWidth, mapHeight) : null;
 
   const handleLoad = (map: google.maps.Map) => {
     mapRef.current = map;
@@ -44,9 +55,9 @@ const ItineraryMap: React.FC<MapParams> = ({
     <div>
       <GoogleMap
         onLoad={handleLoad}
-        center={location}
+        center={activities.length > 0 ? activityBounds.getCenter() : location}
         // zoom={directions ? getZoomLevelForBounds(directions.routes[0].bounds, mapWidth, mapHeight) : zoomLevel}
-        zoom={zoomLevel}
+        zoom={activityZoom || zoomLevel}
         mapTypeId={google.maps.MapTypeId.ROADMAP}
         mapContainerStyle={{ width: mapWidth, height: mapHeight }}
         options={{
