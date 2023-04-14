@@ -231,7 +231,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
       <div className={styles.columnContainer}>
         <div className={styles.column}>
           <h3>Trip Details</h3>
-          <div className={styles.dateTimeSelectContainer}>
+          {/* <div className={styles.dateTimeSelectContainer}>
             <TimeSelector
               onDateTimeChange={(dateTime) => setStartTime(dateTime)}
             />
@@ -242,7 +242,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
               directions={directions}
               startTime={startTime}
             />
-          </div>
+          </div> */}
           {/* <div className={styles.routeOptionsContainer}>
             <RouteOptions
               routeOptions={routeOptions}
