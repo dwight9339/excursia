@@ -68,7 +68,10 @@ const ListItem: React.FC<ListItemProps> = ({
         <span 
           className={styles.activityName}
         >
-            <a href={placeLink} target="_blank">{activity.name}</a>
+           { placeLink
+              ? <a href={placeLink} target="_blank">{activity.name}</a>
+              : <span>{activity.name}</span>
+            }
         </span>
         <span 
           className={styles.activityTime}
