@@ -1,5 +1,6 @@
 import React from 'react';
 import { ListItem, ListItemText, ListItemAvatar, Avatar, IconButton, List } from '@mui/material';
+import { useRouter } from 'next/router';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import styles from "./SuggestedActivities.module.css";
 
@@ -9,6 +10,8 @@ interface SuggestedActivitiesProps {
 }
 
 const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ suggestions, handleAddActivity }) => {
+  const router = useRouter();
+
   return (
     <List className={styles.container}>
       {suggestions.map((suggestion, index) => {
@@ -19,14 +22,22 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ suggestions, 
         const summary = suggestionObj.editorial_summary?.overview;
 
         return (
-          <ListItem key={index} alignItems="flex-start">
+          <ListItem 
+            key={index} 
+            alignItems="flex-start"
+          >
             <ListItemAvatar>
               <Avatar alt={suggestion.name} src={suggestion.icon  } />
             </ListItemAvatar>
-            <ListItemText
-              primary={suggestion.name}
-              secondary={summary || ""}
-            />
+            <a
+              href={`https://www.google.com/maps/place/?q=place_id:${suggestion.place_id}`}
+              target="_blank"
+            >
+              <ListItemText
+                primary={suggestion.name}
+                secondary={summary || ""}
+              />
+            </a>
             <IconButton
               edge="end"
               color="inherit"
