@@ -20,9 +20,9 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ suggestions, 
 
         return (
           <ListItem key={index} alignItems="flex-start">
-            {/* <ListItemAvatar>
-              <Avatar alt={suggestion.name} src={photoUrl} />
-            </ListItemAvatar> */}
+            <ListItemAvatar>
+              <Avatar alt={suggestion.name} src={suggestion.icon  } />
+            </ListItemAvatar>
             <ListItemText
               primary={suggestion.name}
               secondary={summary || ""}

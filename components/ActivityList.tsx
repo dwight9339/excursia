@@ -55,16 +55,16 @@ const ListItem: React.FC<ListItemProps> = ({
       <div 
         className={styles.infoContainer}
       >
-        {/* <span 
+        <span 
           className={styles.activityImage}
         >
-          {photoUrl && <Image
-            src={photoUrl}
+          {activity.place && <Image
+            src={`${activity.place.icon}`}
             alt={activity.name}
             width={70}
             height={70}
           />}
-        </span> */}
+        </span>
         <span 
           className={styles.activityName}
         >
