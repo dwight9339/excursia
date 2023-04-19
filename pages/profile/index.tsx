@@ -10,7 +10,7 @@ const fetchItineraries = async (userId: string) => {
   await client.connect();
   const db: Db = client.db(`${process.env.DB_NAME}`);
   const itineraryCollection: Collection = db.collection("itinerary");
-  const itineraryDocs = await itineraryCollection.find({ createdBy: userId }).toArray();
+  const itineraryDocs = await itineraryCollection.find({ ownerId: userId }).toArray();
 
   if (itineraryDocs.length === 0) console.log(`No itineraries found for user ${userId}`);
   else console.log(`Found ${itineraryDocs.length} itineraries for user ${userId}`);

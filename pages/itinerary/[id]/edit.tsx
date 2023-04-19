@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   Button,
-  Box
+  Box,
+  CircularProgress
 } from '@mui/material';
 import { useSession } from 'next-auth/react';
 import { ParsedUrlQuery } from 'querystring';
@@ -17,6 +18,7 @@ import SuggestedActivities from '../../../components/SuggestedActivities';
 import TripSummary from '../../../components/TripSummary';
 import AddActivity from '../../../components/AddActivity';
 import RouteOptions from '../../../components/RouteOptions';
+import UnauthorizedUser from '../../../components/UnauthorizedUser';
 
 interface EditItineraryProps {
   itineraryId: string | null;
@@ -195,7 +197,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
         interests: itinerary.interests,
         searchRadius: itinerary.searchRadius,
         suggestions: itinerary.suggestions,
-        createdBy: userData.id
+        ownerId: userData.id
       }
       const response = await fetch('/api/save-itinerary', {
         method: 'POST',
@@ -217,6 +219,20 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
       setIsSaving(false);
     }
   };
+
+  if (status === 'loading') {
+    return (
+      <Box>
+        <div className={styles.spinner}>
+          <CircularProgress />
+        </div>
+      </Box>
+    );
+  }
+
+  if (status === 'unauthenticated' || status === "authenticated" && userData.id !== itinerary.ownerId) {
+    return <UnauthorizedUser />;
+  }
 
   return (
     <Box>

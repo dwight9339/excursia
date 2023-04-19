@@ -43,7 +43,7 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
                   {activity.allottedTime} minutes
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  {activity.place.vicinity}
+                  {activity.place?.vicinity}
                 </Typography>
               </a>
             </li>

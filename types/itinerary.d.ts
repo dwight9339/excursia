@@ -8,5 +8,5 @@ declare interface Itinerary {
   activities: Activity[];
   suggestions: google.maps.places.PlaceResult[];
   directions?: google.maps.DirectionsResult;
-  createdBy?: string;
+  ownerId?: string;
 }

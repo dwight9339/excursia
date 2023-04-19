@@ -1,25 +1,30 @@
 import React from 'react';
 import ActivitySearchForm from '../components/ActivitySearchForm';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
+import { Box,  CircularProgress } from '@mui/material';
 
 const HomePage: React.FC = () => {
   const router = useRouter();
+  const { data, status } = useSession();
 
   const handleCreateItinerary = async (preferences: any) => {
     const date = new Date();
-    const newItinerary = {
+    const userData: any = {...data?.user};
+    const searchData = {
       name: preferences.locationName,
       startingLocation: preferences.startingLocation,
       startTime: date.toUTCString(),
       interests: preferences.interests,
       searchRadius: preferences.searchRadius,
-      activities: []
+      activities: [],
+      ownerId: `${userData.id}`
     }
 
     const requestOptions: RequestInit = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newItinerary),
+      body: JSON.stringify(searchData),
     };
 
     try {
@@ -38,6 +43,21 @@ const HomePage: React.FC = () => {
       console.error('Error fetching itinerary:', error);
     }
   };
+
+  if (status === 'loading') {
+    return (
+      <Box>
+        <div>
+          <CircularProgress />
+        </div>
+      </Box>
+    )
+  }
+
+  if (status === "unauthenticated") {
+    // TODO: Create ad component to display on home page
+    router.push('/api/auth/signin');
+  }
   
   return (
     <div>
