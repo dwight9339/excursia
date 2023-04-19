@@ -2,18 +2,31 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import { fetchSuggestions } from '../../lib/suggestions';
 
-const insertNewItinerary = async (itinerary: Itinerary, db: Db) => {
+const loadCollection = async () => {
+  const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
+  await client.connect();
+  const db: Db = client.db(process.env.DB_NAME);
   const itineraryCollection: Collection = db.collection("itinerary");
+
+  return itineraryCollection;
+};
+
+const fetchItinerary = async (itineraryId: string, collection: Collection) => {
+  const itinerary = await collection.findOne({ _id: new ObjectId(itineraryId) });
+
+  return itinerary;
+};
+
+const insertNewItinerary = async (itinerary: Itinerary, collection: Collection) => {
   const suggestions = await fetchSuggestions(itinerary);
   itinerary.suggestions = suggestions;
-  const insertResult = await itineraryCollection.insertOne(itinerary);
+  const insertResult = await collection.insertOne(itinerary);
 
   return insertResult;
 };
 
-const updateItinerary = async (itinerary: Itinerary, db: Db) => {
-  const itineraryCollection: Collection = db.collection("itinerary");
-  const updateResult = await itineraryCollection.updateOne(
+const updateItinerary = async (itinerary: Itinerary, collection: Collection) => {
+  const updateResult = await collection.updateOne(
     { _id: new ObjectId(itinerary.id) },
     { $set: { ...itinerary } }
   );
@@ -27,16 +40,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const itinerary = req.body;
 
     try {
-      const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
-      await client.connect();
-      const db: Db = client.db(process.env.DB_NAME);
-      const itineraryCollection: Collection = db.collection("itinerary");
-      const itineraryId: ObjectId = new ObjectId(itinerary.id);
-      const currentItinerary = await itineraryCollection.findOne({ _id: itineraryId });
+      const itineraryCollection: Collection = await loadCollection();
+      const currentItinerary = await fetchItinerary(itinerary.id, itineraryCollection);
 
       if (!currentItinerary) {
         // Insert new itinerary
-        const insertResult = await insertNewItinerary(itinerary, db);
+        const insertResult = await insertNewItinerary(itinerary, itineraryCollection);
 
         insertResult 
           ? res.status(201).json({ itinerary_id: insertResult.insertedId })
@@ -53,7 +62,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           itinerary.suggestions = suggestions;
         }
 
-        const updateResult = await updateItinerary(itinerary, db);
+        const updateResult = await updateItinerary(itinerary, itineraryCollection);
 
         updateResult 
           ? res.status(200).json({ itinerary_id: itinerary.id })
