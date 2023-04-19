@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from "next/router";
 import { fetchItinerary } from '../../../lib/dbFetch';
+import ItineraryMap from '../../../components/ItineraryMap';
 
 interface ItineraryPageProps {
   itinerary: Itinerary;
@@ -23,6 +24,16 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
       <Typography variant="h4" gutterBottom>
         {itinerary.name}
       </Typography>
+      <div>
+        <ItineraryMap
+          directions={itinerary.directions}
+          activities={itinerary.activities}
+          location={itinerary.startingLocation}
+          zoomLevel={7}
+          mapWidth={600}
+          mapHeight={400}
+        />
+      </div>
       <ul>
         {itinerary.activities.map((activity, index) => {
           const placeLink = `https://www.google.com/maps/place/?q=place_id:${activity.place.place_id}`;
