@@ -1,0 +1,12 @@
+.itineraryNameContainer {
+  padding: 15px 20px;
+}
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}

@@ -8,6 +8,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from "next/router";
 import { fetchItinerary } from '../../../lib/dbFetch';
 import ItineraryMap from '../../../components/ItineraryMap';
+import styles from "./ItineraryPage.module.css"
 
 interface ItineraryPageProps {
   itinerary: Itinerary;
@@ -20,47 +21,53 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
   const userData: any = { ...data?.user };
 
   return (
-    <Box>
-      <Typography variant="h4" gutterBottom>
-        {itinerary.name}
-      </Typography>
-      <div>
-        <ItineraryMap
-          directions={itinerary.directions}
-          activities={itinerary.activities}
-          location={itinerary.startingLocation}
-          zoomLevel={7}
-          mapWidth={600}
-          mapHeight={400}
-        />
+    <Box className={styles.container}>
+      <div className={styles.itineraryNameContainer}>
+        <Typography variant="h4" gutterBottom>
+          {itinerary.name}
+        </Typography>
       </div>
-      <ul>
-        {itinerary.activities.map((activity, index) => {
-          const placeLink = `https://www.google.com/maps/place/?q=place_id:${activity.place.place_id}`;
+      <div className={styles.mainContainer}>
+        <div className={styles.mapContainer}>
+          <ItineraryMap
+            directions={itinerary.directions}
+            activities={itinerary.activities}
+            location={itinerary.startingLocation}
+            zoomLevel={7}
+            mapWidth={600}
+            mapHeight={400}
+          />
+        </div>
+        <div className={styles.activityListContainer}>
+          <ul>
+            {itinerary.activities.map((activity, index) => {
+              const placeLink = `https://www.google.com/maps/place/?q=place_id:${activity.place.place_id}`;
 
-          return (
-            <li key={index} style={{
-              listStyle: "none",
-              marginBottom: 20,
-              backgroundColor: "#f5f5f5",
-              width: "fit-content",
-              padding: "10px 20px",
-            }}>
-              <a href={placeLink}>
-                <Typography variant="h6" gutterBottom>
-                  {activity.name}
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  {activity.allottedTime} minutes
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  {activity.place?.vicinity}
-                </Typography>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
+              return (
+                <li key={index} style={{
+                  listStyle: "none",
+                  marginBottom: 20,
+                  backgroundColor: "#f5f5f5",
+                  width: "fit-content",
+                  padding: "10px 20px",
+                }}>
+                  <a href={placeLink}>
+                    <Typography variant="h6" gutterBottom>
+                      {activity.name}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      {activity.allottedTime} minutes
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      {activity.place?.vicinity}
+                    </Typography>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
     </Box>
   );
 };
