@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { TextField } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 import * as Yup from 'yup';
 import LocationSearch from './LocationSearch';
+import styles from './AddActivity.module.css';
 
 interface AddActivityProps {
   onSubmit: (activity: Activity) => void;
@@ -86,10 +87,15 @@ const AddActivity: React.FC<AddActivityProps> = ({ onSubmit }) => {
                 setFieldValue('location', location);
               }}
             />
-
-            <button type="submit" style={{ marginTop: '1rem' }}>
-              Add Activity
-            </button>
+            <div className={styles.addActivityButton}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+              >
+                Add Activity
+              </Button>
+            </div>
           </Form>
         )}
       </Formik>
