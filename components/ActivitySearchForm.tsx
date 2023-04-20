@@ -20,6 +20,7 @@ import {
   Explore as SightseeingIcon,
   Accessible as AccessibleIcon,
   RiceBowl as VegetarianIcon,
+  LocalCafe as CafeIcon
 } from '@mui/icons-material';
 import LocationSearch from './LocationSearch';
 import LocationMap from './LocationMap';
@@ -179,16 +180,17 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
                 name="interests"
                 items={[
                   { id: "1", label: "Restaurants", icon: <RestaurantIcon />, value: "restaurant" },
-                  { id: "2", label: "Shopping", icon: <ShoppingIcon />, value: "shopping" },
-                  { id: "3", label: "Entertainment", icon: <EntertainmentIcon />, value: "entertainment" },
-                  { id: "4", label: "Nature", icon: <NatureIcon />, value: "nature" },
-                  { id: "5", label: "Museums", icon: <MuseumIcon />, value: "museum" },
-                  { id: "6", label: "Historical", icon: <HistoricalIcon />, value: "historical" },
-                  { id: "7", label: "Religious", icon: <ReligiousIcon />, value: "religious" },
-                  { id: "8", label: "Sports", icon: <SportsIcon />, value: "sports" },
-                  { id: "9", label: "Nightlife", icon: <NightlifeIcon />, value: "nightlife" },
-                  { id: "10", label: "Outdoor", icon: <OutdoorIcon />, value: "outdoor" },
-                  { id: "11", label: "Sightseeing", icon: <SightseeingIcon />, value: "sightseeing" }
+                  { id: "2", label: "Cafés", icon: <CafeIcon />, value: "cafe" },
+                  { id: "3", label: "Shopping", icon: <ShoppingIcon />, value: "shopping" },
+                  { id: "4", label: "Entertainment", icon: <EntertainmentIcon />, value: "entertainment" },
+                  { id: "5", label: "Nature", icon: <NatureIcon />, value: "nature" },
+                  { id: "6", label: "Museums", icon: <MuseumIcon />, value: "museum" },
+                  { id: "7", label: "Historical", icon: <HistoricalIcon />, value: "historical" },
+                  { id: "8", label: "Religious", icon: <ReligiousIcon />, value: "religious" },
+                  { id: "9", label: "Sports", icon: <SportsIcon />, value: "sports" },
+                  { id: "10", label: "Nightlife", icon: <NightlifeIcon />, value: "nightlife" },
+                  { id: "11", label: "Outdoor", icon: <OutdoorIcon />, value: "outdoor" },
+                  { id: "12", label: "Sightseeing", icon: <SightseeingIcon />, value: "sightseeing" }
                 ]}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   if (e.target.checked) {
