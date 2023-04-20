@@ -171,7 +171,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
             </div>
 
             {/* Interests */}
-            <div>
+            <div className={styles.interestSelectContainer}>
               <Typography gutterBottom>
                 Interests
               </Typography>
@@ -201,7 +201,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
             </div>
 
             {/* Special accommodations */}
-            <div>
+            <div className={styles.accommodationsSelectContainer}>
               <Typography gutterBottom>
                 Accommodations
               </Typography>
