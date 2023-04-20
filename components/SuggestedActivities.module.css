@@ -4,3 +4,15 @@
   overflow: scroll;
   overflow-x: hidden;
 }
+
+.itemContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0px;
+}
+
+.icon {
+  margin-right: 10px;
+}

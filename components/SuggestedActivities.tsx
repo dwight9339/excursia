@@ -1,6 +1,7 @@
 import React from 'react';
-import { ListItem, ListItemText, ListItemAvatar, Avatar, IconButton, List } from '@mui/material';
+import { ListItem, ListItemText, ListItemIcon, Avatar, IconButton, List } from '@mui/material';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import styles from "./SuggestedActivities.module.css";
 
@@ -27,26 +28,33 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ selectedActiv
             key={index} 
             alignItems="flex-start"
           >
-            <ListItemAvatar>
-              <Avatar alt={suggestion.name} src={suggestion.icon} />
-            </ListItemAvatar>
-            <a
-              href={`https://www.google.com/maps/place/?q=place_id:${suggestion.place_id}`}
-              target="_blank"
-            >
-              <ListItemText
-                primary={suggestion.name}
-                secondary={summary || ""}
-              />
-            </a>
-            <IconButton
-              edge="end"
-              color="inherit"
-              onClick={() => handleAddActivity(suggestion)}
-              disabled={selectedActivities.includes(`${suggestion.place_id}`)}
-            >
-              <AddCircleOutlineIcon />
-            </IconButton>
+            <div className={styles.itemContainer}>
+              <div className={styles.icon}>
+                <Image 
+                  alt={`${suggestion.name}`}
+                  src={`${suggestion.icon}`}
+                  width={30}
+                  height={30}
+                />
+              </div>
+              <a
+                href={`https://www.google.com/maps/place/?q=place_id:${suggestion.place_id}`}
+                target="_blank"
+              >
+                <ListItemText
+                  primary={suggestion.name}
+                  secondary={summary || ""}
+                />
+              </a>
+              <IconButton
+                edge="end"
+                color="inherit"
+                onClick={() => handleAddActivity(suggestion)}
+                disabled={selectedActivities.includes(`${suggestion.place_id}`)}
+              >
+                <AddCircleOutlineIcon />
+              </IconButton>
+            </div>
           </ListItem>
         );
       })}
