@@ -3,6 +3,7 @@ import ActivitySearchForm from '../components/ActivitySearchForm';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { Box,  CircularProgress } from '@mui/material';
+import WelcomeBanner from '../components/WelcomeBanner';
 
 const HomePage: React.FC = () => {
   const router = useRouter();
@@ -55,8 +56,11 @@ const HomePage: React.FC = () => {
   }
 
   if (status === "unauthenticated") {
-    // TODO: Create ad component to display on home page
-    router.push('/api/auth/signin');
+    return (
+      <div>
+        <WelcomeBanner />
+      </div>
+    )
   }
   
   return (
