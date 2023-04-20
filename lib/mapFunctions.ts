@@ -42,3 +42,21 @@ export function getBoundsFromLatLngs(latLngs: google.maps.LatLng[]) {
   return bounds;
 }
 
+export function generateDirectionsUrl(startLocation: google.maps.LatLngLiteral, locations: google.maps.LatLng[]) {
+  const baseUrl = 'https://www.google.com/maps/dir/';
+  const origin = startLocation;
+
+  if (locations.length === 0) {
+    return `${baseUrl}${origin.lat},${origin.lng}`;
+  }
+
+  if (locations.length === 1) {
+    return `${baseUrl}${origin.lat},${origin.lng}/${locations[-1].lat},${locations[-1].lng}`;
+  }
+
+  const destination = locations[locations.length - 1];
+  const waypoints = locations.slice(0, -1).map((location) => `${location.lat},${location.lng}`).join('/');
+
+  return `${baseUrl}${origin.lat},${origin.lng}/${waypoints}/${destination.lat},${destination.lng}`;
+}
+
