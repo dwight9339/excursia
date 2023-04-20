@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Typography,
   Box,
@@ -23,9 +23,10 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
   const { data, status } = useSession();
   const router = useRouter();
   const userData: any = { ...data?.user };
+  const libraries = useMemo(() => ["places"], []);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
-    libraries: ["places"]
+    libraries: libraries as any
   });
 
   if (!isLoaded) {
@@ -49,56 +50,52 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
           {itinerary.name}
         </Typography>
       </div>
-      <div className={styles.mainContainer}>
-        <div className={styles.mapContainer}>
-          <ItineraryMap
-            directions={itinerary.directions}
-            activities={itinerary.activities}
-            location={itinerary.startingLocation}
-            zoomLevel={7}
-            mapWidth={600}
-            mapHeight={400}
-          />
-        </div>
-        <div className={styles.directionsButtonContainer}>
-          <Button
-            variant="contained"
-            color="primary"
-            href={generateDirectionsUrl(itinerary.startingLocation, itineraryLocations)}
-            target="_blank"
-          >
-            Get directions
-          </Button>
-        </div>
-        <div className={styles.activityListContainer}>
-          <ul>
-            {itinerary.activities.map((activity, index) => {
-              const placeLink = `https://www.google.com/maps/place/?q=place_id:${activity.place?.place_id}`;
+      <div className={styles.mapContainer}>
+        <ItineraryMap
+          directions={itinerary.directions}
+          activities={itinerary.activities}
+          location={itinerary.startingLocation}
+          zoomLevel={7}
+          mapWidth={600}
+          mapHeight={400}
+        />
+      </div>
+      <div className={styles.directionsButtonContainer}>
+        <Button
+          variant="contained"
+          color="primary"
+          href={generateDirectionsUrl(itinerary.startingLocation, itineraryLocations)}
+          target="_blank"
+        >
+          Get directions
+        </Button>
+      </div>
+      <div className={styles.activityListContainer}>
+        <ul className={styles.activityList}>
+          {itinerary.activities.map((activity, index) => {
+            const placeLink = `https://www.google.com/maps/place/?q=place_id:${activity.place?.place_id}`;
 
-              return (
-                <li key={index} style={{
-                  listStyle: "none",
-                  marginBottom: 20,
-                  backgroundColor: "#f5f5f5",
-                  width: "fit-content",
-                  padding: "10px 20px",
-                }}>
-                  <a href={placeLink}>
+            return (
+              <li key={index} className={styles.activityListItem}>
+                <div className={styles.firstRow}>
+                  <a href={placeLink} target="_blank">
                     <Typography variant="h6" gutterBottom>
-                      {activity.name}
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      {activity.allottedTime} minutes
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      {activity.place?.vicinity}
+                      {index + 1}. {activity.name}
                     </Typography>
                   </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+                  <Typography variant="body1" gutterBottom>
+                    {activity.place?.vicinity || activity.description}
+                  </Typography>
+                </div>
+                <div className={styles.secondRow}>
+                  <Typography variant="body1" gutterBottom>
+                    {activity.allottedTime} minutes
+                  </Typography> 
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </Box>
   );
