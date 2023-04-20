@@ -209,7 +209,8 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
   
       if (response.ok) {
         const data = await response.json();
-        console.log('Itinerary saved with ID:', data.id);
+        // console.log('Itinerary saved:', JSON.stringify(data));
+        router.push(`/itinerary/${data.itinerary_id}`);
       } else {
         console.error('Error saving itinerary:', response.statusText);
       }
