@@ -48,6 +48,8 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
   const [zoomLevel, setZoomLevel] = useState<number>(4);
   const [mapWidth, setMapWidth] = useState<number>(1000);
   const [mapHeight, setMapHeight] = useState<number>(400);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+
   const initialValues: FormValues = {
     locationName: "No Name",
     startingLocation: {lat:38.2659269, lng:-96.7466913} as google.maps.LatLngLiteral,
@@ -82,13 +84,19 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
       .max(100, 'Travel boundaries cannot exceed 100 miles'),
   });
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: FormValues,
     { setSubmitting }: FormikHelpers<FormValues>
   ) => {
     console.log("Form submit");
-    onSubmit(values);
-    setSubmitting(false);
+    setSubmitted(true);
+
+    try {
+      onSubmit(values);
+    } catch(err) {
+      console.error(`Error submitting form: ${err}`);
+      setSubmitted(false);
+    } 
   };
 
   return (
@@ -230,7 +238,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
                 variant="contained"
                 color="primary"
                 style={{ marginTop: '1rem' }}
-                disabled={isDefaultLocation}
+                disabled={isDefaultLocation || submitted}
               >
                 Create Itinerary
               </Button>
