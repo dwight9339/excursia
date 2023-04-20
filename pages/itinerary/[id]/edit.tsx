@@ -277,12 +277,14 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
             />
           </div>
           <div className={styles.saveButtonContainer}>
-            <button 
+            <Button 
+              variant="contained"
+              color="primary"
               disabled={isSaving}
               onClick={handleSaveItinerary}
             >
               {isSaving ? 'Saving...' : 'Save'}
-            </button>
+            </Button>
           </div>
         </div>
         <div className={styles.column}>
