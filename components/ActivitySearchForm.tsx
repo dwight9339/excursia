@@ -1,6 +1,10 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { Slider, Typography } from '@mui/material';
+import {
+  Slider,
+  Typography,
+  Button
+} from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import {
   Restaurant as RestaurantIcon,
@@ -218,9 +222,17 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
             </div>
 
             {/* Create button */}
-            <button type="submit" style={{ marginTop: '1rem' }}>
-              Create Itinerary
-            </button>
+            <div className={styles.createButtonContainer}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                style={{ marginTop: '1rem' }}
+                disabled={isDefaultLocation}
+              >
+                Create Itinerary
+              </Button>
+            </div>
           </Form>
         )}
       </Formik>
