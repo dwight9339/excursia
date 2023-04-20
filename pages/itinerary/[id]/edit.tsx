@@ -309,6 +309,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
           <div className={styles.SuggestedActivitiesContainer}>
             <h3>Suggested Activities</h3>
             <SuggestedActivities
+              selectedActivities={selectedActivities.map((activity) => activity.place?.place_id).filter((placeId) => placeId) as string[]}
               suggestions={itinerary.suggestions}
               handleAddActivity={(suggestion: google.maps.places.PlaceResult) => {
                 const activity: Activity = {

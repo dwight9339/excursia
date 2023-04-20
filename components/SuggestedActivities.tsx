@@ -5,11 +5,12 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import styles from "./SuggestedActivities.module.css";
 
 interface SuggestedActivitiesProps {
+  selectedActivities: string[];
   suggestions: google.maps.places.PlaceResult[];
   handleAddActivity: (activity: google.maps.places.PlaceResult) => void;
 }
 
-const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ suggestions, handleAddActivity }) => {
+const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ selectedActivities, suggestions, handleAddActivity }) => {
   const router = useRouter();
 
   return (
@@ -27,7 +28,7 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ suggestions, 
             alignItems="flex-start"
           >
             <ListItemAvatar>
-              <Avatar alt={suggestion.name} src={suggestion.icon  } />
+              <Avatar alt={suggestion.name} src={suggestion.icon} />
             </ListItemAvatar>
             <a
               href={`https://www.google.com/maps/place/?q=place_id:${suggestion.place_id}`}
@@ -42,6 +43,7 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ suggestions, 
               edge="end"
               color="inherit"
               onClick={() => handleAddActivity(suggestion)}
+              disabled={selectedActivities.includes(`${suggestion.place_id}`)}
             >
               <AddCircleOutlineIcon />
             </IconButton>
