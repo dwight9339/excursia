@@ -108,7 +108,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
             />
 
             {/* Search Radius Slider */}
-            <div>
+            <div className={styles.searchRadiusSliderContainer}>
               <Typography id="search-radius-slider" gutterBottom>
                 Search Radius: {values.searchRadius} miles
               </Typography>
@@ -125,6 +125,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
                 step={1}
                 valueLabelDisplay="auto"
                 aria-labelledby="search-radius-slider"
+                disabled={isDefaultLocation}
               />
             </div>
 
