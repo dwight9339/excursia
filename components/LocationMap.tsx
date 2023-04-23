@@ -33,7 +33,7 @@ const LocationMap: React.FC<MapParams> = ({
   });
 
   const handleLoad = (map: google.maps.Map) => {
-    mapRef.current = map;
+    // mapRef.current = map;
   };
 
   if (!isLoaded) {
@@ -49,9 +49,13 @@ const LocationMap: React.FC<MapParams> = ({
         mapTypeId={google.maps.MapTypeId.ROADMAP}
         mapContainerStyle={{ width: mapWidth, height: mapHeight }}
         onDragEnd={() => {
-          const newCenter = mapRef.current?.getCenter().toJSON() as google.maps.LatLngLiteral;
-          console.log(`New center: ${newCenter?.lat}, ${newCenter?.lng}`);
-          handleCenterChanged(newCenter);
+          // const newCenter = mapRef.current?.getCenter().toJSON() as google.maps.LatLngLiteral;
+          // console.log(`New center: ${newCenter?.lat}, ${newCenter?.lng}`);
+          // handleCenterChanged(newCenter);
+          // mapRef.current?.moveCamera({
+          //   center: location,
+          //   zoom: zoomLevel,
+          //   });
         }}
         
         options={{

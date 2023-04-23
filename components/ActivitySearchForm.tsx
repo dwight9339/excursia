@@ -100,7 +100,10 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      data-testid="activity-search-form"
+    >
       <Formik
         initialValues={initialValues}
         // validationSchema={validationSchema}

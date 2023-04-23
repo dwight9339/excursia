@@ -63,6 +63,7 @@ const SearchBar: React.FC<LocationSearchProps> = ({ onSelectLocation }) => {
         fullWidth
         disabled={!ready}
         variant="outlined"
+        data-testid="location-search"
       />
       {status === 'OK' && (
         <Paper elevation={1} style={{ marginTop: '0.5rem' }}>
