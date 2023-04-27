@@ -1,0 +1,27 @@
+.header {
+  padding: 20px 15px;
+}
+
+.listContainer {
+  max-width: 600px;
+}
+
+.itineraryList {
+  list-style: none;
+}
+
+.listItemContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  padding: 20px 25px;
+  cursor: pointer;
+}
+
+.itineraryName {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
