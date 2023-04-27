@@ -20,6 +20,7 @@ const fetchItinerary = async (itineraryId: string, collection: Collection) => {
 const insertNewItinerary = async (itinerary: Itinerary, collection: Collection) => {
   const suggestions = await fetchSuggestions(itinerary);
   itinerary.suggestions = suggestions;
+  itinerary.createdDate = new Date().toISOString();
   const insertResult = await collection.insertOne(itinerary);
 
   return insertResult;
