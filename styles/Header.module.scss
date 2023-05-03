@@ -1,0 +1,18 @@
+@use "constants";
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 35px;
+  background-color: constants.$primary-1;
+  height: 100 px;
+}
+
+.authButtonsContainer {
+  display: flex;
+}
+
+.authButtonsContainer > button {
+  margin-left: 10px;
+}

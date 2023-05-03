@@ -3,7 +3,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
-import styles from './Header.module.css';
+import styles from '../styles/Header.module.scss';
 import { useEffect } from 'react';
 
 const Header = () => {
@@ -19,10 +19,10 @@ const Header = () => {
       <div className={styles.logo}>
         <Link href="/">
           <Image
-            src="/images/excursia-logo-2.svg"
+            src="/images/header_logo.png"
             alt="Excursia Logo"
-            width={250}
-            height={90}
+            width={313}
+            height={85}
           />
         </Link>
       </div>
