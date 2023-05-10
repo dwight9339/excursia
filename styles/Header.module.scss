@@ -1,16 +1,23 @@
 @use "constants";
+@use "breakpoints";
 
-.header {
+.container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 35px;
-  background-color: constants.$primary-1;
+  background-color: constants.$darkBlue;
   height: 100 px;
+
+  @media (max-width: breakpoints.$phone-max) {
+    padding: 10px 15px;
+  }
 }
 
-.authButtonsContainer {
+.buttonsContainer {
   display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .authButtonsContainer > button {

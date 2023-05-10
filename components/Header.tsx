@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../styles/Header.module.scss';
+import commonStyles from "../styles/common.module.scss";
 import { useEffect } from 'react';
 
 const Header = () => {
@@ -15,7 +16,7 @@ const Header = () => {
   }, [data]);
 
   return (
-    <header className={styles.header}>
+    <header className={styles.container}>
       <div className={styles.logo}>
         <Link href="/">
           <Image
@@ -26,15 +27,15 @@ const Header = () => {
           />
         </Link>
       </div>
-      <div className={styles.authButtons}>
+      <div className={styles.buttonsContainer}>
         {status === "authenticated" ? (
           <>
             <button onClick={() => signOut()}>Log Out</button>
           </>
         ) : (
           <>
-            <button onClick={() => signIn()}>Log In</button>
-            <button onClick={() => router.push("/sign-up")}>Sign Up</button>
+            <button className={commonStyles.buttonPrimary} onClick={() => signIn()}>Log In</button>
+            <button className={commonStyles.buttonPrimary} onClick={() => router.push("/sign-up")}>Sign Up</button>
           </>
         )}
       </div>

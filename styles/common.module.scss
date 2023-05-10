@@ -1,0 +1,17 @@
+@use "constants";
+
+.buttonPrimary {
+  background-color: constants.$lighterBlue;
+  color: constants.$buttonTextWhite;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px black;
+
+  &:hover {
+    background-color: darken(constants.$lighterBlue, 10%);
+    transform: translate(2px, 2px);
+  }
+}
