@@ -5,11 +5,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../styles/Header.module.scss';
 import commonStyles from "../styles/common.module.scss";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Header = () => {
   const { data, status } = useSession();
   const router = useRouter();
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   useEffect(() => {
     console.log(`Data: ${JSON.stringify(data)}`);
@@ -39,6 +44,34 @@ const Header = () => {
           </>
         )}
       </div>
+      <div className={menuOpen ? styles.hamburgerMenuActive : styles.hamburgerMenu}>
+        <Image
+          src="/images/hamburger.png"
+          alt="Hamburger Menu"
+          width={30}
+          height={30}
+          onClick={toggleMenu}
+        />
+      </div>
+      {
+        menuOpen && (
+          <div className={styles.dropDownMenu}>
+            {status === "authenticated" ? (
+              <>
+                <div className={styles.dropDownMenuButton} onClick={() => router.push("/")}>New Itinerary</div>
+                <div className={styles.dropDownMenuButton} onClick={() => router.push("/my-itineraries")}>My Itineraries</div>
+                <div className={styles.dropDownMenuButton}>Account Settings</div>
+                <div className={styles.dropDownMenuButton} onClick={() => signOut()}>Log Out</div>
+              </>
+            ) : (
+              <>
+                <div className={styles.dropDownMenuButton} onClick={() => signIn()}>Log In</div>
+                <div className={styles.dropDownMenuButton} onClick={() => router.push("/sign-up")}>Sign Up</div>
+              </>
+            )}
+          </div>
+        )
+      }
     </header>
   );
 };

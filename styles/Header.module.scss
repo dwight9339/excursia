@@ -1,16 +1,62 @@
 @use "constants";
 @use "breakpoints";
 
+$headerHeight: 100px;
+$menuWidthTablet: 150px;
+
 .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 35px;
   background-color: constants.$darkBlue;
-  height: 100 px;
+  height: $headerHeight;
 
   @media (max-width: breakpoints.$phone-max) {
     padding: 10px 15px;
+  }
+}
+
+.hamburgerMenu {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 12px;
+  
+  @media (max-width: breakpoints.$tablet-max) {
+    display: flex;
+  }
+}
+
+.hamburgerMenuActive {
+  @extend .hamburgerMenu;
+  background-color: lighten(constants.$darkBlue, 20%);
+}
+
+.dropDownMenu {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 0px;
+  background-color: constants.$orangeyTan;
+  position: absolute;
+  top: $headerHeight;
+  right: 0px;
+  color: constants.$darkBlue;
+  padding: 15px 0px;
+  font-weight: 700;
+  font-size: 20px;
+
+  & .dropDownMenuButton {
+    cursor: pointer;
+  }
+
+  @media (max-width: breakpoints.$tablet-max) {
+    display: flex;
+    width: $menuWidthTablet;
   }
 }
 
@@ -18,6 +64,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
+
+  @media (max-width: breakpoints.$tablet-max) {
+    display: none;
+  }
 }
 
 .authButtonsContainer > button {
