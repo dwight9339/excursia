@@ -36,40 +36,62 @@ $menuWidthTablet: 150px;
 }
 
 .dropDownMenu {
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
   margin: 0px;
-  background-color: constants.$orangeyTan;
+  background-color: constants.$peachyTan;
   position: absolute;
   top: $headerHeight;
   right: 0px;
   color: constants.$darkBlue;
-  padding: 15px 0px;
   font-weight: 700;
   font-size: 20px;
+  text-align: center;
 
   & .dropDownMenuButton {
     cursor: pointer;
+    padding: 8px 20px;
+    width: 100%;
+    height: 100%;
+  }
+
+  & .dropDownMenuButton:hover {
+    background-color: darken(constants.$orangeyTan, 10%);
   }
 
   @media (max-width: breakpoints.$tablet-max) {
-    display: flex;
     width: $menuWidthTablet;
   }
+
+  @media (max-width: breakpoints.$phone-max) {
+    width: 100%;
+  }
+
 }
 
 .buttonsContainer {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 15px;
 
   @media (max-width: breakpoints.$tablet-max) {
     display: none;
   }
-}
 
-.authButtonsContainer > button {
-  margin-left: 10px;
+  & .avatarContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    background-color: rgb(68, 53, 130);
+  }
 }

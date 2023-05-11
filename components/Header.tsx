@@ -6,6 +6,7 @@ import Image from 'next/image';
 import styles from '../styles/Header.module.scss';
 import commonStyles from "../styles/common.module.scss";
 import { useEffect, useState } from 'react';
+import { Avatar } from '@mui/material';
 
 const Header = () => {
   const { data, status } = useSession();
@@ -35,7 +36,21 @@ const Header = () => {
       <div className={styles.buttonsContainer}>
         {status === "authenticated" ? (
           <>
-            <button onClick={() => signOut()}>Log Out</button>
+            <div 
+              className={styles.avatarContainer}
+              onClick={toggleMenu}
+            >
+              {data?.user?.image ? (
+                <Image
+                  src={data.user.image}
+                  alt="User Avatar"
+                  width={30}
+                  height={30}
+                />
+              ) : (
+                <>{data?.user?.username?.[0]}</>
+              )}
+            </div>
           </>
         ) : (
           <>
