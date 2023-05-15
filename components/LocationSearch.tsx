@@ -5,8 +5,8 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from 'use-places-autocomplete';
 import { useLoadScript } from "@react-google-maps/api";
-import { TextField, List, ListItem, ListItemText, Paper } from '@mui/material';
 import { milesToMeters } from '../lib/distanceConversions';
+import styles from '../styles/LocationSearch.module.scss';
 
 interface LocationSearchProps {
   onSelectLocation: (locationName: string, location: google.maps.LatLngLiteral) => void;
@@ -46,29 +46,44 @@ const SearchBar: React.FC<LocationSearchProps> = ({ onSelectLocation }) => {
 
   const renderSuggestions = () =>
     data.map((suggestion) => (
-      <ListItem
+      <li
+      className={styles.suggestion}
         key={suggestion.place_id}
         onClick={() => handleSelect(suggestion.description)}
       >
-        <ListItemText primary={suggestion.description} />
-      </ListItem>
+        {suggestion.description}
+      </li>
     ));
 
   return (
-    <div>
-      <TextField
-        label="Location"
+    <div className={styles.container}>
+      <label 
+        className={styles.label} 
+        htmlFor="location">
+            Location
+      </label> 
+      <input
+        className={styles.textBox}
+        id="location"
+        type="text"
         value={value}
         onChange={handleInput}
-        fullWidth
         disabled={!ready}
-        variant="outlined"
         data-testid="location-search"
+        style={{
+          backgroundColor: 'white'
+        }}
       />
       {status === 'OK' && (
-        <Paper elevation={1} style={{ marginTop: '0.5rem' }}>
-          <List>{renderSuggestions()}</List>
-        </Paper>
+        <div className={styles.suggestionBox}>
+          <div className={styles.suggestionListContainer}>
+            <ul
+              className={styles.suggestionList}
+            >
+              {renderSuggestions()}
+            </ul>
+          </div>
+        </div>
       )}
     </div>
   );

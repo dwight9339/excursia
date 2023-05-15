@@ -64,7 +64,12 @@ const HomePage: React.FC = () => {
   }
   
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center'
+      }}
+    >
       <ActivitySearchForm onSubmit={handleCreateItinerary} />
     </div>
   );

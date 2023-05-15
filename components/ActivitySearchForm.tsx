@@ -22,11 +22,11 @@ import {
   RiceBowl as VegetarianIcon,
   LocalCafe as CafeIcon
 } from '@mui/icons-material';
+import styles from "../styles/ActivitySearchForm.module.scss"
 import LocationSearch from './LocationSearch';
 import LocationMap from './LocationMap';
 import GridCheckbox from './GridCheckbox';
 import * as Yup from 'yup';
-import styles from "./ActivitySearchForm.module.css";
 import { milesToMeters } from '../lib/distanceConversions';
 
 interface PreferencesFormProps {
@@ -104,6 +104,9 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
       className={styles.container}
       data-testid="activity-search-form"
     >
+      <div className={styles.header}>
+        Where would you like to explore?
+      </div>
       <Formik
         initialValues={initialValues}
         // validationSchema={validationSchema}
