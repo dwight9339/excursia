@@ -6,7 +6,6 @@ import Image from 'next/image';
 import styles from '../styles/Header.module.scss';
 import commonStyles from "../styles/common.module.scss";
 import { useEffect, useState } from 'react';
-import { Avatar } from '@mui/material';
 
 const Header = () => {
   const { data, status } = useSession();

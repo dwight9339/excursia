@@ -1,6 +1,6 @@
 // WelcomeBanner/index.tsx
 import React from "react";
-import styles from "./WelcomeBanner.module.css";
+import styles from "../styles/WelcomeBanner.module.scss";
 
 const WelcomeBanner: React.FC = () => {
   const features = [
