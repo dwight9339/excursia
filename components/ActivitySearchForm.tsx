@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useRef, useEffect } from 'react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import {
   Slider,
@@ -23,6 +23,7 @@ import {
   LocalCafe as CafeIcon
 } from '@mui/icons-material';
 import styles from "../styles/ActivitySearchForm.module.scss"
+import commonStyles from "../styles/common.module.scss";
 import LocationSearch from './LocationSearch';
 import LocationMap from './LocationMap';
 import GridCheckbox from './GridCheckbox';
@@ -46,9 +47,20 @@ interface FormValues {
 const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
   const [isDefaultLocation, setIsDefaultLocation] = useState<boolean>(true);
   const [zoomLevel, setZoomLevel] = useState<number>(4);
-  const [mapWidth, setMapWidth] = useState<number>(1000);
+  const [mapWidth, setMapWidth] = useState<number>(850);
   const [mapHeight, setMapHeight] = useState<number>(400);
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const windowWidth = useRef(window.innerWidth);
+
+  useEffect(() => {
+    if (windowWidth.current > 952) {
+      setMapWidth(850);
+      setMapHeight(400);
+    } else {
+      setMapWidth(windowWidth.current * 0.89);
+      setMapHeight(400 * (windowWidth.current * 0.89) / 850);
+    }
+  }, [windowWidth.current]);
 
   const initialValues: FormValues = {
     locationName: "No Name",
@@ -128,9 +140,9 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
 
             {/* Search Radius Slider */}
             <div className={styles.searchRadiusSliderContainer}>
-              <Typography id="search-radius-slider" gutterBottom>
+              <div id="search-radius-slider" className={styles.label}>
                 Search Radius: {values.searchRadius} miles
-              </Typography>
+              </div>
               <Slider
                 value={values.searchRadius}
                 onChange={(e, newValue) => {
@@ -145,11 +157,21 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
                 valueLabelDisplay="auto"
                 aria-labelledby="search-radius-slider"
                 disabled={isDefaultLocation}
+                sx={{
+                  color: "#0A89A6"
+                }}
               />
             </div>
 
             {/* Map */}
-            <div style={{ height: mapHeight, width: '100%', marginTop: '1rem' }}>
+            <div style={{
+              height: mapHeight,
+              width: '100%',
+              marginTop: '1rem',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center"
+            }}>
               {/* Todo: Add map component to display user's currently selected location and boundaries */}
               <LocationMap
                 location={values.startingLocation}
@@ -187,25 +209,28 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
 
             {/* Interests */}
             <div className={styles.interestSelectContainer}>
-              <Typography gutterBottom>
+              <div
+                className={styles.label}
+              >
                 Interests
-              </Typography>
+              </div>
               <GridCheckbox
                 name="interests"
                 items={[
-                  { id: "1", label: "Restaurants", icon: <RestaurantIcon />, value: "restaurant" },
-                  { id: "2", label: "Cafés", icon: <CafeIcon />, value: "cafe" },
-                  { id: "3", label: "Shopping", icon: <ShoppingIcon />, value: "shopping" },
-                  { id: "4", label: "Entertainment", icon: <EntertainmentIcon />, value: "entertainment" },
-                  { id: "5", label: "Nature", icon: <NatureIcon />, value: "nature" },
-                  { id: "6", label: "Museums", icon: <MuseumIcon />, value: "museum" },
-                  { id: "7", label: "Historical", icon: <HistoricalIcon />, value: "historical" },
-                  { id: "8", label: "Religious", icon: <ReligiousIcon />, value: "religious" },
-                  { id: "9", label: "Sports", icon: <SportsIcon />, value: "sports" },
-                  { id: "10", label: "Nightlife", icon: <NightlifeIcon />, value: "nightlife" },
-                  { id: "11", label: "Outdoor", icon: <OutdoorIcon />, value: "outdoor" },
-                  { id: "12", label: "Sightseeing", icon: <SightseeingIcon />, value: "sightseeing" }
+                  { id: "1", label: "Restaurants", img: "/images/interest_icons/restaurant.png", value: "restaurant" },
+                  { id: "2", label: "Cafés", img: "/images/interest_icons/coffee-cup.png", value: "cafe" },
+                  { id: "3", label: "Shopping", img: "/images/interest_icons/shopping-cart.png", value: "shopping" },
+                  { id: "4", label: "Entertainment", img: "/images/interest_icons/ticket.png", value: "entertainment" },
+                  { id: "5", label: "Nature", img: "/images/interest_icons/nature.png", value: "nature" },
+                  { id: "6", label: "Museums", img: "/images/interest_icons/museum.png", value: "museum" },
+                  { id: "7", label: "Historical", img: "/images/interest_icons/coliseum.png", value: "historical" },
+                  { id: "8", label: "Religious", img: "/images/interest_icons/pray.png", value: "religious" },
+                  { id: "9", label: "Sports", img: "/images/interest_icons/balls-sports.png", value: "sports" },
+                  { id: "10", label: "Nightlife", img: "/images/interest_icons/drink.png", value: "nightlife" },
+                  { id: "11", label: "Outdoor", img: "/images/interest_icons/hiking.png", value: "outdoor" },
+                  { id: "12", label: "Sightseeing", img: "/images/interest_icons/tourism.png", value: "sightseeing" }
                 ]}
+                interestList={values.interests}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   if (e.target.checked) {
                     setFieldValue("interests", [...values.interests, e.target.value]);
@@ -239,15 +264,14 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
 
             {/* Create button */}
             <div className={styles.createButtonContainer}>
-              <Button
+              <button
+                className={commonStyles.buttonPrimary}
                 type="submit"
-                variant="contained"
-                color="primary"
                 style={{ marginTop: '1rem' }}
                 disabled={isDefaultLocation || submitted}
               >
                 Create Itinerary
-              </Button>
+              </button>
             </div>
           </Form>
         )}
