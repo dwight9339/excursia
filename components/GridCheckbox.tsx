@@ -29,6 +29,18 @@ const GridCheckbox: React.FC<GridCheckboxProps> = ({
       className={styles.grid}
     >
       {items.map((item, index) => {
+        let cornerClass = "";
+
+        if (index === 0) {
+          cornerClass = styles.topLeft;
+        } else if (index === numColumns - 1) {
+          cornerClass = styles.topRight;
+        } else if (index === items.length - numColumns) {
+          cornerClass = styles.bottomLeft;
+        } else if (index === items.length - 1) {
+          cornerClass = styles.bottomRight;
+        }
+
         return (
           <label 
             key={item.id}
@@ -37,6 +49,7 @@ const GridCheckbox: React.FC<GridCheckboxProps> = ({
               ${(index + 1) % 3 !== 0 ? styles.rightBorder : ""} 
               ${index + 1 <= items.length - numColumns ? styles.bottomBorder : ""}
               ${interestList.includes(item.value) ? styles.selected : ""}
+              ${cornerClass}
             `}
           >
             <input

@@ -29,6 +29,22 @@
   }
 }
 
+.topLeft {
+  border-top-left-radius: 5px;
+}
+
+.topRight {
+  border-top-right-radius: 5px;
+}
+
+.bottomLeft {
+  border-bottom-left-radius: 5px;
+}
+
+.bottomRight {
+  border-bottom-right-radius: 5px;
+}
+
 .rightBorder {
   border-right: 1px solid constants.$darkBlue;
 }
