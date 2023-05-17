@@ -14,6 +14,14 @@
     background-color: darken(constants.$lighterBlue, 10%);
     transform: translate(2px, 2px);
   }
+
+  &:disabled {
+    background-color: #bdbdbd;
+  }
+
+  &:disabled:hover {
+    transform: none;
+  }
 }
 
 .box {
