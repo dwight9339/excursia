@@ -128,19 +128,24 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
         {({ values, handleChange, handleBlur, setFieldValue }) => (
           <Form className={styles.form}>
             {/* Location */}
-            <LocationSearch
-              onSelectLocation={(locationName: string, location: google.maps.LatLngLiteral) => {
-                console.log(`Selected location ${locationName}, ${JSON.stringify(location)}`);
-                setIsDefaultLocation(false);
-                setZoomLevel(calculateZoomLevel(values.searchRadius));
-                setFieldValue("locationName", locationName);
-                setFieldValue("startingLocation", location);
-              }}
-            />
+            <div className={styles.locationSearchContainer}>
+              <div className={styles.label}>
+                Starting Location
+              </div>
+              <LocationSearch
+                onSelectLocation={(locationName: string, location: google.maps.LatLngLiteral) => {
+                  console.log(`Selected location ${locationName}, ${JSON.stringify(location)}`);
+                  setIsDefaultLocation(false);
+                  setZoomLevel(calculateZoomLevel(values.searchRadius));
+                  setFieldValue("locationName", locationName);
+                  setFieldValue("startingLocation", location);
+                }}
+              />
+            </div>
 
             {/* Search Radius Slider */}
-            <div className={styles.searchRadiusSliderContainer}>
-              <div id="search-radius-slider" className={styles.label}>
+            <div id="search-radius-slider" className={styles.searchRadiusSliderContainer}>
+              <div className={styles.label}>
                 Search Radius: {values.searchRadius} miles
               </div>
               <Slider

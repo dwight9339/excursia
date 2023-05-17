@@ -6,7 +6,7 @@ import usePlacesAutocomplete, {
 } from 'use-places-autocomplete';
 import { useLoadScript } from "@react-google-maps/api";
 import { milesToMeters } from '../lib/distanceConversions';
-import styles from '../styles/LocationSearch.module.scss';
+import styles from '../styles/ActivitySearchForm.module.scss';
 
 interface LocationSearchProps {
   onSelectLocation: (locationName: string, location: google.maps.LatLngLiteral) => void;
@@ -56,11 +56,11 @@ const SearchBar: React.FC<LocationSearchProps> = ({ onSelectLocation }) => {
     ));
 
   return (
-    <div className={styles.container}>
+    <div className={styles.locationSearchBar}>
       <label 
-        className={styles.label} 
+        className={styles.hiddenLabel} 
         htmlFor="location">
-            Location
+            Starting Location
       </label> 
       <input
         className={styles.textBox}
