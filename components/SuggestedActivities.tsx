@@ -46,6 +46,7 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ selectedActiv
                 </div>
               </a>
               <IconButton
+                className={styles.addButton}
                 edge="end"
                 color="inherit"
                 onClick={() => handleAddActivity(suggestion)}
