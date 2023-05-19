@@ -1,9 +1,9 @@
 import React from 'react';
-import { ListItem, ListItemText, ListItemIcon, Avatar, IconButton, List } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import styles from "./SuggestedActivities.module.css";
+import styles from "../styles/SuggestedActivities.module.scss";
 
 interface SuggestedActivitiesProps {
   selectedActivities: string[];
@@ -15,7 +15,7 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ selectedActiv
   const router = useRouter();
 
   return (
-    <List className={styles.container}>
+    <ul className={styles.container}>
       {suggestions.map((suggestion, index) => {
         // const placePhoto: any = {...suggestion.photos?.[0]};
         // const photoRef = suggestion.photos ? placePhoto.photo_reference : null;
@@ -24,9 +24,9 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ selectedActiv
         const summary = suggestionObj.editorial_summary?.overview;
 
         return (
-          <ListItem 
+          <li 
+            className={styles.suggestionListItem}
             key={index} 
-            alignItems="flex-start"
           >
             <div className={styles.itemContainer}>
               <div className={styles.icon}>
@@ -41,10 +41,9 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ selectedActiv
                 href={`https://www.google.com/maps/place/?q=place_id:${suggestion.place_id}`}
                 target="_blank"
               >
-                <ListItemText
-                  primary={suggestion.name}
-                  secondary={summary || ""}
-                />
+                <div className={styles.suggestionText}>
+                  {suggestion.name}
+                </div>
               </a>
               <IconButton
                 edge="end"
@@ -55,10 +54,10 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ selectedActiv
                 <AddCircleOutlineIcon />
               </IconButton>
             </div>
-          </ListItem>
+          </li>
         );
       })}
-    </List>
+    </ul>
   );
 };
 
