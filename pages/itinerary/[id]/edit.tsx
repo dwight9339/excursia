@@ -237,17 +237,14 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
 
   return (
     <Box>
-      <div className={styles.itineraryHeader}>
-        <div className={styles.titleContainer}>
-          <EditableText
-            text={itineraryName}
-            onEdit={(newName) => setItineraryName(newName)}
-          />
-        </div>
-      </div>
       <div className={styles.columnContainer}>
         <div className={styles.column}>
-          <h3>Trip Details</h3>
+          <div className={styles.titleContainer}>
+            <EditableText
+              text={itineraryName}
+              onEdit={(newName) => setItineraryName(newName)}
+            />
+          </div>
           {/* <div className={styles.dateTimeSelectContainer}>
             <TimeSelector
               onDateTimeChange={(dateTime) => setStartTime(dateTime)}
@@ -272,8 +269,8 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
               location={startLocation}
               activities={selectedActivities}
               zoomLevel={7}
-              mapWidth={700}
-              mapHeight={600}
+              mapWidth={375}
+              mapHeight={320}
             />
           </div>
           <div className={styles.saveButtonContainer}>
