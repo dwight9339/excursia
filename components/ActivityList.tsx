@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import type { DraggableProvided } from "react-beautiful-dnd";
 import Image from "next/image";
-import styles from "./ActivityList.module.css";
+import styles from "../styles/ActivityList.module.scss";
 import EditableText from "./EditableText";
 import hash from "object-hash";
 import dynamic from "next/dynamic";
@@ -47,11 +47,17 @@ const ListItem: React.FC<ListItemProps> = ({
       ref={provided.innerRef}
       {...provided.draggableProps}
     >
-      <IconButton
+      <div
+        className={styles.dragHandle}
         {...provided.dragHandleProps}
       >
-          <DragIndicatorIcon />
-      </IconButton> 
+          <Image
+            src="/images/drag.png"
+            alt="Drag to reorder"
+            width={20}
+            height={20}
+          />
+      </div> 
       <div 
         className={styles.infoContainer}
       >
@@ -84,13 +90,17 @@ const ListItem: React.FC<ListItemProps> = ({
           mins
         </span>
       </div>
-      <IconButton
+      <div
         className={styles.deleteButton}
-        edge="end"
         onClick={() => onDelete(index)}
       >
-        <DeleteIcon />
-      </IconButton>
+        <Image
+          src="/images/delete.png"
+          alt="Delete activity"
+          width={20}
+          height={20}
+        />
+      </div>
     </div>
   )
 }
