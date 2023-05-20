@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
-  Button,
-  Box,
   CircularProgress
 } from '@mui/material';
 import { useSession } from 'next-auth/react';
@@ -9,7 +7,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { useRouter } from "next/router";
 import { useLoadScript } from "@react-google-maps/api";
 import ActivityList from '../../../components/ActivityList';
-import styles from "./EditItinerary.module.css"
+import styles from "../../../styles/EditItinerary.module.scss";
 import TimeSelector from '../../../components/TimeSelector';
 import EditableText from '../../../components/EditableText';
 import ItineraryMap from '../../../components/ItineraryMap';
@@ -236,7 +234,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
   }
 
   return (
-    <Box>
+    <div className={styles.mainContainer}>
       <div className={styles.columnContainer}>
         <div className={styles.column}>
           <div className={styles.titleContainer}>
@@ -274,14 +272,13 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
             />
           </div>
           <div className={styles.saveButtonContainer}>
-            <Button 
-              variant="contained"
-              color="primary"
+            <button 
+              className={styles.saveButton}
               disabled={isSaving}
               onClick={handleSaveItinerary}
             >
               {isSaving ? 'Saving...' : 'Save'}
-            </Button>
+            </button>
           </div>
         </div>
         <div className={styles.column}>
@@ -326,7 +323,7 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
           </div>
         </div>
       </div>
-    </Box>
+    </div>
   );
 };
 
