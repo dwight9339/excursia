@@ -195,7 +195,8 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
         interests: itinerary.interests,
         searchRadius: itinerary.searchRadius,
         suggestions: itinerary.suggestions,
-        ownerId: userData.id
+        ownerId: userData.id,
+        createdDate: itinerary.createdDate
       }
       const response = await fetch('/api/save-itinerary', {
         method: 'POST',
@@ -221,11 +222,11 @@ const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary })
 
   if (status === 'loading') {
     return (
-      <Box>
+      <div className={styles.container}>
         <div className={styles.spinner}>
           <CircularProgress />
         </div>
-      </Box>
+      </div>
     );
   }
 
