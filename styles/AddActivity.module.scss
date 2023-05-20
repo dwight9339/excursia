@@ -1,0 +1,38 @@
+@use "constants";
+@import "common.module.scss";
+
+.container {
+  @extend .box; 
+  padding: 15px;
+  width: 100%;
+}
+
+
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 6px;
+}
+
+.fieldContainer {
+  width: 100%;
+}
+
+.fieldLabel {
+  @extend .fieldLabelBase;
+}
+
+.textField {
+  @extend .textBoxBase;
+}
+
+.selectField {
+  @extend .selectFieldBase;
+}
+
+.addActivityButton {
+  margin-top: 20px;
+}

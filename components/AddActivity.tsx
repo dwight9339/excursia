@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { TextField, Button } from '@mui/material';
 import * as Yup from 'yup';
 import LocationSearch from './LocationSearch';
-import styles from './AddActivity.module.css';
+import styles from '../styles/AddActivity.module.scss';
+import commonStyles from "../styles/common.module.scss"
 
 interface AddActivityProps {
   onSubmit: (activity: Activity) => void;
@@ -51,50 +51,62 @@ const AddActivity: React.FC<AddActivityProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ values, handleChange, handleBlur, setFieldValue }) => (
-          <Form>
-            <TextField
-              label="Activity Name"
-              name="name"
-              value={values.name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              fullWidth
-              variant="outlined"
-              style={{ marginBottom: '1rem' }}
-            />
-
-            <TextField
-              label="Description"
-              name="description"
-              value={values.description}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              fullWidth
-              variant="outlined"
-              style={{ marginBottom: '1rem' }}
-            />
-
-            <LocationSearch
-              key={resetKey}
-              onSelectLocation={(locationName, location) => {
-                setFieldValue('location', location);
-              }}
-            />
+          <Form className={styles.form}>
+            <div className={styles.fieldContainer}>
+              <div className={styles.fieldLabel}>
+                Name
+              </div>
+              <input
+                className={styles.textField}
+                type="text"
+                name="name"
+                value={values.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </div>
+            <div className={styles.fieldContainer}>
+              <div className={styles.fieldLabel}>
+                Type
+              </div>
+              <select
+                className={styles.selectField}
+                name="activityType"
+                value={values.description}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              >
+                <option value="restaurant">Restaurant</option>
+              </select>
+            </div>
+            <div className={styles.fieldContainer}>
+              <div className={styles.fieldLabel}>
+                Location
+              </div>
+              <LocationSearch
+                key={resetKey}
+                onSelectLocation={(locationName, location) => {
+                  setFieldValue('location', location);
+                }}
+              />
+            </div>
             <div className={styles.addActivityButton}>
-              <Button
+              <button
+                className={commonStyles.buttonPrimary}
                 type="submit"
-                variant="contained"
-                color="primary"
+                style={{
+                  fontSize: "0.9em"
+                }}
               >
                 Add Activity
-              </Button>
+              </button>
             </div>
           </Form>
         )}

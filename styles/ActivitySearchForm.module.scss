@@ -20,8 +20,7 @@
 }
 
 .label {
-  font-size: 1.2em;
-  margin-bottom: 8px;
+  @extend .fieldLabelBase;
 }
 
 .searchRadiusSliderContainer {
@@ -46,12 +45,7 @@
   }
 
   .textBox {
-    width: 100%;
-    border-radius: 5px;
-    border: 1px solid black;
-    height: 40px;
-    padding: 0px 9px;
-    font-size: 1.1em;
+    @extend .textBoxBase;
   }
 
   .suggestionBox {

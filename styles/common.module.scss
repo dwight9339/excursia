@@ -31,3 +31,23 @@
   scrollbar-color: constants.$orangeyTan constants.$lightPeachyTan;
   scrollbar-width: thin;
 }
+
+.fieldLabelBase {
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+
+.textBoxBase {
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid black;
+  height: 40px;
+  padding: 0px 9px;
+  font-size: 1.1em;
+}
+
+.selectFieldBase {
+  @extend .textBoxBase;
+  width: fit-content;
+}
