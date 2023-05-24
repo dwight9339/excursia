@@ -5,7 +5,6 @@
   grid-template-columns: 1fr 1fr 1fr;
   border: 1px solid constants.$darkBlue;
   border-radius: 5px;
-
 }
 
 .gridItem {
@@ -26,6 +25,18 @@
 
   & input[type='checkbox'] {
     display: none;
+  }
+
+  @media screen and (prefers-color-scheme: dark) {
+    background-color: lighten(constants.$darkBlue, 30%);
+
+    & img {
+      filter: invert(90%);
+    }
+
+    &:hover {
+      background-color: lighten(constants.$darkBlue, 35%);
+    }
   }
 }
 
@@ -55,6 +66,10 @@
 
 .selected {
   background-color: darken(constants.$peachyTan, 8%);
+
+  @media screen and (prefers-color-scheme: dark) {
+    background-color: lighten(constants.$darkBlue, 20%);
+  }
 }
 
 .imageContainer {

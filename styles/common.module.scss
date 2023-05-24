@@ -30,6 +30,11 @@
   margin: 0px;
   scrollbar-color: constants.$orangeyTan constants.$lightPeachyTan;
   scrollbar-width: thin;
+
+  @media screen and (prefers-color-scheme: dark) {
+    background-color: lighten(constants.$darkBlue, 10%);
+    scrollbar-color: constants.$lighterBlue constants.$darkBlue;
+  }
 }
 
 .fieldLabelBase {

@@ -1,4 +1,5 @@
 @use "breakpoints";
+@use "constants";
 @import "common.module.scss";
 
 .container {
@@ -75,6 +76,10 @@
     border-radius: 5px;
     position: absolute;
     z-index: 1;
+
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: lighten(constants.$darkBlue, 15%);
+    }
   }
 
   .suggestionList {
