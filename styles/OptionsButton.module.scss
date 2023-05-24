@@ -1,0 +1,47 @@
+@use "constants";
+@use "breakpoints";
+@import "common.module.scss";
+
+$buttonSideLength: 40px;
+
+.container {
+  position: relative;
+
+  & .optionsButton {
+    background-color: constants.$peachyTan;
+    border-radius: 5px;
+    width: $buttonSideLength;
+    height: $buttonSideLength;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  & .optionsContainer {
+    position: absolute;
+    top: $buttonSideLength;
+    right: 0px;
+  
+    & .optionsList {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: constants.$lightPeachyTan;
+
+      & .option {
+        width: 100%;
+        cursor: pointer;
+        text-align: center;
+        padding: 10px 12px;
+
+        &:hover {
+          background-color: darken(constants.$lightPeachyTan, 10%);
+        }
+      }
+    }
+  }
+}
