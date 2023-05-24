@@ -68,6 +68,10 @@ $menuWidthTablet: 150px;
     width: 100%;
   }
 
+  @media screen and (prefers-color-scheme: dark) {
+    background-color: lighten(constants.$darkBlue, 20%);
+    color: constants.$lightPeachyTan;
+  }
 }
 
 .buttonsContainer {
