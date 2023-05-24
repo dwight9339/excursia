@@ -72,7 +72,7 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
       </div>
       <div className={styles.activityListContainer}>
         <ul className={styles.activityList}>
-          {itinerary.activities.map((activity, index) => {
+          {itinerary.activities && itinerary.activities.map((activity, index) => {
             const placeLink = `https://www.google.com/maps/place/?q=place_id:${activity.place?.place_id}`;
 
             return (

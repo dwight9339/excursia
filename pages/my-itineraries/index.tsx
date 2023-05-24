@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import styles from "./UserItineraries.module.css";
+import styles from "../../styles/MyItineraries.module.scss";
 
 const ItineraryListItem: React.FC<{ itinerary: Itinerary }> = ({ itinerary }) => {
   const router = useRouter();
   const createdDate = new Date(itinerary.createdDate);
 
   return (
-    <li>
-      <div
-        className={styles.listItemContainer}
-        onClick={() => router.push(`/itinerary/${itinerary.id}`)}  
-      >
-        <div className={styles.itineraryName}>{itinerary.name}</div>
-        <div>Activities: {itinerary.activities.length}</div>
-        <div>Created {createdDate.toLocaleDateString()}</div>
-      </div>
-    </li>
+    <div
+      className={styles.listItem}
+      onClick={() => router.push(`/itinerary/${itinerary.id}`)}  
+    >
+      <div className={styles.itineraryName}>{itinerary.name}</div>
+      <div>Activities: {itinerary.activities.length}</div>
+      <div>Created {createdDate.toLocaleDateString()}</div>
+    </div>
   );
 };
 
@@ -53,15 +51,26 @@ const UserItineraries: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h2>My Itineraries</h2>
-      </div>
       <div className={styles.listContainer}>
-        <ul className={styles.itineraryList}>
+        <div className={styles.pageHead}>
+          <h1>My Itineraries</h1>
+          <div className={styles.sortByContainer}>
+            <label htmlFor="sortBy">Sort by:</label>
+            <select 
+              name="sortBy"
+              id="sortBy"
+              className={styles.sortBy}
+            >
+              <option value="date">Date</option>
+              <option value="name">Name</option>
+            </select>
+          </div>
+        </div>
+        <div className={styles.itineraryList}>
           {itineraries.map((itinerary) => (
             <ItineraryListItem itinerary={itinerary} key={itinerary.id} />
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );

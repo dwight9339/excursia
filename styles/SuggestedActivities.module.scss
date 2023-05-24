@@ -22,7 +22,7 @@
 }
 
 .itemContainer {
-  background-color: constants.$lightPeachyTan;
+  @extend .listItemBase;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -31,8 +31,4 @@
   padding: 5px 10px;
   border-radius: 5px;
   width: 95%;
-
-  @media screen and (prefers-color-scheme: dark) {
-    background-color: lighten(constants.$darkBlue, 20%);
-  }
 }
