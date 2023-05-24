@@ -1,3 +1,4 @@
+@use "breakpoints";
 @import "common.module.scss";
 
 .itineraryHeader {
@@ -28,8 +29,18 @@
 
 .saveButtonContainer {
   padding-top: 25px;
+
+  @media screen and (max-width: breakpoints.$phone-max) {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .saveButton {
   @extend .buttonPrimary;
+
+  @media screen and (max-width: breakpoints.$phone-max) {
+    width: 85%;
+    font-size: 1.5em;
+  }
 }
