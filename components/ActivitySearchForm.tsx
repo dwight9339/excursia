@@ -32,12 +32,15 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
   const [mapWidth, setMapWidth] = useState<number>(850);
   const [mapHeight, setMapHeight] = useState<number>(400);
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [deviceType, setDeviceType] = useState<string>("desktop"); // ["desktop", "tablet", "phone"]
   const windowWidth = useRef(window.innerWidth);
 
   useEffect(() => {
+    setDeviceType(windowWidth.current > 952 ? "desktop" : windowWidth.current > 524 ? "tablet" : "phone")
+
     if (windowWidth.current > 952) {
-      setMapWidth(850);
-      setMapHeight(400);
+      setMapWidth(750);
+      setMapHeight(350);
     } else {
       setMapWidth(windowWidth.current * 0.89);
       setMapHeight(400 * (windowWidth.current * 0.89) / 850);
@@ -218,6 +221,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
                   { id: "12", label: "Sightseeing", img: "/images/interest_icons/tourism.png", value: "sightseeing" }
                 ]}
                 interestList={values.interests}
+                device={deviceType}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   if (e.target.checked) {
                     setFieldValue("interests", [...values.interests, e.target.value]);
@@ -252,7 +256,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ onSubmit }) => {
             {/* Create button */}
             <div className={styles.createButtonContainer}>
               <button
-                className={commonStyles.buttonPrimary}
+                className={styles.createButton}
                 type="submit"
                 style={{ marginTop: '1rem' }}
                 disabled={isDefaultLocation || submitted}

@@ -14,6 +14,7 @@ interface GridCheckboxProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   items: CheckboxItem[];
   interestList: string[];
+  device: string;
   numColumns?: number;
 }
 
@@ -22,8 +23,17 @@ const GridCheckbox: React.FC<GridCheckboxProps> = ({
   onChange,
   items,
   interestList,
+  device,
   numColumns=3
 }) => {
+  let iconSize = 40;
+
+  if (device === "tablet") {
+    iconSize = 30;
+  } else if (device === "phone") {
+    iconSize = 20;
+  }
+
   return (
     <div
       className={styles.grid}
@@ -62,8 +72,8 @@ const GridCheckbox: React.FC<GridCheckboxProps> = ({
               <Image
                 src={item.img}
                 alt={item.label}
-                width={50}
-                height={50}
+                width={iconSize}
+                height={iconSize}
               />
             </div>
             <span className={styles.itemLabel}>{item.label}</span>

@@ -1,3 +1,4 @@
+@use "breakpoints";
 @import "common.module.scss";
 
 .container {
@@ -33,6 +34,20 @@
 
 .createButtonContainer {
   padding-top: 25px;
+
+  @media screen and (max-width: breakpoints.$phone-max) {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.createButton {
+  @extend .buttonPrimary;
+
+  @media screen and (max-width: breakpoints.$phone-max) {
+    width: 85%;
+    font-size: 1.5em;
+  }
 }
 
 .locationSearchBar {
