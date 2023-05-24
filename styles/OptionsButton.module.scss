@@ -16,6 +16,23 @@ $buttonSideLength: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken(constants.$peachyTan, 20%);
+    }
+
+    @media screen and (prefers-color-scheme: dark) {
+      background-color: lighten(constants.$darkBlue, 20%);
+
+      & img {
+        filter: invert(0.75);
+      }
+
+      &:hover {
+        background-color: lighten(constants.$darkBlue, 15%);
+      }
+    }
   }
   
   & .optionsContainer {
@@ -40,6 +57,18 @@ $buttonSideLength: 40px;
 
         &:hover {
           background-color: darken(constants.$lightPeachyTan, 10%);
+        }
+      }
+
+      @media screen and (prefers-color-scheme: dark) {
+        background-color: lighten(constants.$darkBlue, 30%);
+  
+        & img {
+          filter: invert(0.75);
+        }
+
+        & .option:hover {
+          background-color: lighten(constants.$darkBlue, 20%);
         }
       }
     }
