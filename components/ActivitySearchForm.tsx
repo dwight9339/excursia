@@ -1,27 +1,9 @@
 import React, { ChangeEvent, useState, useRef, useEffect } from 'react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import {
-  Slider,
-  Typography,
-  Button
+  Slider
 } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
-import {
-  Restaurant as RestaurantIcon,
-  ShoppingBasket as ShoppingIcon,
-  LocalMovies as EntertainmentIcon,
-  NaturePeople as NatureIcon,
-  Museum as MuseumIcon,
-  History as HistoricalIcon,
-  Church as ReligiousIcon,
-  SportsSoccer as SportsIcon,
-  LocalBar as NightlifeIcon,
-  DirectionsRun as OutdoorIcon,
-  Explore as SightseeingIcon,
-  Accessible as AccessibleIcon,
-  RiceBowl as VegetarianIcon,
-  LocalCafe as CafeIcon
-} from '@mui/icons-material';
 import styles from "../styles/ActivitySearchForm.module.scss"
 import commonStyles from "../styles/common.module.scss";
 import LocationSearch from './LocationSearch';
