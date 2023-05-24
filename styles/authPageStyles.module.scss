@@ -1,0 +1,98 @@
+@use "constants";
+@use "breakpoints";
+@import "common.module.scss";
+
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+  background-color: constants.$peachyTan;
+  color: black;
+}
+
+.containerSignUp {
+  @extend .container;
+  background-image: url("/images/sign_up_bg.jpg") ;
+  background-size: 180%;
+  background-position-x: -800px;
+
+  @media screen and (max-width: breakpoints.$tablet-max) {
+    background-size: 260%;
+    background-position-x: -300px;
+  }
+
+  @media screen and (min-width: 1600px) {
+    background-size: 170%;
+    background-position-x: -1000px;
+  }
+
+  @media screen and (min-width: 2200px) {
+    background-size: 150%;
+    background-position-x: -1000px;
+  }
+}
+
+.logo {
+  width: 313px;
+  height: 85px;
+}
+
+.infoBox {
+  width: 450px;
+  max-width: 95%;
+  padding: 20px 60px 40px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+
+  & .boxTitle {
+    font-size: 2em;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  & .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    & .fieldContainer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+
+      & label {
+        @extend .fieldLabelBase;
+      }
+  
+      & input {
+        @extend .textBoxBase;
+      }
+    }
+
+    & .submitButtonContainer {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      padding-top: 20px;
+
+      & button {
+        @extend .buttonPrimary;
+      }
+    }
+  }
+}

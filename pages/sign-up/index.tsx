@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { signIn } from 'next-auth/react';
 import * as Yup from 'yup';
+import styles from "../../styles/authPageStyles.module.scss";
 
 const SignUp = () => {
   const [serverError, setServerError] = useState('');
@@ -18,73 +19,82 @@ const SignUp = () => {
   });
 
   return (
-    <div className="sign-up-container">
-      <h1>Sign Up</h1>
-      <Formik
-        initialValues={{
-          username: '',
-          password: '',
-          confirmPassword: '',
-        }}
-        validationSchema={validationSchema}
-        onSubmit={async (values, { setSubmitting }) => {
-          setServerError('');
-          try {
-            const response = await fetch('/api/create-user', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                username: values.username,
-                password: values.password,
-              }),
-            });
-
-            if (response.ok) {
-              await signIn('credentials', {
-                redirect: false,
-                username: values.username,
-                password: values.password,
+    <div className={styles.containerSignUp}>
+      <img 
+        src="/images/header_logo.png"
+        alt="Excursia logo"
+        className={styles.logo}
+      />
+      <div className={styles.infoBox}>
+        <div className={styles.boxTitle}>Sign Up</div>
+        <Formik
+          initialValues={{
+            username: '',
+            password: '',
+            confirmPassword: '',
+          }}
+          validationSchema={validationSchema}
+          onSubmit={async (values, { setSubmitting }) => {
+            setServerError('');
+            try {
+              const response = await fetch('/api/create-user', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  username: values.username,
+                  password: values.password,
+                }),
               });
-              router.push('/');
-            } else {
-              const { message } = await response.json();
-              setServerError(message);
+
+              if (response.ok) {
+                await signIn('credentials', {
+                  redirect: false,
+                  username: values.username,
+                  password: values.password,
+                });
+                router.push('/');
+              } else {
+                const { message } = await response.json();
+                setServerError(message);
+              }
+            } catch (error) {
+              setServerError('Error signing up. Please try again.');
+            } finally {
+              setSubmitting(false);
             }
-          } catch (error) {
-            setServerError('Error signing up. Please try again.');
-          } finally {
-            setSubmitting(false);
-          }
-        }}
-      >
-        {() => (
-          <Form>
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <Field type="text" id="username" name="username" />
-              <ErrorMessage name="username" component="div" className="error" />
-            </div>
+          }}
+        >
+          {() => (
+            <Form className={styles.form}>
+              <div className={styles.fieldContainer}>
+                <label htmlFor="username">Username</label>
+                <Field type="text" id="username" name="username" />
+                <ErrorMessage name="username" component="div" className="error" />
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <Field type="password" id="password" name="password" />
-              <ErrorMessage name="password" component="div" className="error" />
-            </div>
+              <div className={styles.fieldContainer}>
+                <label htmlFor="password">Password</label>
+                <Field type="password" id="password" name="password" />
+                <ErrorMessage name="password" component="div" className="error" />
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm Password</label>
-              <Field type="password" id="confirmPassword" name="confirmPassword" />
-              <ErrorMessage name="confirmPassword" component="div" className="error" />
-            </div>
+              <div className={styles.fieldContainer}>
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <Field type="password" id="confirmPassword" name="confirmPassword" />
+                <ErrorMessage name="confirmPassword" component="div" className="error" />
+              </div>
 
-            {serverError && <div className="error">{serverError}</div>}
+              {serverError && <div className="error">{serverError}</div>}
 
-            <button type="submit">Sign Up</button>
-          </Form>
-        )}
-      </Formik>
+              <div className={styles.submitButtonContainer}>
+                <button type="submit">Sign Up</button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
 };
