@@ -61,7 +61,7 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
             },
             {
               name: "Edit",
-              onClick: () => router.push("/edit")
+              onClick: () => router.push(`/itinerary/${itinerary.id}/edit`)
             },
             {
               name: "Delete",
