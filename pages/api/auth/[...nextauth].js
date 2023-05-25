@@ -19,7 +19,7 @@ export const authOptions = {
           const db = mongodbClient.db(process.env.DB_NAME);
           const userCollection = db.collection("users");
           
-          // Query for user with username and password
+          // Query for user with email and password
           const user = await userCollection.findOne({ email: email });
           const passwordMatch = await bcrypt.compare(password, user.password);
 
@@ -28,8 +28,9 @@ export const authOptions = {
               console.log("Password incorrect");
               return null;
             }
-            const {_id, password: userPassword, ...userObj} = user;
+            const {_id, password: userPassword, name, ...userObj} = user;
             userObj["id"] = _id;
+            userObj["name"] = `${name.firstName} ${name.lastName}`;
             console.log(`User: ${JSON.stringify(userObj)}`);
             return userObj;
           } else {

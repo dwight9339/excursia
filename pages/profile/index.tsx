@@ -47,7 +47,7 @@ const Profile: NextPage<ProfileProps> = ({ session, itineraries }) => {
   return (
     <div>
       <h1>Profile</h1>
-      <p>Username: {session.user?.username}</p>
+      <p>Name: {session.user?.name}</p>
       <p>Email: {session.user?.email}</p>
       {itineraries.length > 0 && (
         <>
