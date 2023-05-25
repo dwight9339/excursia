@@ -75,15 +75,17 @@ const SignUp = () => {
         >
           {() => (
             <Form className={styles.form}>
-              <div className={styles.fieldContainer}>
-                <label htmlFor="firstName">First Name</label>
-                <Field type="text" id="firstName" name="firstName" />
-                <ErrorMessage name="firstName" component="div" className="error" />
-              </div>
-              <div className={styles.fieldContainer}>
-                <label htmlFor="lastName">Last Name</label>
-                <Field type="text" id="lastName" name="lastName" />
-                <ErrorMessage name="lastName" component="div" className="error" />
+              <div className={styles.nameFieldsContainer}>
+                <div className={styles.fieldContainer}>
+                  <label htmlFor="firstName">First Name</label>
+                  <Field type="text" id="firstName" name="firstName" />
+                  <ErrorMessage name="firstName" component="div" className="error" />
+                </div>
+                <div className={styles.fieldContainer}>
+                  <label htmlFor="lastName">Last Name</label>
+                  <Field type="text" id="lastName" name="lastName" />
+                  <ErrorMessage name="lastName" component="div" className="error" />
+                </div>
               </div>
               <div className={styles.fieldContainer}>
                 <label htmlFor="email">Email</label>
