@@ -8,11 +8,12 @@ export const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Email/Username", type: "text", placeholder: "Username" },
+        email: { label: "Email", type: "text", placeholder: "Email" },
         password: { label: "Password", type: "password", placeholder: "Password" }
       },
       async authorize(credentials, req) {
-        const { username, password } = credentials;
+        const { email, password } = credentials;
+        console.log(`Suthorizing user: ${email}`);
         try {
           const mongodbClient = new MongoClient(process.env.MONGO_DB_URI);
           await mongodbClient.connect();
@@ -20,7 +21,7 @@ export const authOptions = {
           const userCollection = db.collection("users");
           
           // Query for user with username and password
-          const user = await userCollection.findOne({ username: username });
+          const user = await userCollection.findOne({ email: email });
           const passwordMatch = await bcrypt.compare(password, user.password);
 
           if (user) {
@@ -62,6 +63,9 @@ export const authOptions = {
       session.user = token.user;
       return session;
     }
+  },
+  pages: {
+    signIn: "/sign-in"
   }
 }
 

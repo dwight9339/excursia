@@ -11,7 +11,7 @@ const SignUp = () => {
   const router = useRouter();
 
   const validationSchema = Yup.object({
-    username: Yup.string().required('Username is required'),
+    email: Yup.string().required('Email is required'),
     password: Yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password')], 'Passwords must match')
@@ -29,12 +29,13 @@ const SignUp = () => {
         <div className={styles.boxTitle}>Sign Up</div>
         <Formik
           initialValues={{
-            username: '',
+            email: '',
             password: '',
             confirmPassword: '',
           }}
           validationSchema={validationSchema}
           onSubmit={async (values, { setSubmitting }) => {
+            console.log("Submitting form...");
             setServerError('');
             try {
               const response = await fetch('/api/create-user', {
@@ -43,7 +44,7 @@ const SignUp = () => {
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                  username: values.username,
+                  email: values.email,
                   password: values.password,
                 }),
               });
@@ -51,7 +52,7 @@ const SignUp = () => {
               if (response.ok) {
                 await signIn('credentials', {
                   redirect: false,
-                  username: values.username,
+                  email: values.email,
                   password: values.password,
                 });
                 router.push('/');
@@ -69,9 +70,9 @@ const SignUp = () => {
           {() => (
             <Form className={styles.form}>
               <div className={styles.fieldContainer}>
-                <label htmlFor="username">Username</label>
-                <Field type="text" id="username" name="username" />
-                <ErrorMessage name="username" component="div" className="error" />
+                <label htmlFor="email">Email</label>
+                <Field type="email" id="email" name="email" />
+                <ErrorMessage name="email" component="div" className="error" />
               </div>
 
               <div className={styles.fieldContainer}>
