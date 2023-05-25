@@ -6,8 +6,7 @@ import bcrypt from 'bcrypt';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     // Extract user preferences from the request body
-    const { email, password } = req.body;
-    console.log(`Creating user: ${email}`);
+    const { firstName, lastName, email, password } = req.body;
 
     try {
       // Insert draft itinerary into DB
@@ -26,7 +25,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // Hash the password
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(password, salt);
-      const newUser = { email, password: hash };
+      const name = { firstName, lastName }
+      const newUser = { name, email, password: hash };
       const insertResult = await usersCollection.insertOne(newUser);
 
       // Return itinerary ID

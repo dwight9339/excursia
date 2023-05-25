@@ -13,7 +13,6 @@ export const authOptions = {
       },
       async authorize(credentials, req) {
         const { email, password } = credentials;
-        console.log(`Suthorizing user: ${email}`);
         try {
           const mongodbClient = new MongoClient(process.env.MONGO_DB_URI);
           await mongodbClient.connect();

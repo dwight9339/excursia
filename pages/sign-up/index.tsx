@@ -11,6 +11,8 @@ const SignUp = () => {
   const router = useRouter();
 
   const validationSchema = Yup.object({
+    firstName: Yup.string().required('First name is required'),
+    lastName: Yup.string().required('Last name is required'),
     email: Yup.string().required('Email is required'),
     password: Yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
     confirmPassword: Yup.string()
@@ -29,6 +31,8 @@ const SignUp = () => {
         <div className={styles.boxTitle}>Sign Up</div>
         <Formik
           initialValues={{
+            firstName: '',
+            lastName: '',
             email: '',
             password: '',
             confirmPassword: '',
@@ -44,6 +48,8 @@ const SignUp = () => {
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                  firstName: values.firstName,
+                  lastName: values.lastName,
                   email: values.email,
                   password: values.password,
                 }),
@@ -70,11 +76,20 @@ const SignUp = () => {
           {() => (
             <Form className={styles.form}>
               <div className={styles.fieldContainer}>
+                <label htmlFor="firstName">First Name</label>
+                <Field type="text" id="firstName" name="firstName" />
+                <ErrorMessage name="firstName" component="div" className="error" />
+              </div>
+              <div className={styles.fieldContainer}>
+                <label htmlFor="lastName">Last Name</label>
+                <Field type="text" id="lastName" name="lastName" />
+                <ErrorMessage name="lastName" component="div" className="error" />
+              </div>
+              <div className={styles.fieldContainer}>
                 <label htmlFor="email">Email</label>
                 <Field type="email" id="email" name="email" />
                 <ErrorMessage name="email" component="div" className="error" />
               </div>
-
               <div className={styles.fieldContainer}>
                 <label htmlFor="password">Password</label>
                 <Field type="password" id="password" name="password" />
