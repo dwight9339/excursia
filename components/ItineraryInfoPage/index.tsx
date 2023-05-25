@@ -47,50 +47,37 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
     )
   }
 
+  const otherOptions = [
+    {
+      name: "Share",
+      // TODO: Implement share functionality
+      onClick: () => console.log("Sharing itinerary...")
+    },
+    {
+      name: "Edit",
+      onClick: () => router.push(`/itinerary/${itinerary.id}/edit`)
+    },
+    {
+      name: "Delete",
+      // TODO: Implement delete functionality
+      onClick: () => console.log("Deleting itinerary...")
+    }
+  ];
+
   return (
     <div>
       {deviceType === "desktop" &&
         <Desktop 
           itinerary={itinerary}
           screenWidth={screenWidth}
-          moreOptions={[
-            {
-              name: "Share",
-              // TODO: Implement share functionality
-              onClick: () => console.log("Sharing itinerary...")
-            },
-            {
-              name: "Edit",
-              onClick: () => router.push(`/itinerary/${itinerary.id}/edit`)
-            },
-            {
-              name: "Delete",
-              // TODO: Implement delete functionality
-              onClick: () => console.log("Deleting itinerary...")
-            }
-          ]}
+          moreOptions={otherOptions}
         />
       }
       {deviceType === "mobile" &&
         <Mobile
           itinerary={itinerary}
           screenWidth={screenWidth}
-          moreOptions={[
-            {
-              name: "Share",
-              // TODO: Implement share functionality
-              onClick: () => console.log("Sharing itinerary...")
-            },
-            {
-              name: "Edit",
-              onClick: () => router.push("/edit")
-            },
-            {
-              name: "Delete",
-              // TODO: Implement delete functionality
-              onClick: () => console.log("Deleting itinerary...")
-            }
-          ]}
+          moreOptions={otherOptions}
         />
       }
     </div>
