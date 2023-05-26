@@ -5,18 +5,23 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { SessionProvider } from 'next-auth/react';
 import Head from 'next/head';
 import Header from "../components/Header";
+import ModalProvider from '../providers/ModalProvider';
+import Modal from '../components/Modal';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SessionProvider session={pageProps.session}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Head>
-          <title>Excursia</title>
-          <meta name="description" content="Excursia" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <Header />
-        <Component {...pageProps} />
+        <ModalProvider>
+          <Head>
+            <title>Excursia</title>
+            <meta name="description" content="Excursia" />
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <Modal />
+          <Header />
+          <Component {...pageProps} />
+        </ModalProvider>
       </LocalizationProvider>
     </SessionProvider>
   );

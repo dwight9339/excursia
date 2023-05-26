@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import styles from "../../styles/ItineraryPage.module.scss";
 import Desktop from './Desktop';
 import Mobile from './Mobile';
+import ModalContext from '../../contexts/ModalContext';
 
 interface ItineraryPageProps {
   itinerary: Itinerary;
@@ -23,6 +24,7 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
     libraries: libraries as any
   });
+  const { openModal } = React.useContext(ModalContext);
   const [deviceType, setDeviceType] = useState<string>("desktop");
   const [screenWidth, setScreenWidth] = useState<number>(0);
 
@@ -60,7 +62,16 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
     {
       name: "Delete",
       // TODO: Implement delete functionality
-      onClick: () => console.log("Deleting itinerary...")
+      onClick: () => {
+        console.log("Deleting itinerary...");
+        openModal(
+          <div>
+            <h2>Are you sure you want to delete this itinerary?</h2>
+            <button onClick={() => console.log("Deleting itinerary...")}>Yes</button>
+            <button onClick={() => console.log("Canceling delete...")}>No</button>
+          </div>
+        );
+      }
     }
   ];
 
