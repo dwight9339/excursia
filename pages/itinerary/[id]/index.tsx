@@ -30,7 +30,7 @@ export async function getServerSideProps(context: ParsedUrlQuery) {
       console.log("Itinerary retrieved");
       return { props: { itinerary }};
     } else {
-      console.log(`Unable to retrieve draft`);
+      console.log(`Unable to retrieve itinerary with id ${id}`);
       return { props: { itinerary: {}}}; 
     }
   } catch(err) {

@@ -17,6 +17,7 @@ interface ItineraryPageProps {
 const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
   if (!itinerary) return <div>Itinerary not found</div>;
   const router = useRouter();
+  const { id: itineraryId } = router.query;
   const { data, status } = useSession();
   const userData: any = { ...data?.user };
   const libraries = useMemo(() => ["places"], []);
@@ -24,7 +25,7 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
     libraries: libraries as any
   });
-  const { openModal } = React.useContext(ModalContext);
+  const { openModal, closeModal } = React.useContext(ModalContext);
   const [deviceType, setDeviceType] = useState<string>("desktop");
   const [screenWidth, setScreenWidth] = useState<number>(0);
 
@@ -38,6 +39,25 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
   useEffect(() => {
     console.log(`Device type: ${deviceType}`);
   }, [deviceType]);
+
+  const deleteItinerary = async () => {
+    try {
+      const res = await fetch(`/api/delete-itinerary?itineraryId=${itineraryId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      const data = await res.json();
+      if (data.success) {
+        router.push("/my-itineraries");
+      } else {
+        console.log(data.message);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   if (!isLoaded) {
     return (
@@ -67,8 +87,8 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
         openModal(
           <div>
             <h2>Are you sure you want to delete this itinerary?</h2>
-            <button onClick={() => console.log("Deleting itinerary...")}>Yes</button>
-            <button onClick={() => console.log("Canceling delete...")}>No</button>
+            <button className="modal-button-secondary-action" onClick={closeModal}>No</button>
+            <button className="modal-button-primary-action" onClick={deleteItinerary}>Yes</button>
           </div>
         );
       }
