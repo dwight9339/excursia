@@ -7,7 +7,7 @@ const Modal: React.FC = () => {
 
   if (!modalContext?.isModalOpen) return null;
 
-  const { closeModal, modalContent } = modalContext;
+  const { closeModal, modalContent, modalOptions } = modalContext;
 
   return (
     <div className={styles.container}>
@@ -22,6 +22,17 @@ const Modal: React.FC = () => {
         </div>
         <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
           {modalContent}
+        </div>
+        <div className={styles.optionsContainer}>
+          {modalOptions?.map((option, index) => (
+            <div
+              key={index}
+              className={styles.option}
+              onClick={option.action}
+            >
+              {option.name}
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -87,9 +87,20 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
         openModal(
           <div>
             <h2>Are you sure you want to delete this itinerary?</h2>
-            <button className="modal-button-secondary-action" onClick={closeModal}>No</button>
-            <button className="modal-button-primary-action" onClick={deleteItinerary}>Yes</button>
-          </div>
+          </div>,
+          [
+            {
+              name: "Yes",
+              action: () => {
+                deleteItinerary();
+                closeModal();
+              }
+            },
+            {
+              name: "No",
+              action: () => closeModal()
+            }
+          ]
         );
       }
     }

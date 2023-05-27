@@ -36,5 +36,16 @@
     & .modalContent {
       padding: 30px 20px;
     }
+
+    & .optionsContainer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+
+      & .option {
+        @extend .buttonPrimary;
+        margin-left: 10px;
+      }
+    }
   }
 }
