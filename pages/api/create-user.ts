@@ -26,7 +26,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(password, salt);
       const name = { firstName, lastName }
-      const newUser = { name, email, password: hash };
+      const newUser = { 
+        name,
+        email,
+        password: hash,
+        preferences: {
+          language: 'english',
+          distanceUnit: 'miles'
+        }
+      };
       const insertResult = await usersCollection.insertOne(newUser);
 
       // Return itinerary ID

@@ -1,10 +1,9 @@
 import React from "react";
 import {
-  Typography,
   IconButton
 } from '@mui/material';
 import { Edit as EditIcon } from '@mui/icons-material';
-import styles from "./EditableText.module.css";
+import styles from "../styles/EditableText.module.scss";
 
 interface EditableTextProps {
   text: string;
@@ -53,9 +52,9 @@ const EditableText: React.FC<EditableTextProps> = ({
         />
         :
         <>
-          <Typography variant="h4" component="h1" className={styles.text}>
+          <p>
             {value}
-          </Typography>
+          </p>
           <IconButton 
             className={styles.editButton}
             onClick={handleEdit}

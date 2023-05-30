@@ -28,9 +28,8 @@ export const authOptions = {
               console.log("Password incorrect");
               return null;
             }
-            const {_id, password: userPassword, name, ...userObj} = user;
+            const {_id, password: userPassword, ...userObj} = user;
             userObj["id"] = _id;
-            userObj["name"] = `${name.firstName} ${name.lastName}`;
             console.log(`User: ${JSON.stringify(userObj)}`);
             return userObj;
           } else {

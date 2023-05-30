@@ -1,0 +1,50 @@
+@use "constants";
+@use "breakpoints";
+@import "common.module.scss";
+
+.container {
+  & section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    & h2, h3 {
+      margin: 0px;
+    }
+
+    & h2 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      padding: 1.5rem 0rem;
+    }
+
+    & h3, label {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    & label {
+      padding: 0.2rem;
+    }
+
+    & .infoField {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.2rem 0rem;
+    }
+
+    & .editable p {
+      margin: 0px;
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+
+    & select {
+      @extend .selectFieldBase;
+      margin-left: 0.5rem;
+    }
+  }
+}

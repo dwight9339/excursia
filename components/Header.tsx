@@ -5,15 +5,34 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../styles/Header.module.scss';
 import commonStyles from "../styles/common.module.scss";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import ModalContext from '../contexts/ModalContext';
+import AccountSettings from './AccountSettings';
 
 const Header = () => {
   const { data, status } = useSession();
+  const { openModal, closeModal } = useContext(ModalContext);
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const showAccountSettings = () => {
+    openModal(
+      <AccountSettings 
+        onSubmit={(settings) => {
+          console.log(`Updated settings: ${JSON.stringify(settings)}`);
+        }}
+      />,
+      [
+        {
+          name: "Save",
+          action: () => console.log("Saving settings...")
+        }
+      ]
+    );
   };
 
   useEffect(() => {
@@ -74,7 +93,7 @@ const Header = () => {
               <>
                 <div className={styles.dropDownMenuButton} onClick={() => router.push("/")}>New Itinerary</div>
                 <div className={styles.dropDownMenuButton} onClick={() => router.push("/my-itineraries")}>My Itineraries</div>
-                <div className={styles.dropDownMenuButton}>Account Settings</div>
+                <div className={styles.dropDownMenuButton} onClick={showAccountSettings}>Account Settings</div>
                 <div className={styles.dropDownMenuButton} onClick={() => signOut()}>Log Out</div>
               </>
             ) : (
