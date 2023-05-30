@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { useRouter } from 'next/router';
+import commonStyles from '../styles/common.module.scss';
 
 const UnauthorizedUser: React.FC = () => {
   const router = useRouter();
@@ -20,9 +21,9 @@ const UnauthorizedUser: React.FC = () => {
       <Typography variant="h4" align="center" gutterBottom>
         You do not have permission to edit this itinerary.
       </Typography>
-      <Button variant="contained" color="primary" onClick={handleRedirect}>
-        Go Back to Home Page
-      </Button>
+      <div className={commonStyles.buttonPrimary} onClick={handleRedirect}>
+        Home
+      </div>
     </Box>
   );
 };
