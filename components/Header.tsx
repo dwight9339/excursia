@@ -8,6 +8,7 @@ import commonStyles from "../styles/common.module.scss";
 import { useEffect, useState, useContext } from 'react';
 import ModalContext from '../contexts/ModalContext';
 import AccountSettings from './AccountSettings';
+import { sign } from 'crypto';
 
 const Header = () => {
   const { data, status } = useSession();
@@ -19,7 +20,10 @@ const Header = () => {
     setMenuOpen(!menuOpen);
   };
 
+
+
   const showAccountSettings = () => {
+    setMenuOpen(false);
     openModal(
       "Account Settings",
       <AccountSettings 
@@ -92,15 +96,30 @@ const Header = () => {
           <div className={styles.dropDownMenu}>
             {status === "authenticated" ? (
               <>
-                <div className={styles.dropDownMenuButton} onClick={() => router.push("/")}>New Itinerary</div>
-                <div className={styles.dropDownMenuButton} onClick={() => router.push("/my-itineraries")}>My Itineraries</div>
+                <div className={styles.dropDownMenuButton} onClick={() => {
+                  setMenuOpen(false);
+                  router.push("/")
+                }}>New Itinerary</div>
+                <div className={styles.dropDownMenuButton} onClick={() => {
+                  setMenuOpen(false);
+                  router.push("/my-itineraries")
+                }}>My Itineraries</div>
                 <div className={styles.dropDownMenuButton} onClick={showAccountSettings}>Account Settings</div>
-                <div className={styles.dropDownMenuButton} onClick={() => signOut()}>Log Out</div>
+                <div className={styles.dropDownMenuButton} onClick={() => {
+                  setMenuOpen(false);
+                  signOut();
+                }}>Log Out</div>
               </>
             ) : (
               <>
-                <div className={styles.dropDownMenuButton} onClick={() => signIn()}>Log In</div>
-                <div className={styles.dropDownMenuButton} onClick={() => router.push("/sign-up")}>Sign Up</div>
+                <div className={styles.dropDownMenuButton} onClick={() => {
+                  setMenuOpen(false);
+                  signIn();
+                }}>Log In</div>
+                <div className={styles.dropDownMenuButton} onClick={() => {
+                  setMenuOpen(false);
+                  router.push("/sign-up");
+                }}>Sign Up</div>
               </>
             )}
           </div>
