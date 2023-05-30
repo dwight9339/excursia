@@ -66,7 +66,7 @@ const Header = () => {
                   height={30}
                 />
               ) : (
-                <>{data?.user?.name?.[0]}</>
+                <>{data?.user?.name?.firstName?.[0]}{data?.user?.name?.lastName?.[0]}</>
               )}
             </div>
           </>
