@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import ActivitySearchForm from '../components/ActivitySearchForm';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { Box,  CircularProgress } from '@mui/material';
 import WelcomeBanner from '../components/WelcomeBanner';
+import styles from "../styles/Home.module.scss";
 
 const HomePage: React.FC = () => {
   const router = useRouter();
@@ -45,32 +46,23 @@ const HomePage: React.FC = () => {
     }
   };
 
-  if (status === 'loading') {
-    return (
-      <Box>
-        <div>
+  const pageContent = useMemo(() => {
+    if (status === "loading") {
+      return (
+        <div className={styles.spinnerContainer}>
           <CircularProgress />
         </div>
-      </Box>
-    )
-  }
+      )
+    }
+    if (status === "unauthenticated") return <WelcomeBanner />;
+    if (status === "authenticated") return <ActivitySearchForm onSubmit={handleCreateItinerary} />;
+    else return <div>Something went wrong...</div>;
 
-  if (status === "unauthenticated") {
-    return (
-      <div>
-        <WelcomeBanner />
-      </div>
-    )
-  }
-  
+  }, [status]);
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center'
-      }}
-    >
-      <ActivitySearchForm onSubmit={handleCreateItinerary} />
+    <div className={styles.container}>
+      {pageContent}
     </div>
   );
 };
