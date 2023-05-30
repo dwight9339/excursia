@@ -1,7 +1,6 @@
 @use "constants";
 @use "breakpoints";
 
-$headerHeight: 100px;
 $menuWidthTablet: 150px;
 
 .container {
@@ -10,7 +9,7 @@ $menuWidthTablet: 150px;
   align-items: center;
   padding: 10px 35px;
   background-color: constants.$darkBlue;
-  height: $headerHeight;
+  height: constants.$headerHeight;
 
   @media (max-width: breakpoints.$phone-max) {
     padding: 10px 15px;
@@ -43,7 +42,7 @@ $menuWidthTablet: 150px;
   margin: 0px;
   background-color: constants.$peachyTan;
   position: absolute;
-  top: $headerHeight;
+  top: constants.$headerHeight;
   right: 0px;
   color: constants.$darkBlue;
   font-weight: 700;
