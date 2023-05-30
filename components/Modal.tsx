@@ -7,12 +7,13 @@ const Modal: React.FC = () => {
 
   if (!modalContext?.isModalOpen) return null;
 
-  const { closeModal, modalContent, modalOptions } = modalContext;
+  const { closeModal, modalTitle, modalContent, modalActions } = modalContext;
 
   return (
     <div className={styles.container}>
       <div className={styles.modal}>
-        <div className={styles.closeButtonContainer}>
+        <div className={styles.modalHeader}>
+          <div className={styles.modalTitle}>{modalTitle}</div>
           <img 
             className={styles.closeButton} 
             src="/images/close.png" 
@@ -23,14 +24,14 @@ const Modal: React.FC = () => {
         <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
           {modalContent}
         </div>
-        <div className={styles.optionsContainer}>
-          {modalOptions?.map((option, index) => (
+        <div className={styles.modalFooter}>
+          {modalActions?.map((action, index) => (
             <div
               key={index}
-              className={styles.option}
-              onClick={option.action}
+              className={styles.action}
+              onClick={action.action}
             >
-              {option.name}
+              {action.name}
             </div>
           ))}
         </div>

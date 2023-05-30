@@ -5,31 +5,34 @@ interface ModalProviderProps {
   children: React.ReactNode;
 }
 
-interface ModalOption {
+interface ModalAction {
   name: string;
   action: () => void;
 }
 
 const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState<string>('');
   const [modalContent, setModalContent] = useState<React.ReactNode>(null);
-  const [modalOptions, setModalOptions] = useState<ModalOption[]>([]);
+  const [modalActions, setModalActions] = useState<ModalAction[]>([]);
   
 
-  const openModal = (content: React.ReactNode, options: ModalOption[]) => {
+  const openModal = (title: string, content: React.ReactNode, actions: ModalAction[]) => {
+    setModalTitle(title);
     setModalContent(content);
-    setModalOptions(options);
+    setModalActions(actions);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
+    setModalTitle('');
     setIsModalOpen(false);
     setModalContent(null);
-    setModalOptions([]);
+    setModalActions([]);
   };
 
   return (
-    <ModalContext.Provider value={{ isModalOpen, modalContent, modalOptions, openModal, closeModal }}>
+    <ModalContext.Provider value={{ isModalOpen, modalTitle, modalContent, modalActions, openModal, closeModal }}>
       {children}
     </ModalContext.Provider>
   );

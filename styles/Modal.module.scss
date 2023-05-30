@@ -2,6 +2,8 @@
 @use "breakpoints";
 @import "common.module.scss";
 
+$radius: 0.7rem;
+
 .container {
   background-color: rgba(0, 0, 0, 0.7);
   position: fixed;
@@ -16,12 +18,21 @@
 
   & .modal {
     @extend .box;
-    padding: 20px;
+    border-radius: $radius;
 
-    & .closeButtonContainer {
+    & .modalHeader {
       width: 100%;
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem;
+      border-radius: $radius $radius 0 0;
+      background-color: darken(constants.$orangeyTan, 10%);
+
+      & .modalTitle {
+        font-size: 2rem;
+        font-weight: 800;
+      }
 
       & .closeButton {
         background-color: transparent;
@@ -34,7 +45,7 @@
     }
 
     & .modalContent {
-      padding: 30px 20px;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -42,12 +53,12 @@
       text-align: center;
     }
 
-    & .optionsContainer {
+    & .modalFooter {
       display: flex;
       justify-content: flex-end;
-      margin-top: 20px;
+      padding: 1.5rem;
 
-      & .option {
+      & .action {
         @extend .buttonPrimary;
         margin-left: 10px;
       }

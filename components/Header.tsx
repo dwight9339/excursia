@@ -21,6 +21,7 @@ const Header = () => {
 
   const showAccountSettings = () => {
     openModal(
+      "Account Settings",
       <AccountSettings 
         onSubmit={(settings) => {
           console.log(`Updated settings: ${JSON.stringify(settings)}`);

@@ -85,6 +85,7 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
       onClick: () => {
         console.log("Deleting itinerary...");
         openModal(
+          "Delete Itinerary",
           <div>
             <h2>Are you sure you want to delete this itinerary?</h2>
           </div>,
