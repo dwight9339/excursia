@@ -41,12 +41,12 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ onSubmit }) => {
     setEmail(text);
   };
 
-  const handleLanguageChange = (text: string) => {
-    setLanguage(text);
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLanguage(e.target.value);
   };
 
-  const handleDistanceUnitChange = (text: string) => {
-    setDistanceUnit(text);
+  const handleDistanceUnitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setDistanceUnit(e.target.value);
   };
 
   // Handler for password reset
