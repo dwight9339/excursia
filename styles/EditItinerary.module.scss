@@ -8,6 +8,16 @@
   padding: 20px 15px;
 }
 
+.titleContainer {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  & p {
+    margin: 0;
+    font-size: 2em;
+    font-weight: 600;
+  }
+}
+
 .columnContainer {
   padding: 20px 15px;
   display: grid;
