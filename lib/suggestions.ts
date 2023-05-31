@@ -24,6 +24,7 @@ const fetchDetails = async (placeIds: string[]): Promise<google.maps.places.Plac
 // Fetch suggestions from the Google Places API
 export const fetchSuggestions = async (itinerary: Itinerary): Promise<google.maps.places.PlaceResult[]> => {
   const { interests, searchRadius, startingLocation } = itinerary;
+  console.log(`Fetching suggestions for ${interests.join(', ')} within ${searchRadius} miles of ${startingLocation.lat},${startingLocation.lng}`);
 
   try {
     // Prepare the Google Places API request
@@ -34,7 +35,7 @@ export const fetchSuggestions = async (itinerary: Itinerary): Promise<google.map
       // TODO: Tailor search query to user specified preferences
       keyword: `things to do ${interests.join(' ')}`,
       location: `${startingLocation.lat},${startingLocation.lng}`,
-      radius: searchRadius * 1609.34,   // Convert miles to meters
+      radius: searchRadius,
       key: apiKey
     };
 
@@ -47,6 +48,7 @@ export const fetchSuggestions = async (itinerary: Itinerary): Promise<google.map
     // const details = await fetchDetails(placeIds);
 
     // return details;
+    console.log(`Found suggestions: ${response.data.results.length}`);
 
     return response.data.results;
   } catch (error) {
