@@ -8,11 +8,7 @@ import EditableText from '../EditableText';
 
 interface TabletProps {
   itinerary: Itinerary;
-  itineraryName: string;
-  setItineraryName: (newName: string) => void;
-  startLocation: google.maps.LatLngLiteral | undefined;
-  selectedActivities: Activity[];
-  setSelectedActivities: (newActivities: Activity[]) => void;
+  updateItinerary: (itinerary: Itinerary) => void;
   isSaving: boolean;
   setIsSaving: (isSaving: boolean) => void;
   handleSaveItinerary: () => void;
@@ -24,11 +20,7 @@ interface TabletProps {
 
 const Tablet: React.FC<TabletProps> = ({
   itinerary,
-  itineraryName,
-  setItineraryName,
-  startLocation,
-  selectedActivities,
-  setSelectedActivities,
+  updateItinerary,
   isSaving,
   setIsSaving,
   handleSaveItinerary,
@@ -45,15 +37,14 @@ const Tablet: React.FC<TabletProps> = ({
       <div className={styles.column}>
         <div className={styles.titleContainer}>
           <EditableText
-            text={itineraryName}
-            onEdit={(newName) => setItineraryName(newName)}
+            text={itinerary.name}
+            onEdit={(newName) => updateItinerary({...itinerary, name: newName})}
           />
         </div>
         <div className={styles.mapContainer}>
           <ItineraryMap
-            directions={undefined}
-            location={startLocation}
-            activities={selectedActivities}
+            location={itinerary.startingLocation}
+            activities={itinerary.activities}
             zoomLevel={7}
             mapWidth={mapWidth}
             mapHeight={mapHeight}
@@ -62,12 +53,12 @@ const Tablet: React.FC<TabletProps> = ({
         <div className={styles.selectedActivitiesContainer}>
           <h3>Selected Activities</h3>
           <ActivityList
-            activities={selectedActivities}
+            activities={itinerary.activities}
             onReorder={handleReorder}
             onTimeUpdate={(index, newTime) => {
-              const newActivities = [...selectedActivities];
+              const newActivities = [...itinerary.activities];
               newActivities[index].allottedTime = newTime;
-              setSelectedActivities(newActivities);
+              updateItinerary({...itinerary, activities: newActivities});
             }}
             onDelete={handleDeleteActivity}
           />
@@ -77,7 +68,7 @@ const Tablet: React.FC<TabletProps> = ({
         <div className={styles.SuggestedActivitiesContainer}>
           <h3>Suggested Activities</h3>
           <SuggestedActivities
-            selectedActivities={selectedActivities.map((activity) => activity.place?.place_id).filter((placeId) => placeId) as string[]}
+            selectedActivities={itinerary.activities.map((activity) => activity.place?.place_id).filter((placeId) => placeId) as string[]}
             suggestions={itinerary.suggestions}
             handleAddActivity={(suggestion: google.maps.places.PlaceResult) => {
               const activity: Activity = {

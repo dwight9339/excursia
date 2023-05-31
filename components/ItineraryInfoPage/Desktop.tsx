@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../../styles/ItineraryPage.module.scss";
 import ItineraryMap from '../ItineraryMap';
 import OptionsButton from '../OptionsButton';
@@ -18,6 +18,9 @@ const Desktop: React.FC<ItineraryPageProps> = ({
   screenWidth,
   moreOptions
 }) => {
+  useEffect(() => {
+    console.log(`itinerary: ${JSON.stringify(itinerary)}`);
+  }, [itinerary]);
   const itineraryLocations = itinerary.activities
     .map((activity) => activity.place?.geometry?.location || activity.location)
     .filter((location) => location) as google.maps.LatLng[];
@@ -34,7 +37,6 @@ const Desktop: React.FC<ItineraryPageProps> = ({
         </div>
         <div className={styles.mapContainer}>
           <ItineraryMap
-            directions={itinerary.directions}
             activities={itinerary.activities}
             location={itinerary.startingLocation}
             zoomLevel={7}

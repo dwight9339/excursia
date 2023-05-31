@@ -11,16 +11,14 @@ import { get } from "https";
 import { CenterFocusStrong } from "@mui/icons-material";
 
 interface MapParams {
-  directions: google.maps.DirectionsResult | undefined;
   activities: Activity[];
-  location: google.maps.LatLngLiteral | undefined;
+  location: google.maps.LatLngLiteral;
   zoomLevel: number;
   mapWidth: number;
   mapHeight: number;
 }
 
 const ItineraryMap: React.FC<MapParams> = ({
-  directions,
   activities,
   location,
   zoomLevel,
