@@ -19,6 +19,7 @@ interface DesktopProps {
   handleAddActivity: (activity: Activity) => void;
   handleReorder: (startIndex: number, endIndex: number) => void;
   handleDeleteActivity: (index: number) => void;
+  windowWidth: number;
 }
 
 const Desktop: React.FC<DesktopProps> = ({
@@ -33,8 +34,12 @@ const Desktop: React.FC<DesktopProps> = ({
   handleSaveItinerary,
   handleAddActivity,
   handleReorder,
-  handleDeleteActivity
+  handleDeleteActivity,
+  windowWidth
 }) => {
+  const mapWidth = windowWidth ? windowWidth * 0.35 : 400;
+  const mapHeight = mapWidth * 0.85;
+
   return (
     <div className={styles.columnContainer}>
       <div className={styles.column}>
@@ -44,32 +49,14 @@ const Desktop: React.FC<DesktopProps> = ({
             onEdit={(newName) => setItineraryName(newName)}
           />
         </div>
-        {/* <div className={styles.dateTimeSelectContainer}>
-          <TimeSelector
-            onDateTimeChange={(dateTime) => setStartTime(dateTime)}
-          />
-        </div>
-        <div className={styles.tripSummaryContainer}>
-          <TripSummary
-            activities={selectedActivities}
-            directions={directions}
-            startTime={startTime}
-          />
-        </div> */}
-        {/* <div className={styles.routeOptionsContainer}>
-          <RouteOptions
-            routeOptions={routeOptions}
-            onRouteOptionsChange={handleSaveRouteOptions}
-          />
-        </div> */}
         <div className={styles.mapContainer}>
           <ItineraryMap
             directions={undefined}
             location={startLocation}
             activities={selectedActivities}
             zoomLevel={7}
-            mapWidth={375}
-            mapHeight={320}
+            mapWidth={mapWidth}
+            mapHeight={mapHeight}
           />
         </div>
         <div className={styles.saveButtonContainer}>

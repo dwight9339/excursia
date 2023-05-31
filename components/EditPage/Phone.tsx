@@ -19,6 +19,7 @@ interface PhoneProps {
   handleAddActivity: (activity: Activity) => void;
   handleReorder: (startIndex: number, endIndex: number) => void;
   handleDeleteActivity: (index: number) => void;
+  windowWidth: number;
 }
 
 const Phone: React.FC<PhoneProps> = ({
@@ -33,8 +34,12 @@ const Phone: React.FC<PhoneProps> = ({
   handleSaveItinerary,
   handleAddActivity,
   handleReorder,
-  handleDeleteActivity
+  handleDeleteActivity,
+  windowWidth
 }) => {
+  const mapWidth = windowWidth * 0.85;
+  const mapHeight = mapWidth * 0.85;
+
   return (
     <div className={styles.columnContainer}>
       <div className={styles.column}>
@@ -50,8 +55,8 @@ const Phone: React.FC<PhoneProps> = ({
             location={startLocation}
             activities={selectedActivities}
             zoomLevel={7}
-            mapWidth={375}
-            mapHeight={320}
+            mapWidth={mapWidth}
+            mapHeight={mapHeight}
           />
         </div>
         <div className={styles.selectedActivitiesContainer}>

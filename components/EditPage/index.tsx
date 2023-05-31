@@ -259,6 +259,7 @@ const EditPage: React.FC<EditPageProps> = ({
         handleAddActivity={handleAddActivity}
         handleReorder={handleReorder}
         handleDeleteActivity={handleDeleteActivity}
+        windowWidth={windowWidth}
       />}
       {deviceType === "tablet" && <Tablet
         itinerary={itinerary}
@@ -273,6 +274,7 @@ const EditPage: React.FC<EditPageProps> = ({
         handleAddActivity={handleAddActivity}
         handleReorder={handleReorder}
         handleDeleteActivity={handleDeleteActivity}
+        windowWidth={windowWidth}
       />}
       {deviceType === "phone" && <Phone
         itinerary={itinerary}
@@ -287,6 +289,7 @@ const EditPage: React.FC<EditPageProps> = ({
         handleAddActivity={handleAddActivity}
         handleReorder={handleReorder}
         handleDeleteActivity={handleDeleteActivity}
+        windowWidth={windowWidth}
       />}
     </div>
   );
