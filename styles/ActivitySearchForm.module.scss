@@ -8,17 +8,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  padding: 40px;
+  padding: 1.5rem 3rem;
   width: 95%;
   max-width: 940px;
-}
-
-.header {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
 }
 
 .label {
@@ -31,24 +23,6 @@
 
 .accommodationsSelectContainer {
   padding-top: 15px;
-}
-
-.createButtonContainer {
-  padding-top: 25px;
-
-  @media screen and (max-width: breakpoints.$phone-max) {
-    display: flex;
-    justify-content: center;
-  }
-}
-
-.createButton {
-  @extend .buttonPrimary;
-
-  @media screen and (max-width: breakpoints.$phone-max) {
-    width: 85%;
-    font-size: 1.5em;
-  }
 }
 
 .locationSearchBar {

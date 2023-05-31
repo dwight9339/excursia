@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react";
-import styles from "../styles/GridCheckbox.module.scss";
+import styles from "../../styles/GridCheckbox.module.scss";
 import Image from "next/image";
 
 interface CheckboxItem {

@@ -1,13 +1,11 @@
 declare interface Itinerary {
-  id: string;
+  id?: string;
   name: string;
   startingLocation: google.maps.LatLngLiteral;
-  startTime: string;
   interests: string[];
-  searchRadius: number;
+  searchRadius: number;     // In meters
   activities: Activity[];
   suggestions: google.maps.places.PlaceResult[];
-  directions?: google.maps.DirectionsResult;
   createdDate: string;
-  ownerId?: string;
+  ownerId: string;
 }

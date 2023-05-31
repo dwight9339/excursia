@@ -1,7 +1,7 @@
 import React, { useMemo, useRef } from "react";
 import { CircularProgress } from "@mui/material";
 import { useLoadScript, GoogleMap, CircleF } from "@react-google-maps/api";
-import { milesToMeters } from "../lib/distanceConversions";
+import { milesToMeters } from "../../lib/distanceConversions";
 
 interface MapParams {
   location: {
@@ -48,23 +48,12 @@ const LocationMap: React.FC<MapParams> = ({
         zoom={zoomLevel}
         mapTypeId={google.maps.MapTypeId.ROADMAP}
         mapContainerStyle={{ width: mapWidth, height: mapHeight }}
-        onDragEnd={() => {
-          // const newCenter = mapRef.current?.getCenter().toJSON() as google.maps.LatLngLiteral;
-          // console.log(`New center: ${newCenter?.lat}, ${newCenter?.lng}`);
-          // handleCenterChanged(newCenter);
-          // mapRef.current?.moveCamera({
-          //   center: location,
-          //   zoom: zoomLevel,
-          //   });
-        }}
         
         options={{
           disableDefaultUI: true,
-          maxZoom: zoomLevel + 1,
-          minZoom: zoomLevel - 1,
         }}
       >
-        {isDefaultLocation ? null : <CircleF center={location} radius={milesToMeters(searchRadius)} />}
+        {isDefaultLocation ? null : <CircleF center={location} radius={searchRadius} />}
       </GoogleMap>
     </div>
   )
