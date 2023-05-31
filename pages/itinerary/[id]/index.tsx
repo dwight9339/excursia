@@ -26,9 +26,8 @@ export async function getServerSideProps(context: ParsedUrlQuery) {
     const res = await fetchItinerary(id);
 
     if (res) {
-      const {_id, ...itinerary} = res;
       console.log("Itinerary retrieved");
-      return { props: { itinerary }};
+      return { props: { itinerary: res }};
     } else {
       console.log(`Unable to retrieve itinerary with id ${id}`);
       return { props: { itinerary: {}}}; 
