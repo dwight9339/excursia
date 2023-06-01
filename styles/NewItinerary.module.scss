@@ -5,11 +5,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  max-width: 90%;
 
   & .newItineraryHeader {
     display: flex;
     flex-direction: row;
     justify-content: center;
+  }
+
+  & .newItineraryForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   & .newItineraryFooter {

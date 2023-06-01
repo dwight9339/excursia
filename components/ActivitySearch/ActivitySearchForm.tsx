@@ -31,8 +31,8 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ itinerary, updateI
       setMapWidth(750);
       setMapHeight(350);
     } else {
-      setMapWidth(windowWidth.current * 0.89);
-      setMapHeight(400 * (windowWidth.current * 0.89) / 850);
+      setMapWidth(windowWidth.current * 0.75);
+      setMapHeight(400 * (windowWidth.current * 0.75) / 850);
     }
   }, [windowWidth.current]);
 
