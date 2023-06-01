@@ -122,7 +122,7 @@ const AccountSettings: React.FC = () => {
         </label>
       </section>
       <div className={styles.footer}>
-        <button className={styles.submitButton} onClick={handleSubmit}>Submit</button>
+        <button className={styles.submitButton} onClick={handleSubmit}>Save</button>
       </div>
     </div>
   );

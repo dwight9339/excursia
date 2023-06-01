@@ -29,6 +29,10 @@ $radius: 0.7rem;
       border-radius: $radius $radius 0 0;
       background-color: darken(constants.$orangeyTan, 10%);
 
+      @media screen and (prefers-color-scheme: dark) {
+        background-color: lighten(constants.$darkBlue, 5%);        
+      }
+
       & .modalTitle {
         font-size: 2rem;
         font-weight: 800;
@@ -41,11 +45,14 @@ $radius: 0.7rem;
         border: none;
         cursor: pointer;
         font-size: 20px;
+
+        @media screen and (prefers-color-scheme: dark) {
+          filter: invert(0.8);
+        }
       }
     }
 
     & .modalContent {
-      padding: 1.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -56,10 +63,10 @@ $radius: 0.7rem;
     & .modalFooter {
       display: flex;
       justify-content: flex-end;
-      padding: 1.5rem;
 
       & .action {
         @extend .buttonPrimary;
+        padding: 1.5rem;
         margin-left: 10px;
       }
     }
