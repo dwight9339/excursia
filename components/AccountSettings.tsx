@@ -1,20 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useSession } from 'next-auth/react';
 import EditableText from './EditableText';
 import styles from '../styles/AccountSettings.module.scss';
+import axios from 'axios';
+import ModalContext from '../contexts/ModalContext';
 
-interface AccountSettingsProps {
-  onSubmit: (settings: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    language: string;
-    distanceUnit: string;
-  }) => void;
-}
-
-const AccountSettings: React.FC<AccountSettingsProps> = ({ onSubmit }) => {
-  const { data: session } = useSession();
+const AccountSettings: React.FC = () => {
+  const { data: session, update: updateSession } = useSession();
+  const { closeModal } = useContext(ModalContext);
 
   // If there's no session data, show a loading message
   if (!session) {
@@ -54,14 +47,30 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ onSubmit }) => {
     // Add logic to handle password reset here
   };
 
-  const handleSubmit = () => {
-    onSubmit({
-      firstName,
-      lastName,
-      email,
-      language,
-      distanceUnit,
-    });
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.post('/api/update-user', {
+        userId: session.user?.id,
+        userInfo: {
+          name: {
+            firstName,
+            lastName
+          },
+          email,
+          preferences: {
+            language,
+            distanceUnit
+          }
+        }
+      });
+      if (res.status === 200) {
+        console.log("User info updated");
+        await updateSession();
+        closeModal();
+      }
+    } catch (err) {
+      console.log(`Error: ${err}`);
+    }
   };
 
   return (
@@ -112,6 +121,9 @@ const AccountSettings: React.FC<AccountSettingsProps> = ({ onSubmit }) => {
           </select>
         </label>
       </section>
+      <div className={styles.footer}>
+        <button className={styles.submitButton} onClick={handleSubmit}>Submit</button>
+      </div>
     </div>
   );
 };

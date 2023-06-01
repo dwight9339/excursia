@@ -26,17 +26,8 @@ const Header = () => {
     setMenuOpen(false);
     openModal(
       "Account Settings",
-      <AccountSettings 
-        onSubmit={(settings) => {
-          console.log(`Updated settings: ${JSON.stringify(settings)}`);
-        }}
-      />,
-      [
-        {
-          name: "Save",
-          action: () => console.log("Saving settings...")
-        }
-      ]
+      <AccountSettings />,
+      []
     );
   };
 

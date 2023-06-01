@@ -2,6 +2,7 @@ import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { MongoClient } from "mongodb"
+import { fetchUserById } from "../../../lib/dbFetch";
 
 export const authOptions = {
   providers: [
@@ -30,7 +31,6 @@ export const authOptions = {
             }
             const {_id, password: userPassword, ...userObj} = user;
             userObj["id"] = _id;
-            console.log(`User: ${JSON.stringify(userObj)}`);
             return userObj;
           } else {
             console.log("User not found");
@@ -51,9 +51,13 @@ export const authOptions = {
     secret: process.env.NEXTAUTH_SECRET
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, trigger, user }) {
+      if (token?.user?.id && trigger === "update") {
+        const updatedUser = await fetchUserById(token.user.id);
+        token.user = updatedUser;
+      }
+
       if (user) {
-        console.log(`JWT User: ${JSON.stringify(user)}`);
         token.user = user;
       }
       return token;
