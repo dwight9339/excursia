@@ -5,6 +5,7 @@ import ActivityList from '../ActivityList';
 import SuggestedActivities from '../SuggestedActivities';
 import AddActivity from '../AddActivity';
 import EditableText from '../EditableText';
+import ModalContext from '../../contexts/ModalContext';
 
 interface TabletProps {
   itinerary: Itinerary;
@@ -31,6 +32,7 @@ const Tablet: React.FC<TabletProps> = ({
 }) => {
   const mapWidth = windowWidth * 0.55;
   const mapHeight = mapWidth * 0.85;
+  const { openModal } = React.useContext(ModalContext);
 
   return (
     <div className={styles.columnContainer}>
@@ -63,6 +65,22 @@ const Tablet: React.FC<TabletProps> = ({
             onDelete={handleDeleteActivity}
           />
         </div>
+        <div className={styles.addCustomButtonContainer}>
+          <div
+            className={styles.addCustomButton} 
+            onClick={() => {
+              openModal(
+                "Add Custom Activity",
+                <AddActivity
+                  onSubmit={handleAddActivity}
+                />,
+                []
+              );
+            }}
+          >
+            Add custom activity
+          </div>
+        </div>
       </div>
       <div className={styles.column}>
         <div className={styles.SuggestedActivitiesContainer}>
@@ -78,12 +96,6 @@ const Tablet: React.FC<TabletProps> = ({
               };
               handleAddActivity(activity);
             }} 
-          />
-        </div>
-        <div className={styles.addActivityContainer}>
-          <h3>Add Activity</h3>
-          <AddActivity
-            onSubmit={handleAddActivity}
           />
         </div>
         <div className={styles.saveButtonContainer}>

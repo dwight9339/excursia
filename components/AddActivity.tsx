@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import LocationSearch from './LocationSearch';
 import styles from '../styles/AddActivity.module.scss';
 import commonStyles from "../styles/common.module.scss"
+import ModalContext from '../contexts/ModalContext';
 
 interface AddActivityProps {
   onSubmit: (activity: Activity) => void;
@@ -17,6 +18,7 @@ interface FormValues {
 
 const AddActivity: React.FC<AddActivityProps> = ({ onSubmit }) => {
   const [resetKey, setResetKey] = useState<number>(0);
+  const { closeModal } = useContext(ModalContext);
 
   const initialValues: FormValues = {
     name: '',
@@ -43,11 +45,11 @@ const AddActivity: React.FC<AddActivityProps> = ({ onSubmit }) => {
       description: values.description,
       location: values.location,
     };
-    console.log(`Submitting activity: ${JSON.stringify(activity)}`);
     onSubmit(activity);
     setSubmitting(false);
     resetForm();
     setResetKey(resetKey + 1);
+    closeModal();
   };
 
   return (
@@ -72,7 +74,7 @@ const AddActivity: React.FC<AddActivityProps> = ({ onSubmit }) => {
                 onBlur={handleBlur}
               />
             </div>
-            <div className={styles.fieldContainer}>
+            {/* <div className={styles.fieldContainer}>
               <div className={styles.fieldLabel}>
                 Type
               </div>
@@ -85,7 +87,7 @@ const AddActivity: React.FC<AddActivityProps> = ({ onSubmit }) => {
               >
                 <option value="restaurant">Restaurant</option>
               </select>
-            </div>
+            </div> */}
             <div className={styles.fieldContainer}>
               <div className={styles.fieldLabel}>
                 Location

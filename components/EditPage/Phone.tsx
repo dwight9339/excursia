@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from "../../styles/EditItinerary.module.scss";
 import ItineraryMap from '../ItineraryMap';
 import ActivityList from '../ActivityList';
 import SuggestedActivities from '../SuggestedActivities';
 import AddActivity from '../AddActivity';
 import EditableText from '../EditableText';
+import ModalContext from '../../contexts/ModalContext';
 
 interface PhoneProps {
   itinerary: Itinerary;
@@ -31,6 +32,7 @@ const Phone: React.FC<PhoneProps> = ({
 }) => {
   const mapWidth = windowWidth * 0.85;
   const mapHeight = mapWidth * 0.85;
+  const { openModal } = useContext(ModalContext);
 
   return (
     <div className={styles.columnContainer}>
@@ -62,6 +64,22 @@ const Phone: React.FC<PhoneProps> = ({
             }}
             onDelete={handleDeleteActivity}
           />
+          <div className={styles.addCustomButtonContainer}>
+            <div
+              className={styles.addCustomButton} 
+              onClick={() => {
+                openModal(
+                  "Add Custom Activity",
+                  <AddActivity
+                    onSubmit={handleAddActivity}
+                  />,
+                  []
+                );
+              }}
+            >
+              Add custom activity
+            </div>
+          </div>
         </div>
         <div className={styles.SuggestedActivitiesContainer}>
           <h3>Suggested Activities</h3>
@@ -76,12 +94,6 @@ const Phone: React.FC<PhoneProps> = ({
               };
               handleAddActivity(activity);
             }} 
-          />
-        </div>
-        <div className={styles.addActivityContainer}>
-          <h3>Add Activity</h3>
-          <AddActivity
-            onSubmit={handleAddActivity}
           />
         </div>
         <div className={styles.saveButtonContainer}>

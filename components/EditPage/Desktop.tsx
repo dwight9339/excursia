@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from "../../styles/EditItinerary.module.scss";
 import ItineraryMap from '../ItineraryMap';
 import ActivityList from '../ActivityList';
 import SuggestedActivities from '../SuggestedActivities';
 import AddActivity from '../AddActivity';
 import EditableText from '../EditableText';
+import ModalContext from '../../contexts/ModalContext';
 
 interface DesktopProps {
   itinerary: Itinerary;
@@ -31,6 +32,7 @@ const Desktop: React.FC<DesktopProps> = ({
 }) => {
   const mapWidth = windowWidth ? windowWidth * 0.35 : 400;
   const mapHeight = mapWidth * 0.85;
+  const { openModal } = useContext(ModalContext);
 
   return (
     <div className={styles.columnContainer}>
@@ -73,6 +75,22 @@ const Desktop: React.FC<DesktopProps> = ({
             }}
             onDelete={handleDeleteActivity}
           />
+          <div className={styles.addCustomButtonContainer}>
+            <div
+              className={styles.addCustomButton} 
+              onClick={() => {
+                openModal(
+                  "Add Custom Activity",
+                  <AddActivity
+                    onSubmit={handleAddActivity}
+                  />,
+                  []
+                );
+              }}
+            >
+              Add custom activity
+            </div>
+          </div>
         </div>
         {/* <div className={styles.optimizeButtonContainer}>
           <button onClick={optimizeOrder}>Optimize</button>
@@ -92,12 +110,6 @@ const Desktop: React.FC<DesktopProps> = ({
               };
               handleAddActivity(activity);
             }} 
-          />
-        </div>
-        <div className={styles.addActivityContainer}>
-          <h3>Add Activity</h3>
-          <AddActivity
-            onSubmit={handleAddActivity}
           />
         </div>
       </div>

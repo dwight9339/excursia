@@ -23,10 +23,13 @@
 
 .fieldLabel {
   @extend .fieldLabelBase;
+  width: 100%;
+  text-align: left;
 }
 
 .textField {
   @extend .textBoxBase;
+  width: 100%;
 }
 
 .selectField {

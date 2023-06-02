@@ -54,3 +54,14 @@
     font-size: 1.5em;
   }
 }
+
+.addCustomButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem 0.5rem;
+
+  & .addCustomButton {
+    cursor: pointer;
+  }
+}
