@@ -15,7 +15,7 @@ const NewItinerary: React.FC = () => {
     activities: [],
     suggestions: [],
     createdDate: new Date().toISOString(),
-    ownerId: data?.user?.id
+    ownerId: `${data?.user?.id}`
   });
 
   const handleCreateItinerary = async () => {

@@ -37,7 +37,6 @@ const Mobile: React.FC<ItineraryPageProps> = ({
         </div>
         <div className={styles.mapContainer}>
           <ItineraryMap
-            directions={itinerary.directions}
             activities={itinerary.activities}
             location={itinerary.startingLocation}
             zoomLevel={7}

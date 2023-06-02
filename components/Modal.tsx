@@ -25,7 +25,7 @@ const Modal: React.FC = () => {
           {modalContent}
         </div>
         <div className={styles.modalFooter}>
-          {modalActions?.map((action, index) => (
+          {modalActions?.map((action: any, index: number) => (
             <div
               key={index}
               className={styles.action}

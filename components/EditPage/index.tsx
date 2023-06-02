@@ -12,12 +12,10 @@ import Tablet from "./Tablet";
 import Phone from "./Phone";
 
 interface EditPageProps {
-  itineraryId: string | null;
   itinerary: Itinerary;
 }
 
 const EditPage: React.FC<EditPageProps> = ({
-  itineraryId,
   itinerary
 }) => {
   const libraries = useMemo(() => ["places"], []);
@@ -77,7 +75,7 @@ const EditPage: React.FC<EditPageProps> = ({
       return;
     }
 
-    if (!itineraryId
+    if (!itinerary.id
       || !itinerary.name
       || !itinerary.startingLocation) {
       return;

@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Head>
             <title>Excursia</title>
             <meta name="description" content="Excursia" />
-            <link rel="icon" href="/favicon.ico" />
+            <link rel="icon" href="/favicon.png" />
           </Head>
           <Modal />
           <Header />

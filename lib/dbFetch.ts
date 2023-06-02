@@ -7,6 +7,9 @@ export const fetchItinerary = async (id: string) => {
   const itineraryCollection: Collection = db.collection("itinerary");
   
   const itinerary = await itineraryCollection.findOne({ _id: new ObjectId(`${id}`) });
+  if (!itinerary) {
+    return null;
+  }
   const { _id, ..._itinerary } = itinerary;
 
   return { id: `${_id}`, ..._itinerary };

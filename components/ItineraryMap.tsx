@@ -44,7 +44,8 @@ const ItineraryMap: React.FC<MapParams> = ({
           } else if (activity.location) {
             return new google.maps.LatLng(activity.location);
           }
-        });
+        })
+        .filter((location) => location !== undefined) as google.maps.LatLng[];
       const activityBounds = getBoundsFromLatLngs([...activityLocations, new google.maps.LatLng(location)]);
       setZoom(getZoomLevelForBounds(activityBounds, mapWidth, mapHeight));
       setCenter(activityBounds.getCenter());
@@ -52,7 +53,7 @@ const ItineraryMap: React.FC<MapParams> = ({
   }, [isLoaded, location, activities]);
   
   const handleLoad = (map: google.maps.Map) => {
-    mapRef.current = map;
+    // mapRef.current = map;
   };
 
   if (!isLoaded || !location) {

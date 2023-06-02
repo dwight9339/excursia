@@ -15,7 +15,6 @@ interface ItineraryPageProps {
 }
 
 const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
-  if (!itinerary) return <div>Itinerary not found</div>;
   const router = useRouter();
   const { id: itineraryId } = router.query;
   const { data, status } = useSession();
@@ -36,10 +35,6 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
     }
   }, [setDeviceType]);
 
-  useEffect(() => {
-    console.log(`Device type: ${deviceType}`);
-  }, [deviceType]);
-
   const deleteItinerary = async () => {
     try {
       const res = await fetch(`/api/delete-itinerary?itineraryId=${itineraryId}`, {
@@ -58,16 +53,6 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
       console.log(err);
     }
   };
-
-  if (!isLoaded) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.spinnerContainer}>
-          <CircularProgress />
-        </div>
-      </div>
-    )
-  }
 
   const otherOptions = [
     {
@@ -107,22 +92,40 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
     }
   ];
 
-  return (
-    <div>
-      {deviceType === "desktop" &&
+  const pageContent = useMemo(() => {
+    if (!isLoaded) {
+      return (
+        <div className={styles.container}>
+          <div className={styles.spinnerContainer}>
+            <CircularProgress />
+          </div>
+        </div>
+      )
+    }
+
+    if (deviceType === "desktop") {
+      return (
         <Desktop 
           itinerary={itinerary}
           screenWidth={screenWidth}
           moreOptions={otherOptions}
         />
-      }
-      {deviceType === "mobile" &&
-        <Mobile
-          itinerary={itinerary}
-          screenWidth={screenWidth}
-          moreOptions={otherOptions}
-        />
-      }
+      );
+    }
+
+    return (
+      <Mobile
+        itinerary={itinerary}
+        screenWidth={screenWidth}
+        moreOptions={otherOptions}
+      />
+    );
+  }, [isLoaded, deviceType, screenWidth]);
+  
+
+  return (
+    <div>
+      {pageContent}
     </div>
   );
 };

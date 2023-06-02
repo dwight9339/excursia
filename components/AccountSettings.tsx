@@ -9,17 +9,12 @@ const AccountSettings: React.FC = () => {
   const { data: session, update: updateSession } = useSession();
   const { closeModal } = useContext(ModalContext);
 
-  // If there's no session data, show a loading message
-  if (!session) {
-    return <div>Loading...</div>;
-  }
-
   // Form state
-  const [firstName, setFirstName] = useState(session.user?.name?.firstName || '');
-  const [lastName, setLastName] = useState(session.user?.name?.lastName || '');
-  const [email, setEmail] = useState(session.user?.email || '');
-  const [language, setLanguage] = useState(session.user?.preferences?.language || '');
-  const [distanceUnit, setDistanceUnit] = useState(session.user?.preferences?.distanceUnit || '');
+  const [firstName, setFirstName] = useState(session?.user?.name?.firstName || '');
+  const [lastName, setLastName] = useState(session?.user?.name?.lastName || '');
+  const [email, setEmail] = useState(session?.user?.email || '');
+  const [language, setLanguage] = useState(session?.user?.preferences?.language || '');
+  const [distanceUnit, setDistanceUnit] = useState(session?.user?.preferences?.distanceUnit || '');
 
   // Handlers for form changes
   const handleFirstNameChange = (text: string) => {
@@ -50,7 +45,7 @@ const AccountSettings: React.FC = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post('/api/update-user', {
-        userId: session.user?.id,
+        userId: session?.user?.id,
         userInfo: {
           name: {
             firstName,
@@ -72,6 +67,11 @@ const AccountSettings: React.FC = () => {
       console.log(`Error: ${err}`);
     }
   };
+
+  // If there's no session data, show a loading message
+  if (!session) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className={styles.container}>

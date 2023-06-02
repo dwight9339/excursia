@@ -10,9 +10,10 @@ interface ItineraryPageProps {
 }
 
 const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
-  if (!itinerary) return <div>Itinerary not found</div>;
   const { data, status } = useSession();
   const userData: any = { ...data?.user };
+
+  if (!itinerary) return <div>Itinerary not found</div>;
 
   return (
     <ItineraryInfoPage itinerary={itinerary} />

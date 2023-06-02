@@ -4,16 +4,14 @@ import { fetchItinerary } from '../../../lib/dbFetch';
 import EditPage from '../../../components/EditPage';
 
 interface EditItineraryProps {
-  itineraryId: string | null;
   itinerary: Itinerary;
 }
 
-const EditItinerary: React.FC<EditItineraryProps> = ({ itineraryId, itinerary }) => {
+const EditItinerary: React.FC<EditItineraryProps> = ({ itinerary }) => {
   if (!itinerary) return <div>Itinerary not found</div>;
   
   return (
     <EditPage
-      itineraryId={itineraryId}
       itinerary={itinerary}
     />
   );
@@ -26,11 +24,8 @@ export async function getServerSideProps(context: ParsedUrlQuery) {
     const res = await fetchItinerary(id);
 
     if (res) {
-      const {_id, ...itinerary} = res;
-      console.log("Itinerary retrieved");
       return { props: {
-        itineraryId: id,
-        itinerary
+        itinerary: res
       }};
     } else {
       console.log(`Unable to retrieve itinerary with id: ${id}`);

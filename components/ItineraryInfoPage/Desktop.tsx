@@ -18,9 +18,6 @@ const Desktop: React.FC<ItineraryPageProps> = ({
   screenWidth,
   moreOptions
 }) => {
-  useEffect(() => {
-    console.log(`itinerary: ${JSON.stringify(itinerary)}`);
-  }, [itinerary]);
   const itineraryLocations = itinerary.activities
     .map((activity) => activity.place?.geometry?.location || activity.location)
     .filter((location) => location) as google.maps.LatLng[];
