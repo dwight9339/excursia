@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import ActivitySearchForm from "./ActivitySearchForm";
 import ModalContext from "../../contexts/ModalContext";
+import styles from "../../styles/Modal.module.scss";
 
 interface UpdateSearchProps {
   itinerary: Itinerary;
@@ -37,16 +38,18 @@ const UpdateSearch: React.FC<UpdateSearchProps> = ({ itinerary }) => {
   };
 
   return (
-    <div>
-      <ActivitySearchForm
-        itinerary={updatedItinerary}
-        updateItinerary={updateItinerary}
-      />  
-      <div>
-        <button onClick={handleSaveItinerary}>Update</button>
-        <button onClick={closeModal}>Cancel</button>
+    <>
+      <div className={styles.modalContent}>
+        <ActivitySearchForm
+          itinerary={updatedItinerary}
+          updateItinerary={updateItinerary}
+        />
       </div>
-    </div>
+      <div className={styles.modalFooter}>
+        <div className={styles.action} onClick={handleSaveItinerary}>Update</div>
+        <div className={styles.action} onClick={closeModal}>Cancel</div>
+      </div>
+    </>
   );
 };
 

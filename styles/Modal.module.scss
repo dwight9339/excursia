@@ -57,17 +57,18 @@ $radius: 0.7rem;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      text-align: center;
     }
 
     & .modalFooter {
+      width: 85%;
       display: flex;
+      align-items: center;
       justify-content: flex-end;
+      gap: 0.8rem;
+      padding-bottom: 0.8rem;
 
       & .action {
         @extend .buttonPrimary;
-        padding: 1.5rem;
-        margin-left: 10px;
       }
     }
   }
