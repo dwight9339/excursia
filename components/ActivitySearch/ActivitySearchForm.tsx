@@ -45,6 +45,12 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ itinerary, updateI
     return Math.floor(zoomLevel) * 0.98;
   };
 
+  useEffect(() => {
+    if (!isDefaultLocation) {
+      setZoomLevel(calculateZoomLevel(itinerary.searchRadius));
+    }
+  }, [isDefaultLocation, itinerary.searchRadius]);
+
   return (
     <div
       className={styles.container}
@@ -60,7 +66,6 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ itinerary, updateI
             onSelectLocation={(locationName: string, location: google.maps.LatLngLiteral) => {
               console.log(`Selected location ${locationName}, ${JSON.stringify(location)}`);
               setIsDefaultLocation(false);
-              setZoomLevel(calculateZoomLevel(itinerary.searchRadius));
               updateItinerary({...itinerary, startingLocation: location});
             }}
           />
@@ -75,7 +80,6 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ itinerary, updateI
             value={itinerary.searchRadius}
             onChange={(e, newValue) => {
               updateItinerary({...itinerary, searchRadius: newValue as number});
-              setZoomLevel(calculateZoomLevel(newValue as number));
             }}
             name="searchRadius"
             min={8046}
