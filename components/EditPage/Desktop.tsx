@@ -6,6 +6,7 @@ import SuggestedActivities from '../SuggestedActivities';
 import AddActivity from '../AddActivity';
 import EditableText from '../EditableText';
 import ModalContext from '../../contexts/ModalContext';
+import UpdateSearch from '../ActivitySearch/UpdateSearch';
 
 interface DesktopProps {
   itinerary: Itinerary;
@@ -111,6 +112,17 @@ const Desktop: React.FC<DesktopProps> = ({
               handleAddActivity(activity);
             }} 
           />
+        </div>
+        <div className={styles.updateSearchContainer}>
+          <div className={styles.updateSearchButton} onClick={() => openModal(
+            "Update Search Options",
+            <UpdateSearch
+              itinerary={itinerary}
+            />,
+            []
+          )}>
+            Update search options
+          </div>
         </div>
       </div>
     </div>

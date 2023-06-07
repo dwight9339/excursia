@@ -24,6 +24,7 @@ export async function getServerSideProps(context: ParsedUrlQuery) {
   try {
     const params: any = context.params;
     const { id } = params;
+    console.log(`Fetching itinerary with id ${id}`);
     const res = await fetchItinerary(id);
 
     if (res) {
