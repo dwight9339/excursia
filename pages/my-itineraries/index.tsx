@@ -26,6 +26,7 @@ const UserItineraries: React.FC = () => {
   const userId = session?.user?.id;
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [sortBy, setSortBy] = useState<string>("date");
 
   useEffect(() => {
     const fetchItineraries = async () => {
@@ -42,6 +43,45 @@ const UserItineraries: React.FC = () => {
 
     fetchItineraries();
   }, [userId]);
+
+  const sortItineraries = () => {
+    const sortedItineraries = [...itineraries];
+    if (sortBy === "newest") {
+      sortedItineraries.sort((a, b) => {
+        const aDate = new Date(a.createdDate);
+        const bDate = new Date(b.createdDate);
+        return bDate.getTime() - aDate.getTime();
+      });
+    } else if (sortBy === "oldest") {
+      sortedItineraries.sort((a, b) => {
+        const aDate = new Date(a.createdDate);
+        const bDate = new Date(b.createdDate);
+        return aDate.getTime() - bDate.getTime();
+      });
+    } else if (sortBy === "mostActivities") {
+      sortedItineraries.sort((a, b) => {
+        return b.activities.length - a.activities.length;
+      });
+    } else if (sortBy === "leastActivities") {
+      sortedItineraries.sort((a, b) => {
+        return a.activities.length - b.activities.length;
+      });
+    } else if (sortBy === "nameAsc") {
+      sortedItineraries.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      });
+    } else if (sortBy === "nameDesc") {
+      sortedItineraries.sort((a, b) => {
+        return b.name.localeCompare(a.name);
+      });
+    }
+
+    setItineraries(sortedItineraries);
+  };
+
+  useEffect(() => {
+    sortItineraries();
+  }, [itineraries.length, sortBy]);
 
   if (loading || status === "loading") {
     return (
@@ -84,9 +124,15 @@ const UserItineraries: React.FC = () => {
             name="sortBy"
             id="sortBy"
             className={styles.sortBy}
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
           >
-            <option value="date">Date</option>
-            <option value="name">Name</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="mostActivities">Most Activities</option>
+            <option value="leastActivities">Least Activities</option>
+            <option value="nameAsc">Name A-Z</option>
+            <option value="nameDesc">Name Z-A</option>
           </select>
         </div>
       </div>
