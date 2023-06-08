@@ -1,5 +1,5 @@
 // components/LocationSearch.tsx
-import React, {useMemo} from 'react';
+import React, { useMemo, useEffect } from 'react';
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -10,9 +10,10 @@ import styles from '../styles/ActivitySearchForm.module.scss';
 
 interface LocationSearchProps {
   onSelectLocation: (locationName: string, location: google.maps.LatLngLiteral) => void;
+  itinerary: Itinerary | undefined;
 }
 
-const SearchBar: React.FC<LocationSearchProps> = ({ onSelectLocation }) => {
+const SearchBar: React.FC<LocationSearchProps> = ({ onSelectLocation, itinerary }) => {
   const {
     ready,
     value,
@@ -22,9 +23,21 @@ const SearchBar: React.FC<LocationSearchProps> = ({ onSelectLocation }) => {
   } = usePlacesAutocomplete({
     requestOptions: {
       // Adjust the search area by setting location, radius, etc.
+      location: new google.maps.LatLng({
+        lat: itinerary?.startingLocation?.lat || 0,
+        lng: itinerary?.startingLocation?.lng || 0,
+      }),
+      radius: itinerary?.searchRadius || milesToMeters(10),
     },
     debounce: 300,
   });
+
+  useEffect(() => {
+    if (itinerary?.startingAddress) {
+      setValue(itinerary.startingAddress, false);
+      clearSuggestions();
+    }
+  }, [itinerary?.startingAddress]);
 
   const handleSelect = async (address: string) => {
     setValue(address, false);
@@ -89,7 +102,7 @@ const SearchBar: React.FC<LocationSearchProps> = ({ onSelectLocation }) => {
   );
 };
 
-const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectLocation }) => {
+const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectLocation, itinerary }) => {
   const libraries = useMemo(() => ['places'], []);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
@@ -98,7 +111,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({ onSelectLocation }) => 
 
   if (!isLoaded) return <div></div>;
 
-  return <SearchBar onSelectLocation={onSelectLocation} />;
+  return <SearchBar onSelectLocation={onSelectLocation} itinerary={itinerary} />;
 }
 
 export default LocationSearch;

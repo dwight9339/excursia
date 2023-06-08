@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useRef, useEffect } from 'react';
+import React, { ChangeEvent, useState, useRef, useEffect, use } from 'react';
 import {
   Slider
 } from '@mui/material';
@@ -63,11 +63,15 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ itinerary, updateI
             Starting Location
           </div>
           <LocationSearch
-            onSelectLocation={(locationName: string, location: google.maps.LatLngLiteral) => {
-              console.log(`Selected location ${locationName}, ${JSON.stringify(location)}`);
+            onSelectLocation={(locationAddress: string, location: google.maps.LatLngLiteral) => {
               setIsDefaultLocation(false);
-              updateItinerary({...itinerary, startingLocation: location});
+              updateItinerary({
+                ...itinerary,
+                startingLocation: location,
+                startingAddress: locationAddress
+              });
             }}
+            itinerary={itinerary}
           />
         </div>
 
