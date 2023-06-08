@@ -71,7 +71,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ itinerary, updateI
                 startingAddress: locationAddress
               });
             }}
-            itinerary={itinerary}
+            itinerary={isDefaultLocation ? undefined : itinerary}
           />
         </div>
 
