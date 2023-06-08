@@ -7,53 +7,113 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
 
-.pageHead {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  & .pageHead {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    & .sortBy {
+      @extend .selectFieldBase;
+      margin-left: 10px;
+      background-color: constants.$peachyTan;
+      border: none;
+  
+      @media screen and (prefers-color-scheme: dark) {
+        background-color: lighten(constants.$darkBlue, 20%);
+        color: constants.$lightPeachyTan;
+      }
+    }
+  
+    @media screen and (max-width: breakpoints.$phone-max) {
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 20px;
+    }
+  }
+  
+  & .listContainer {
+    @extend .box;
+    width: 90%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 2rem 0;
+    max-height: 80vh;
+    overflow-y: scroll;
 
-  & .sortBy {
-    @extend .selectFieldBase;
-    margin-left: 10px;
-    background-color: constants.$peachyTan;
-    border: none;
+    @media screen and (max-width: breakpoints.$phone-max) {
+      max-height: 55vh;
+    }
 
-    @media screen and (prefers-color-scheme: dark) {
-      background-color: lighten(constants.$darkBlue, 20%);
-      color: constants.$lightPeachyTan;
+    & .listItem {
+      @extend .listItemBase;
+      width: 90%;
+      height: 6rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.4rem;
+      padding: 0 2rem;
+      cursor: pointer;
+
+      & .itineraryName {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      @media screen and (max-width: breakpoints.$phone-max) {
+        height: 6rem;
+        padding: 1rem 2rem;
+        font-size: 0.8rem;
+
+        & .itineraryName {
+          font-size: 1.25rem;
+        }
+      }
     }
   }
 
-  @media screen and (max-width: breakpoints.$phone-max) {
-    flex-direction: column;
+  & .loadingContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    padding-bottom: 20px;
+    margin-top: 100px;
+
+    & .spinner {
+      width: 120px;
+      height: 120px;
+      color: constants.$darkBlue;
+
+      @media screen and (prefers-color-scheme: dark) {
+        color: constants.$peachyTan;
+      }
+    }
   }
-}
 
-.listContainer {
-  width: 90%;
-  max-width: 900px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  & .noItinerariesContainer {
+    @extend .box;
+    padding: 3rem;
+    padding-top: 0;
+    margin-top: 100px;
+    max-width: 90%;
 
-.listItem {
-  @extend .listItemBase;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 20px;
-  padding: 20px 25px;
-  cursor: pointer;
-}
+    & .noItinerariesText {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-top: 50px;
+      text-align: center;
+    }
 
-.itineraryName {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 10px;
+    & .newItineraryButton {
+      @extend .buttonPrimary;
+      margin-top: 20px;
+    }
+  }
 }
