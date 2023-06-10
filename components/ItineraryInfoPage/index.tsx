@@ -5,6 +5,7 @@ import {
 import { useSession } from 'next-auth/react';
 import { useLoadScript } from '@react-google-maps/api';
 import { useRouter } from "next/router";
+import dynamic from 'next/dynamic';
 import styles from "../../styles/ItineraryPage.module.scss";
 import Desktop from './Desktop';
 import Mobile from './Mobile';
@@ -27,6 +28,8 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
   const { openModal, closeModal } = React.useContext(ModalContext);
   const [deviceType, setDeviceType] = useState<string>("desktop");
   const [screenWidth, setScreenWidth] = useState<number>(0);
+
+  const ShareComponent = dynamic(() => import('./ShareItinerary').then(mod => mod), { ssr: false });
 
   useEffect(() => {
     setScreenWidth(window.innerWidth);
@@ -58,7 +61,13 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
     {
       name: "Share",
       // TODO: Implement share functionality
-      onClick: () => console.log("Sharing itinerary...")
+      onClick: () => {
+        openModal(
+          "Share Itinerary",
+          <ShareComponent itinerary={itinerary} />,
+          []
+        );
+      }
     },
     {
       name: "Edit",

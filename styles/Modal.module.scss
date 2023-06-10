@@ -25,6 +25,7 @@ $radius: 0.7rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 3rem;
       padding: 2rem;
       border-radius: $radius $radius 0 0;
       background-color: darken(constants.$orangeyTan, 10%);
