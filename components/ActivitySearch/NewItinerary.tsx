@@ -10,6 +10,7 @@ const NewItinerary: React.FC = () => {
   const [itinerary, setItinerary] = useState<Itinerary>({
     name: "New Itinerary",
     startingLocation: { lat: 38.764972, lng: -95.889472 } as google.maps.LatLngLiteral,
+    startingAddress: "Lawrence, KS",
     interests: [],
     searchRadius: 16093.4,
     activities: [],

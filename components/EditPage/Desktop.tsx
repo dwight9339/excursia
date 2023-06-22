@@ -83,6 +83,7 @@ const Desktop: React.FC<DesktopProps> = ({
                 openModal(
                   "Add Custom Activity",
                   <AddActivity
+                    itinerary={itinerary}
                     onSubmit={handleAddActivity}
                   />,
                   []

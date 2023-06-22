@@ -7,6 +7,7 @@ import commonStyles from "../styles/common.module.scss"
 import ModalContext from '../contexts/ModalContext';
 
 interface AddActivityProps {
+  itinerary: Itinerary;
   onSubmit: (activity: Activity) => void;
 }
 
@@ -16,7 +17,7 @@ interface FormValues {
   location: google.maps.LatLng | null;
 }
 
-const AddActivity: React.FC<AddActivityProps> = ({ onSubmit }) => {
+const AddActivity: React.FC<AddActivityProps> = ({ itinerary, onSubmit }) => {
   const [resetKey, setResetKey] = useState<number>(0);
   const { closeModal } = useContext(ModalContext);
 
@@ -94,6 +95,7 @@ const AddActivity: React.FC<AddActivityProps> = ({ onSubmit }) => {
               </div>
               <LocationSearch
                 key={resetKey}
+                itinerary={itinerary}
                 onSelectLocation={(locationName, location) => {
                   setFieldValue('location', location);
                 }}

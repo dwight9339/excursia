@@ -73,6 +73,7 @@ const Tablet: React.FC<TabletProps> = ({
               openModal(
                 "Add Custom Activity",
                 <AddActivity
+                  itinerary={itinerary}
                   onSubmit={handleAddActivity}
                 />,
                 []

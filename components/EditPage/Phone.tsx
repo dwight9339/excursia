@@ -72,6 +72,7 @@ const Phone: React.FC<PhoneProps> = ({
                 openModal(
                   "Add Custom Activity",
                   <AddActivity
+                    itinerary={itinerary}
                     onSubmit={handleAddActivity}
                   />,
                   []
