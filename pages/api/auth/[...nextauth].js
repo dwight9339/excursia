@@ -58,10 +58,10 @@ export const authOptions = {
         return {};
       }
 
-      if (token?.user?.id && trigger === "update") {
-        const updatedUser = await fetchUserById(token.user.id);
-        token.user = updatedUser;
-      }
+      // if (token?.user?.id && trigger === "update") {
+      //   const updatedUser = await fetchUserById(token.user.id);
+      //   token.user = updatedUser;
+      // }
 
       if (user) {
         token.user = user;
