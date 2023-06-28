@@ -5,6 +5,7 @@ import { MongoClient } from "mongodb"
 import { fetchUserById } from "../../../lib/dbFetch";
 
 export const authOptions = {
+  debug: true,
   providers: [
     CredentialsProvider({
       id: "credentials",
