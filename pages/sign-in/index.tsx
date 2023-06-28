@@ -34,10 +34,14 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
   );
 };
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => { 
+  console.log("sign-in: In getServerSideProps");
+  const csrfToken = await getCsrfToken(context);
+  console.log("sign-in: csrfToken successfully retrieved");
+
   return {
     props: {
-      csrfToken: await getCsrfToken(context)
+      csrfToken
     }
   };
 };
