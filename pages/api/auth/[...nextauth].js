@@ -7,6 +7,7 @@ import { fetchUserById } from "../../../lib/dbFetch";
 export const authOptions = {
   providers: [
     CredentialsProvider({
+      id: "credentials",
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "text", placeholder: "Email" },
