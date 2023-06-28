@@ -53,6 +53,10 @@ export const authOptions = {
   },
   callbacks: {
     async jwt({ token, trigger, user }) {
+      if (!token) {
+        return {};
+      }
+
       if (token?.user?.id && trigger === "update") {
         const updatedUser = await fetchUserById(token.user.id);
         token.user = updatedUser;
@@ -64,7 +68,10 @@ export const authOptions = {
       return token;
     },
     async session({ session, token }) {
-      console.log("Fetching session");
+      if (!session) {
+        return {};
+      }
+
       if (token?.user) {
         session.user = token.user;
       }
