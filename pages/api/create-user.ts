@@ -9,11 +9,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { firstName, lastName, email, password } = req.body;
 
     try {
-      // Insert draft itinerary into DB
+      console.log("Connecting to MongoDB");
       const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
       await client.connect();
+      console.log("Connected to MongoDB");
       const db: Db = client.db(process.env.DB_NAME);
       const usersCollection: Collection = db.collection("users");
+      console.log("Connected to users collection");
 
       // Check if the user already exists
       const existingUser = await usersCollection.findOne({ email });
