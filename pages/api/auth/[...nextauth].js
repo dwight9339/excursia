@@ -64,10 +64,11 @@ export const authOptions = {
       return token;
     },
     async session({ session, token }) {
+      console.log("Fetching session");
       if (token?.user) {
         session.user = token.user;
       }
-      
+
       return session;
     }
   },
