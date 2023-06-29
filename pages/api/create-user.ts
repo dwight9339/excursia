@@ -7,7 +7,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     // Extract user preferences from the request body
     const { firstName, lastName, email, password } = req.body;
-    console.log(`NEXTAUTH_URL: ${process.env.NEXTAUTH_URL}`);
 
     try {
       console.log("Connecting to MongoDB");
