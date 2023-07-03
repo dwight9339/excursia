@@ -8,8 +8,9 @@ import { useRouter } from 'next/router';
 export default function SignIn() {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const [showError, setShowError] = React.useState<boolean>(false);
 
-  const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
       email: { value: string };
@@ -17,7 +18,14 @@ export default function SignIn() {
     };
     const email = target.email.value;
     const password = target.password.value;
-    signIn('credentials', { email, password });
+    const res = await signIn('credentials', { email, password, redirect: false});
+    console.log(JSON.stringify(res));
+    if (res?.ok) {
+      console.log("Sign in successful");
+      router.push("/");
+    } else {
+      setShowError(true);
+    }
   };
 
   if (status === 'loading') {
@@ -37,6 +45,7 @@ export default function SignIn() {
       />
       <div className={styles.infoBox}>
         <div className={styles.boxTitle}>Sign In</div>
+        {showError && <div className={styles.errorMsg}>Unable to sign in</div>}
         <form onSubmit={handleSignIn} className={styles.form}>
           <div className={styles.fieldContainer}>
             <label htmlFor="email">Email</label>
