@@ -1,10 +1,33 @@
 // pages/SignUp.tsx
 import React from 'react';
-import type { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-import { getCsrfToken } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import styles from "../../styles/authPageStyles.module.scss";
+import { CircularProgress } from '@mui/material';
+import { useRouter } from 'next/router';
 
-export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function SignIn() {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const target = e.target as typeof e.target & {
+      email: { value: string };
+      password: { value: string };
+    };
+    const email = target.email.value;
+    const password = target.password.value;
+    signIn('credentials', { email, password });
+  };
+
+  if (status === 'loading') {
+    return (
+      <div className={styles.containerSignIn}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.containerSignIn}>
       <img 
@@ -14,8 +37,7 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
       />
       <div className={styles.infoBox}>
         <div className={styles.boxTitle}>Sign In</div>
-        <form method="post" action="/api/auth/callback/credentials" className={styles.form}>
-          <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+        <form onSubmit={handleSignIn} className={styles.form}>
           <div className={styles.fieldContainer}>
             <label htmlFor="email">Email</label>
             <input type="email" id="email" name="email" />
@@ -32,16 +54,4 @@ export default function SignIn({ csrfToken }: InferGetServerSidePropsType<typeof
       </div>
     </div>
   );
-};
-
-export const getServerSideProps = async (context: GetServerSidePropsContext) => { 
-  console.log("sign-in: In getServerSideProps");
-  const csrfToken = await getCsrfToken(context);
-  console.log("sign-in: csrfToken successfully retrieved");
-
-  return {
-    props: {
-      csrfToken
-    }
-  };
 };
