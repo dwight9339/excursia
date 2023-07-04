@@ -13,8 +13,19 @@ const HomePage: React.FC = () => {
   const pageContent = useMemo(() => {
     if (status === "loading") {
       return (
-        <div className={styles.spinnerContainer}>
-          <CircularProgress />
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          width: '100vw',
+        }}>
+          <CircularProgress
+            size={300}
+            style={{
+              color: "#0A89A6"
+            }}
+          />
         </div>
       )
     }
