@@ -53,7 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           : res.status(500).json({ message: "Unable to create itinerary"});
       } else {
         // Check if new itinerary has updates to activity search parameters
-        const refetchSuggestions = currentItinerary.interests !== itinerary.interests
+        const refetchSuggestions = currentItinerary.interests.toString() !== itinerary.interests.toString()
           || currentItinerary.searchRadius !== itinerary.searchRadius
           || currentItinerary.startLocation !== itinerary.startLocation;
 
