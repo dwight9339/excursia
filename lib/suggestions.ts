@@ -5,6 +5,8 @@ const fetchDetails = async (placeIds: string[]): Promise<google.maps.places.Plac
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
   const details = [];
 
+  console.log(`API key: ${apiKey}`);
+
   for(let i = 0; i < placeIds.length; i++) {
     const requestParams = {
       place_id: placeIds[i],
@@ -24,7 +26,7 @@ const fetchDetails = async (placeIds: string[]): Promise<google.maps.places.Plac
 // Fetch suggestions from the Google Places API
 export const fetchSuggestions = async (itinerary: Itinerary): Promise<google.maps.places.PlaceResult[]> => {
   const { interests, searchRadius, startingLocation } = itinerary;
-  console.log(`Fetching suggestions for ${interests.join(', ')} within ${searchRadius} miles of ${startingLocation.lat},${startingLocation.lng}`);
+  console.log(`Fetching suggestions`);
 
   try {
     // Prepare the Google Places API request
@@ -46,9 +48,6 @@ export const fetchSuggestions = async (itinerary: Itinerary): Promise<google.map
     // Fetch details for each place
     // const placeIds = response.data.results.map((result: google.maps.places.PlaceResult) => result.place_id);
     // const details = await fetchDetails(placeIds);
-
-    // return details;
-    console.log(`Found suggestions: ${response.data.results.length}`);
 
     return response.data.results;
   } catch (error) {
