@@ -31,10 +31,6 @@ const Header = () => {
     );
   };
 
-  useEffect(() => {
-    console.log(`Data: ${JSON.stringify(data)}`);
-  }, [data]);
-
   return (
     <header className={styles.container}>
       <div className={styles.logo}>

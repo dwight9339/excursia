@@ -72,7 +72,14 @@ export const authOptions = {
     },
     async session({ session, token }) {
       if (!session) {
+        console.log("No session");
         return {};
+      }
+
+      if (token) {
+        console.log(`Token: ${JSON.stringify(token)}`);
+      } else {
+        console.log("No token");
       }
 
       if (token?.user) {
