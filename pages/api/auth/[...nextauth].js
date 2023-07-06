@@ -79,6 +79,13 @@ export const authOptions = {
       }
 
       return session;
+    },
+    async signIn({ user, account, profile, email, credentials }) {
+      if (account.provider === "credentials") {
+        console.log("Credentials sign in successful");
+      }
+
+      return true;
     }
   },
   pages: {
