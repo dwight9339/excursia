@@ -47,10 +47,11 @@ export const authOptions = {
   ],
   session: {
     jwt: true,
-    maxAge: 3000
+    maxAge: 7 * 24 * 60 * 60
   },
   jwt: {
-    secret: process.env.NEXTAUTH_SECRET
+    secret: process.env.NEXTAUTH_SECRET,
+    encryption: true
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
@@ -79,13 +80,6 @@ export const authOptions = {
       }
 
       return session;
-    },
-    async signIn({ user, account, profile, email, credentials }) {
-      if (account.provider === "credentials") {
-        console.log("Credentials sign in successful");
-      }
-
-      return true;
     }
   },
   pages: {
