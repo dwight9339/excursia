@@ -1,25 +1,12 @@
-import React, { useMemo, useEffect, useState } from 'react';
-import { getSession } from 'next-auth/react';
+import React, { useMemo } from 'react';
+import { useSession } from 'next-auth/react';
 import { CircularProgress } from '@mui/material';
 import WelcomeBanner from '../components/WelcomeBanner';
 import styles from "../styles/Home.module.scss";
 import NewItinerary from '../components/ActivitySearch/NewItinerary';
 
 const HomePage: React.FC = () => {
-  const [status, setStatus] = useState<"loading" | "unauthenticated" | "authenticated">("loading");
-
-  useEffect(() => {
-    const updateSession = async () => {
-      const _session = await getSession();
-      if (_session) {
-        setStatus("authenticated");
-      } else {
-        setStatus("unauthenticated");
-      }
-    };
-
-    if (status === "loading") updateSession();
-  }, []);
+  const { status } = useSession();
 
   const pageContent = useMemo(() => {
     if (status === "loading") {
