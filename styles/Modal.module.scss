@@ -20,6 +20,13 @@ $radius: 0.7rem;
     @extend .box;
     border-radius: $radius;
 
+    @media screen and (max-width: breakpoints.$phone-max) {
+      max-height: 85vh;
+      max-width: 95vw;
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+
     & .modalHeader {
       width: 100%;
       display: flex;
