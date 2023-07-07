@@ -47,13 +47,14 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
         }
       });
       const data = await res.json();
+
       if (data.success) {
         router.push("/my-itineraries");
       } else {
-        console.log(data.message);
+        console.error("Error deleting itinerary:", data.error);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -77,7 +78,6 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
       name: "Delete",
       // TODO: Implement delete functionality
       onClick: () => {
-        console.log("Deleting itinerary...");
         openModal(
           "Delete Itinerary",
           <div className={styles.deleteItineraryModalTextContainer}>
