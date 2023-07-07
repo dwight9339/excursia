@@ -29,6 +29,7 @@
 
       & .logoOverlay {
         width: 500px;
+        height: auto;
 
         @media screen and (max-width: breakpoints.$phone-max) {
           width: 300px;

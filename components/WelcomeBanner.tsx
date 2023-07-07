@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import styles from "../styles/WelcomeBanner.module.scss";
+import Image from "next/image";
 
 const Slideshow: React.FC<{images: string[]}> = ({ images }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -18,7 +19,13 @@ const Slideshow: React.FC<{images: string[]}> = ({ images }) => {
 
   return (
     <div className={styles.slideshow}>
-      <img className={styles.slideshowImage} src={images[currentImageIndex]} alt="Slideshow" />
+      <Image 
+        className={styles.slideshowImage}
+        src={images[currentImageIndex]}
+        alt="Slideshow"
+        width={2500}
+        height={1500}
+      />
     </div>
   );
 };
@@ -63,7 +70,13 @@ const WelcomeBanner: React.FC = () => {
           "/images/welcome-banner/slideshow/3.jpg",
         ]} />
         <div className={styles.overlayContainer}>
-          <img src="images/header_logo.png" alt="Excursia Logo"  className={styles.logoOverlay}/>
+          <Image
+            src="/images/header_logo.png"
+            alt="Excursia Logo"
+            className={styles.logoOverlay}
+            width={655}
+            height={179}
+          />
           <button 
             className={styles.getStartedButton}
             onClick={() => router.push("/sign-up")}
