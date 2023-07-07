@@ -85,15 +85,21 @@ const UserItineraries: React.FC = () => {
 
   if (loading || status === "loading") {
     return (
-      <div className={styles.container}>
-        <div className={styles.loadingContainer}>
-          <CircularProgress
-            className={styles.spinner}
-            color="inherit"
-          />
-        </div>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        width: '100vw',
+      }}>
+        <CircularProgress
+          size={300}
+          style={{
+            color: "#0A89A6"
+          }}
+        />
       </div>
-    );
+    )
   }
 
   if (itineraries.length === 0) {
