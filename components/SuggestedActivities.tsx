@@ -22,6 +22,8 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ selectedActiv
         // const photoUrl = photoRef ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}` : "";
         const suggestionObj: any = {...suggestion};
         const summary = suggestionObj.editorial_summary?.overview;
+        const lat = suggestionObj.geometry?.location?.lat;
+        const lng = suggestionObj.geometry?.location?.lng;
 
         return (
           <li 
@@ -38,7 +40,7 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ selectedActiv
                 />
               </div>
               <a
-                href={`https://www.google.com/maps/place/?q=place_id:${suggestion.place_id}`}
+                href={`https://www.google.com/maps/search/?api=1&query=${lat}%2C${lng}&query_place_id=${suggestion.place_id}`}
                 target="_blank"
               >
                 <div className={styles.suggestionText}>
