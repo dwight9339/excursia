@@ -33,7 +33,10 @@ const OptionsButton: React.FC<OptionsButtonProps> = ({
             <div
               key={index}
               className={styles.option}
-              onClick={option.onClick}
+              onClick={() => {
+                option.onClick();
+                setOptionsOpen(false);
+              }}
             >
               {option.name}
             </div>
