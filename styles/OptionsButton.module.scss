@@ -39,6 +39,7 @@ $buttonSideLength: 40px;
     position: absolute;
     top: $buttonSideLength;
     right: 0px;
+    z-index: 5;
   
     & .optionsList {
       width: 100%;

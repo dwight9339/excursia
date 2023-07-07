@@ -22,6 +22,15 @@
   gap: 20px;
 }
 
+.singleColumnHeader {
+  width: 95%;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
 .itineraryName {
   font-size: 2rem;
   font-weight: 600;
@@ -57,11 +66,7 @@
   padding: 15px 20px;
   display: flex;
   justify-content: flex-end;
-
-  @media screen and (max-width: breakpoints.$tablet-max) {
-    position: absolute;
-    top: 110px;
-  }
+  border: 1px solid white;
 }
 
 .activityListContainer {
