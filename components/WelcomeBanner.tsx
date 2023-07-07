@@ -25,7 +25,6 @@ const Slideshow: React.FC<{images: string[]}> = ({ images }) => {
         alt="Slideshow"
         width={2500}
         height={1500}
-        priority={true}
       />
     </div>
   );
