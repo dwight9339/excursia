@@ -80,7 +80,7 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
         console.log("Deleting itinerary...");
         openModal(
           "Delete Itinerary",
-          <div>
+          <div className={styles.deleteItineraryModalTextContainer}>
             <h2>Are you sure you want to delete this itinerary?</h2>
           </div>,
           [
