@@ -1,4 +1,3 @@
-// components/Header.tsx
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -20,7 +19,11 @@ const Header = () => {
     setMenuOpen(!menuOpen);
   };
 
-
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      setMenuOpen(false);
+    }
+  }, [status]);
 
   const showAccountSettings = () => {
     setMenuOpen(false);
