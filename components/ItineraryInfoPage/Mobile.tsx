@@ -26,14 +26,12 @@ const Mobile: React.FC<ItineraryPageProps> = ({
 
   return (
     <div className={styles.container}>
-      <div className={styles.optionsButtonContainer}>
-        <OptionsButton options={moreOptions} />
-      </div>
       <div className={styles.column}>
-        <div className={styles.itineraryNameContainer}>
+        <div className={styles.singleColumnHeader}>
           <div className={styles.itineraryName}>
             {itinerary.name}
           </div>
+          <OptionsButton options={moreOptions} />
         </div>
         <div className={styles.mapContainer}>
           <ItineraryMap
