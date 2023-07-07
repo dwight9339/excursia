@@ -18,7 +18,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const itinerariesCollection: Collection = db.collection('itinerary');
 
       const itineraries = await itinerariesCollection.find({ ownerId: userId }).toArray();
-      res.status(200).json({ itineraries });
+      const itinerariesWithId = itineraries.map((itinerary) => {
+        return {
+          id: itinerary._id,
+          ...itinerary,
+        };
+      });
+
+      res.status(200).json({ itineraries: itinerariesWithId });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Error fetching itineraries' });
