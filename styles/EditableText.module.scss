@@ -5,15 +5,9 @@
 }
 
 .editButtonContainer {
-  display: none;
-
   img {
     @media screen and (prefers-color-scheme: dark) {
       filter: invert(0.8);
     }
   }
-}
-
-.container:hover .editButtonContainer {
-  display: block;
 }

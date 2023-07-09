@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { Edit as EditIcon } from '@mui/icons-material';
 import styles from "../styles/EditableText.module.scss";
 
 interface EditableTextProps {
@@ -14,8 +13,9 @@ const EditableText: React.FC<EditableTextProps> = ({
   numeric,
   onEdit
 }) => {
-  const [editing, setEditing] = React.useState<boolean>(false);
-  const [value, setValue] = React.useState<string>(text);
+  const [editing, setEditing] = useState<boolean>(false);
+  const [value, setValue] = useState<string>(text);
+  const [hover, setHover] = useState<boolean>(false);
 
   const handleEdit = () => {
     setEditing(true);
@@ -37,24 +37,31 @@ const EditableText: React.FC<EditableTextProps> = ({
   };
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      data-testid="editable-text-container"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}  
+    >
       {editing ? 
         <input
           className={styles.input}
           autoFocus
           type={numeric ? "number" : "text"}
           value={value}
+          data-testid="editable-text-input"
           onChange={handleChange}
           onBlur={handleSave}
           onKeyDown={handleKeyDown}
         />
         :
         <>
-          <p>
+          <p data-testid="editable-text-text">
             {value}
           </p>
-          <div 
-            className={styles.editButtonContainer} 
+          {hover && <div 
+            className={styles.editButtonContainer}
+            data-testid="edit-button"
             onClick={handleEdit}
           >
             <Image 
@@ -63,7 +70,7 @@ const EditableText: React.FC<EditableTextProps> = ({
               width={20}
               height={20}
             />
-          </div>
+          </div>}
         </>
       }
     </div>
