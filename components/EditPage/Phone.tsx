@@ -31,7 +31,7 @@ const Phone: React.FC<PhoneProps> = ({
   handleDeleteActivity,
   windowWidth
 }) => {
-  const mapWidth = windowWidth * 0.85;
+  const mapWidth = windowWidth * 0.75;
   const mapHeight = mapWidth * 0.85;
   const { openModal } = useContext(ModalContext);
 

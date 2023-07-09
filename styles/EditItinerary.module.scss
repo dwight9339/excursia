@@ -1,6 +1,8 @@
 @use "breakpoints";
 @import "common.module.scss";
 
+
+
 .itineraryHeader {
   display: flex;
   justify-content: space-between;
@@ -23,18 +25,27 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
+
+  // * {
+  //   border: 1px solid red;
+  // }
 }
 
-.column {
-  padding: 0px 15px;
+.titleContainer, .addCustomButtonContainer, .mapContainer, .selectedActivitiesContainer, .SuggestedActivitiesContainer, .updateSearchContainer, .saveButtonContainer {
+  width: 100%;
 }
 
 .tripSummaryContainer {
   padding: 20px 15px;
 }
 
+.mapContainer {
+  display: flex;
+  justify-content: center;
+}
+
 .routeOptionsContainer {
-  padding: 20px 15px;
+  // padding: 20px 15px;
 }
 
 .saveButtonContainer {

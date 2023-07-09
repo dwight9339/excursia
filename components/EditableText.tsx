@@ -1,7 +1,5 @@
 import React from "react";
-import {
-  IconButton
-} from '@mui/material';
+import Image from "next/image";
 import { Edit as EditIcon } from '@mui/icons-material';
 import styles from "../styles/EditableText.module.scss";
 
@@ -55,13 +53,17 @@ const EditableText: React.FC<EditableTextProps> = ({
           <p>
             {value}
           </p>
-          <IconButton 
-            className={styles.editButton}
+          <div 
+            className={styles.editButtonContainer} 
             onClick={handleEdit}
-            size="small"
           >
-            <EditIcon />
-          </IconButton>
+            <Image 
+              src="/images/edit.png"
+              alt="Edit"
+              width={20}
+              height={20}
+            />
+          </div>
         </>
       }
     </div>

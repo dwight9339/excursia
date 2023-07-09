@@ -5,18 +5,20 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 90%;
+  width: 100%;
 
   & .newItineraryHeader {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    padding: 0 1.1rem;
   }
 
   & .newItineraryForm {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
 
   & .newItineraryFooter {
@@ -25,7 +27,7 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    padding: 1.1rem 0rem;
+    padding: 1.1rem 1.1rem 3rem 1.1rem;
 
     & .createItineraryButton {
       @extend .buttonPrimary;

@@ -105,13 +105,7 @@ const EditPage: React.FC<EditPageProps> = ({
   };
 
   if (status === 'loading') {
-    return (
-      <div className={styles.container}>
-        <div className={styles.spinner}>
-          <CircularProgress />
-        </div>
-      </div>
-    );
+    return <CircularProgress />;
   }
 
   if (status === 'unauthenticated' || status === "authenticated" && userData.id !== itinerary.ownerId) {

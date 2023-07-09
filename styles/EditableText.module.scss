@@ -4,10 +4,10 @@
   gap: 12px;
 }
 
-.editButton {
+.editButtonContainer {
   display: none;
 }
 
-.container:hover .editButton {
+.container:hover .editButtonContainer {
   display: block;
 }

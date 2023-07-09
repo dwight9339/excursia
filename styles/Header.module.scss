@@ -10,6 +10,7 @@ $menuWidthTablet: 150px;
   padding: 10px 35px;
   background-color: constants.$darkBlue;
   height: constants.$headerHeight;
+  width: 100vw;
 
   @media (max-width: breakpoints.$phone-max) {
     padding: 10px 15px;

@@ -69,7 +69,9 @@ const EditItinerary: React.FC = () => {
   }, [loading, itinerary]);
 
   return (
-    <div>
+    <div style={{
+      width: '100vw'
+    }}>
       {pageContent}
     </div>
   );
