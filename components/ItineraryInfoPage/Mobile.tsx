@@ -53,7 +53,10 @@ const Mobile: React.FC<ItineraryPageProps> = ({
         <div className={styles.activityListContainer}>
           <ul className={styles.activityList}>
             {itinerary.activities && itinerary.activities.map((activity, index) => {
-              const placeLink = `https://www.google.com/maps/place/?q=place_id:${activity.place?.place_id}`;
+              const placeId = activity.place?.place_id;
+              const lat = activity.place?.geometry?.location?.lat || activity.location?.lat;
+              const lng = activity.place?.geometry?.location?.lng || activity.location?.lng;
+              const placeLink = `https://www.google.com/maps/search/?api=1&query=${lat}%2C${lng}${placeId ? `&query_place_id=${placeId} ` : ""}`;
 
               return (
                 <li key={index} className={styles.activityListItem}>

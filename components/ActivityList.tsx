@@ -36,12 +36,9 @@ const ListItem: React.FC<ListItemProps> = ({
   onDelete
 }) => {
   const placeId = activity.place?.place_id;
-  const lat = activity.place?.geometry?.location?.lat;
-  const lng = activity.place?.geometry?.location?.lng;
-  const placeLink = placeId && lat && lng ? `https://www.google.com/maps/search/?api=1&query=${lat}%2C${lng}&query_place_id=${placeId}` : "";
-  // const placePhoto: any = {...activity.place?.photos?.[0]};
-  // const photoRef = activity.place?.photos ? placePhoto.photo_reference : null;
-  // const photoUrl = photoRef ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoRef}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}` : null;
+  const lat = activity.place?.geometry?.location?.lat || activity.location?.lat;
+  const lng = activity.place?.geometry?.location?.lng || activity.location?.lng;
+  const placeLink = `https://www.google.com/maps/search/?api=1&query=${lat}%2C${lng}${placeId ? `&query_place_id=${placeId} ` : ""}`;
 
   return (
     <div
