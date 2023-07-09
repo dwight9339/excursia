@@ -7,10 +7,11 @@ import ActivitySearchForm from "./ActivitySearchForm";
 const NewItinerary: React.FC = () => {
   const { data } = useSession();
   const router = useRouter();
+  const defaultLocation = { lat: 38.764972, lng: -95.889472 } as google.maps.LatLngLiteral;
   const [itinerary, setItinerary] = useState<Itinerary>({
     name: "New Itinerary",
-    startingLocation: { lat: 38.764972, lng: -95.889472 } as google.maps.LatLngLiteral,
-    startingAddress: "Lawrence, KS",
+    startingLocation: defaultLocation,
+    startingAddress: "",
     interests: [],
     searchRadius: 16093.4,
     activities: [],
@@ -18,8 +19,10 @@ const NewItinerary: React.FC = () => {
     createdDate: new Date().toISOString(),
     ownerId: `${data?.user?.id}`
   });
+  const [creatingItinerary, setCreatingItinerary] = useState<boolean>(false);
 
   const handleCreateItinerary = async () => {
+    setCreatingItinerary(true);
     const date = new Date();
     const userData: any = {...data?.user};
 
@@ -43,6 +46,8 @@ const NewItinerary: React.FC = () => {
     } catch (error) {
       // Handle any network errors
       console.error('Error fetching itinerary:', error);
+    } finally {
+      setCreatingItinerary(false);
     }
   };
 
@@ -62,8 +67,9 @@ const NewItinerary: React.FC = () => {
         <button
           className={styles.createItineraryButton}
           onClick={handleCreateItinerary}
+          disabled={itinerary.startingLocation === defaultLocation || creatingItinerary}
         >
-          Create Itinerary
+          {creatingItinerary ? "Creating Itinerary..." : "Create Itinerary"}
         </button>
       </div>
     </div>
