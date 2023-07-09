@@ -7,10 +7,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     // Extract user preferences from the request body
     const { firstName, lastName, email, password } = req.body;
+    const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
 
     try {
       console.log("Connecting to MongoDB");
-      const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
       await client.connect();
       console.log("Connected to MongoDB");
       const db: Db = client.db(process.env.DB_NAME);
@@ -46,6 +46,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Error creating user' });
+    } finally {
+      await client.close();
     }
   } else {
     // Return 405 Method Not Allowed for other request methods

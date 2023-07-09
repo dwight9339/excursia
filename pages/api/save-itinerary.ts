@@ -2,15 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import { fetchSuggestions } from '../../lib/suggestions';
 
-const loadCollection = async () => {
-  const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
-  await client.connect();
-  const db: Db = client.db(process.env.DB_NAME);
-  const itineraryCollection: Collection = db.collection("itinerary");
-
-  return itineraryCollection;
-};
-
 const fetchItinerary = async (itineraryId: string, collection: Collection) => {
   const itinerary = await collection.findOne({ _id: new ObjectId(itineraryId) });
 
@@ -39,9 +30,12 @@ const updateItinerary = async (itinerary: Itinerary, collection: Collection) => 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const itinerary = req.body;
+    const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
 
     try {
-      const itineraryCollection: Collection = await loadCollection();
+      await client.connect();
+      const db: Db = client.db(process.env.DB_NAME);
+      const itineraryCollection: Collection = db.collection("itinerary");
       const currentItinerary = await fetchItinerary(itinerary.id, itineraryCollection);
 
       if (!currentItinerary) {
@@ -72,6 +66,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Error generating draft itinerary' });
+    } finally {
+      await client.close();
     }
   } else {
     // Return 405 Method Not Allowed for other request methods

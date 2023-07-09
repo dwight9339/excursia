@@ -5,9 +5,9 @@ import { MongoClient, Db, Collection, ObjectId } from 'mongodb';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'DELETE') {
     const { itineraryId } = req.query;
+    const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
 
     try {
-      const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
       await client.connect();
       const db: Db = client.db(process.env.DB_NAME);
       const itinerariesCollection: Collection = db.collection('itinerary');
@@ -25,6 +25,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (error) {
       console.error(error);
       res.status(500).json({ success: false, error });
+    } finally {
+      await client.close();
     }
   } else {
     // Return 405 Method Not Allowed for other request methods
