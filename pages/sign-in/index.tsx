@@ -9,22 +9,31 @@ export default function SignIn() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [showError, setShowError] = React.useState<boolean>(false);
+  const [signingIn, setSigningIn] = React.useState<boolean>(false);
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const target = e.target as typeof e.target & {
-      email: { value: string };
-      password: { value: string };
-    };
-    const email = target.email.value;
-    const password = target.password.value;
-    const res = await signIn('credentials', { email, password, redirect: false});
-    console.log(JSON.stringify(res));
-    if (res?.ok) {
-      console.log("Sign in successful");
-      router.push("/");
-    } else {
+    try {
+      setSigningIn(true);
+      const target = e.target as typeof e.target & {
+        email: { value: string };
+        password: { value: string };
+      };
+      const email = target.email.value;
+      const password = target.password.value;
+      const res = await signIn('credentials', { email, password, redirect: false});
+      console.log(JSON.stringify(res));
+      if (res?.ok) {
+        console.log("Sign in successful");
+        router.push("/");
+      } else {
+        setShowError(true);
+      }
+    } catch (err) {
+      console.error("Sign in error:", err);
       setShowError(true);
+    } finally {
+      setSigningIn(false);
     }
   };
 
@@ -57,7 +66,7 @@ export default function SignIn() {
             <input type="password" id="password" name="password" />
           </div>
           <div className={styles.submitButtonContainer}>
-            <button type="submit">Sign In</button>
+            <button disabled={signingIn} type="submit">{signingIn ? "Signing In..." : "Sign In"}</button>
           </div>
         </form>
       </div>

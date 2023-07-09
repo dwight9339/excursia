@@ -8,6 +8,7 @@ import styles from "../../styles/authPageStyles.module.scss";
 
 const SignUp = () => {
   const [serverError, setServerError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const router = useRouter();
 
   const validationSchema = Yup.object({
@@ -38,9 +39,10 @@ const SignUp = () => {
             confirmPassword: '',
           }}
           validationSchema={validationSchema}
-          onSubmit={async (values, { setSubmitting }) => {
+          onSubmit={async (values) => {
             console.log("Submitting form...");
             setServerError('');
+            setIsSubmitting(true);
             try {
               const response = await fetch('/api/create-user', {
                 method: 'POST',
@@ -69,7 +71,7 @@ const SignUp = () => {
             } catch (error) {
               setServerError('Error signing up. Please try again.');
             } finally {
-              setSubmitting(false);
+              setIsSubmitting(false);
             }
           }}
         >
@@ -107,7 +109,7 @@ const SignUp = () => {
               {serverError && <div className="error">{serverError}</div>}
 
               <div className={styles.submitButtonContainer}>
-                <button type="submit">Sign Up</button>
+                <button disabled={isSubmitting} type="submit">{isSubmitting ? "Signing up..." : "Sign Up"}</button>
               </div>
             </Form>
           )}
