@@ -1,4 +1,4 @@
-# Excursia Beta
+# Excursia
 
 Excursia is an itinerary generator web app that allows users to create a personalized travel plan based on their locationand interests. By inputting preferences, users can generate an itinerary featuring local points of interest.
 
