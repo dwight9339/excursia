@@ -67,7 +67,7 @@ const NewItinerary: React.FC = () => {
         <button
           className={styles.createItineraryButton}
           onClick={handleCreateItinerary}
-          disabled={itinerary.startingLocation === defaultLocation || creatingItinerary}
+          disabled={itinerary.startingAddress === "" || creatingItinerary}
         >
           {creatingItinerary ? "Creating Itinerary..." : "Create Itinerary"}
         </button>
