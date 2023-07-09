@@ -19,10 +19,6 @@
   transition: background-color 0.3s;
   text-align: center;
 
-  &:hover {
-    background-color: constants.$peachyTan;
-  }
-
   & input[type='checkbox'] {
     display: none;
   }
@@ -32,10 +28,6 @@
 
     & img {
       filter: invert(90%);
-    }
-
-    &:hover {
-      background-color: lighten(constants.$darkBlue, 35%);
     }
   }
 }
