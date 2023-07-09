@@ -18,6 +18,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const itinerariesCollection: Collection = db.collection('itinerary');
 
       const itineraries = await itinerariesCollection.find({ ownerId: userId }).toArray();
+      client.close();
       const itinerariesWithId = itineraries.map((itinerary) => {
         return {
           id: itinerary._id,

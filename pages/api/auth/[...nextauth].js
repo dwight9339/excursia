@@ -16,14 +16,16 @@ export const authOptions = {
       },
       async authorize(credentials, req) {
         const { email, password } = credentials;
+        const mongodbClient = new MongoClient(process.env.MONGO_DB_URI);
+
         try {
-          const mongodbClient = new MongoClient(process.env.MONGO_DB_URI);
           await mongodbClient.connect();
           const db = mongodbClient.db(process.env.DB_NAME);
           const userCollection = db.collection("users");
           
           // Query for user with email and password
           const user = await userCollection.findOne({ email: email });
+          mongodbClient.close();
           const passwordMatch = await bcrypt.compare(password, user.password);
 
           if (user) {
@@ -41,6 +43,8 @@ export const authOptions = {
         } catch(err) {
           console.log(`User fetch error: ${err}`);
           return null;
+        } finally {
+          await mongodbClient.close();
         }
       }
     })

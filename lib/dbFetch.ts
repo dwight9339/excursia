@@ -1,8 +1,9 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 
 export const fetchItinerary = async (id: string) => {
+  const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
+
   try {
-    const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
     await client.connect();
     const db: Db = client.db(`${process.env.DB_NAME}`);
     const itineraryCollection: Collection = db.collection("itinerary");
@@ -17,18 +18,22 @@ export const fetchItinerary = async (id: string) => {
   } catch(err) {
     console.log(`Itinerary fetch error: ${err}`);
     return null;
+  } finally {
+    await client.close();
   }
 }
 
 export const fetchUserById = async (id: string) => {
+  const client = new MongoClient(`${process.env.MONGO_DB_URI}`);
+  
   try {
-    const mongodbClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
-    await mongodbClient.connect();
-    const db = mongodbClient.db(process.env.DB_NAME);
+    await client.connect();
+    const db = client.db(process.env.DB_NAME);
     const userCollection = db.collection("users");
     
     // Query for user with email and password
     const user = await userCollection.findOne({ _id: new ObjectId(id) });
+    client.close();
 
     if (user) {
       const {_id, password: userPassword, ...userObj} = user;
@@ -42,5 +47,7 @@ export const fetchUserById = async (id: string) => {
   } catch(err) {
     console.log(`User fetch error: ${err}`);
     return null;
+  } finally {
+    await client.close();
   }
 }
