@@ -2,7 +2,7 @@ import React from 'react';
 import styles from "../../styles/EditItinerary.module.scss";
 import ItineraryMap from '../ItineraryMap';
 import ActivityList from '../ActivityList';
-import SuggestedActivities from '../SuggestedActivities';
+import SuggestedActivities from './SuggestedActivities';
 import AddActivity from '../AddActivity';
 import EditableText from '../EditableText';
 import ModalContext from '../../contexts/ModalContext';

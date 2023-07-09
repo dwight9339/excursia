@@ -3,7 +3,7 @@ import { IconButton } from '@mui/material';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import styles from "../styles/SuggestedActivities.module.scss";
+import styles from "../../styles/SuggestedActivities.module.scss";
 
 interface SuggestedActivitiesProps {
   selectedActivities: string[];
@@ -15,7 +15,7 @@ const SuggestedActivities: React.FC<SuggestedActivitiesProps> = ({ selectedActiv
   const router = useRouter();
 
   return (
-    <ul className={styles.container}>
+    <ul className={styles.container} data-testid="suggestion-list">
       {suggestions.map((suggestion, index) => {
         // const placePhoto: any = {...suggestion.photos?.[0]};
         // const photoRef = suggestion.photos ? placePhoto.photo_reference : null;
