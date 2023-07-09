@@ -10,14 +10,15 @@ const Modal: React.FC = () => {
   const { closeModal, modalTitle, modalContent, modalActions } = modalContext;
 
   return (
-    <div className={styles.container}>
-      <div className={styles.modal}>
+    <div className={styles.container} data-testid="modal-container">
+      <div className={styles.modal} data-testid="modal-window">
         <div className={styles.modalHeader}>
           <div className={styles.modalTitle}>{modalTitle}</div>
           <img 
             className={styles.closeButton} 
             src="/images/close.png" 
             alt="Close modal"
+            data-testid="modal-close-button"
             onClick={closeModal}
           />
         </div>
