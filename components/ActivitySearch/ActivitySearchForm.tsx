@@ -54,11 +54,17 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ itinerary, updateI
   return (
     <div
       className={styles.container}
-      data-testid="activity-search-form"
+      data-testid="activity-search-form--container"
     >
-      <form className={styles.form}>
+      <form 
+        className={styles.form}
+        data-testid="activity-search-form--form"  
+      >
         {/* Location */}
-        <div className={styles.locationSearchContainer}>
+        <div 
+          className={styles.locationSearchContainer}
+          data-testid="activity-search-form--location-search-container"
+        >
           <div className={styles.label}>
             Starting Location
           </div>
@@ -76,7 +82,11 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ itinerary, updateI
         </div>
 
         {/* Search Radius Slider */}
-        <div id="search-radius-slider" className={styles.searchRadiusSliderContainer}>
+        <div 
+          id="search-radius-slider" 
+          className={styles.searchRadiusSliderContainer}
+          data-testid="activity-search-form--search-radius-slider-container"
+        >
           <div className={styles.label}>
             Search Radius: {data?.user?.preferences?.distanceUnit === "miles" ? `${metersToMiles(itinerary.searchRadius)} miles` : `${metersToKm(itinerary.searchRadius)} km`}
           </div>
@@ -98,14 +108,17 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ itinerary, updateI
         </div>
 
         {/* Map */}
-        <div style={{
-          height: mapHeight,
-          width: '100%',
-          marginTop: '1rem',
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center"
-        }}>
+        <div 
+          style={{
+            height: mapHeight,
+            width: '100%',
+            marginTop: '1rem',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
+          }}
+          data-testid="activity-search-form--map-container"
+        >
           {/* Todo: Add map component to display user's currently selected location and boundaries */}
           <LocationMap
             location={itinerary.startingLocation}
@@ -120,29 +133,11 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ itinerary, updateI
           />
         </div>
 
-        {/* Start and end times */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
-          {/* Todo: Get date/time pickers working */}
-          {/* <Field
-            component={DateTimePicker}
-            label="Start Time"
-            name="startTime"
-            inputVariant="outlined"
-            value={values.startTime}
-            onChange={(value) => setFieldValue('startTime', value)}
-          />
-          <Field
-            component={DateTimePicker}
-            label="End Time"
-            name="endTime"
-            inputVariant="outlined"
-            value={values.endTime}
-            onChange={(value) => setFieldValue('endTime', value)}
-          /> */}
-        </div>
-
         {/* Interests */}
-        <div className={styles.interestSelectContainer}>
+        <div 
+          className={styles.interestSelectContainer}
+          data-testid="activity-search-form--interest-select-container"
+        >
           <div
             className={styles.label}
           >

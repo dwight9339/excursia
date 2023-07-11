@@ -82,13 +82,13 @@ const SearchBar: React.FC<LocationSearchProps> = ({ onSelectLocation, itinerary 
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        data-testid="location-search"
+        data-testid="location-search--input"
         style={{
           backgroundColor: 'white'
         }}
       />
       {status === 'OK' && (
-        <div className={styles.suggestionBox}>
+        <div className={styles.suggestionBox} data-testid="location-search--suggestion-box">
           <div className={styles.suggestionListContainer}>
             <ul
               className={styles.suggestionList}
