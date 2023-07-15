@@ -1,8 +1,30 @@
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import LocationSearch from '../components/LocationSearch';
+import { useLoadScript } from '@react-google-maps/api';
+import usePlacesAutocomplete from 'use-places-autocomplete';
 
+// Mock the useLoadScript hook
+jest.mock('@react-google-maps/api', () => ({
+  useLoadScript: jest.fn(),
+}));
+
+// Mock the usePlacesAutocomplete hook
+jest.mock('use-places-autocomplete', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
+// Create a mock google object
+global.google = {
+  maps: {
+    LatLng: function(lat, lng) {
+      return { lat: lat, lng: lng };
+    },
+  },
+};
 
 describe('LocationSearch', () => {
+  const mockOnSelectLocation = jest.fn();
   const mockItinerary = {
     id: '1',
     name: 'Test Itinerary',
@@ -54,34 +76,29 @@ describe('LocationSearch', () => {
     ownerId: '1',
   };
 
-  it('renders correctly', () => {
-    // const mockOnSelectLocation = jest.fn();
+  beforeEach(() => {
+    // Setup the useLoadScript hook to return isLoaded: true
+    useLoadScript.mockReturnValue({
+      isLoaded: true,
+      loadError: null,
+    });
 
-    // const { getByTestId, getByLabelText, debug } = render(
-    //   <LocationSearch onSelectLocation={mockOnSelectLocation} itinerary={mockItinerary} />
-    // );
-
-    // // Check that the search bar is rendered
-    // const searchBar = getByTestId('location-searchbar');
-    // expect(searchBar).toBeInTheDocument();
-
-    // Check that the search bar's value is set to the itinerary's starting address
-    // expect(searchBar.value).toBe(mockItinerary.startingAddress);
+    // Setup the usePlacesAutocomplete hook to return some mock data
+    usePlacesAutocomplete.mockReturnValue({
+      ready: true,
+      value: '',
+      suggestions: { status: 'OK', data: [] },
+      setValue: jest.fn(),
+      clearSuggestions: jest.fn(),
+    });
   });
 
-  // it('fetches and displays suggestions correctly', async () => {
-  //   // Test if the component fetches and displays suggestions correctly as the user types in the search bar
-  // });
+  it('renders correctly', async () => {
+    const { findByTestId } = render(
+      <LocationSearch onSelectLocation={mockOnSelectLocation} itinerary={mockItinerary} />
+    );
 
-  // it('fetches geocode and calls onSelectLocation prop function correctly when a suggestion is selected', async () => {
-  //   // Test if the component correctly fetches the geocode for a selected suggestion and calls the onSelectLocation prop function with the correct arguments
-  // });
-
-  // it('sets search bar value to itinerary prop startingAddress and clears suggestions when itinerary prop changes', async () => {
-  //   // Test if the component correctly sets the search bar's value to the itinerary prop's startingAddress and clears any suggestions when the itinerary prop changes
-  // });
-
-  // it('limits search area for suggestions based on itinerary prop startingLocation and searchRadius', async () => {
-  //   // Test if the component correctly limits the search area for suggestions based on the itinerary prop's startingLocation and searchRadius
-  // });
+    const searchBar = await findByTestId("location-search--input");
+    expect(searchBar).toBeInTheDocument();
+  });
 });
