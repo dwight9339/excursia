@@ -1,7 +1,7 @@
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import LocationSearch from '../components/LocationSearch';
 import { useLoadScript } from '@react-google-maps/api';
-import usePlacesAutocomplete from 'use-places-autocomplete';
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 
 // Mock the useLoadScript hook
 jest.mock('@react-google-maps/api', () => ({
@@ -12,6 +12,8 @@ jest.mock('@react-google-maps/api', () => ({
 jest.mock('use-places-autocomplete', () => ({
   __esModule: true,
   default: jest.fn(),
+  getGeocode: jest.fn(),
+  getLatLng: jest.fn()
 }));
 
 // Create a mock google object
@@ -52,26 +54,7 @@ describe('LocationSearch', () => {
         notes: 'Test notes for activity 2',
       },
     ],
-    suggestions: [
-      {
-        name: 'Test Suggestion 1',
-        geometry: {
-          location: {
-            lat: 40.7128,
-            lng: -74.0060,
-          },
-        },
-      },
-      {
-        name: 'Test Suggestion 2',
-        geometry: {
-          location: {
-            lat: 40.7128,
-            lng: -74.0060,
-          },
-        },
-      },
-    ],
+    suggestions: [],
     createdDate: '2023-07-09',
     ownerId: '1',
   };
@@ -87,10 +70,40 @@ describe('LocationSearch', () => {
     usePlacesAutocomplete.mockReturnValue({
       ready: true,
       value: '',
-      suggestions: { status: 'OK', data: [] },
+      suggestions: { status: 'OK', data: [
+        {
+          name: 'Test Suggestion 1',
+          geometry: {
+            location: {
+              lat: 50.79,
+              lng: -85.07,
+            },
+          },
+        },
+        {
+          name: 'Test Suggestion 2',
+          geometry: {
+            location: {
+              lat: 40.7128,
+              lng: -74.0060,
+            },
+          },
+        },
+      ] },
       setValue: jest.fn(),
-      clearSuggestions: jest.fn(),
+      clearSuggestions: jest.fn()
     });
+
+    getGeocode.mockImplementation(() => Promise.resolve([{
+      geometry: {
+        location: {
+          lat: () => 50.79,
+          lng: () => -85.07,
+        },
+      },
+    }]));
+  
+    getLatLng.mockImplementation(() => Promise.resolve({ lat: 50.79, lng: -85.07 }));
   });
 
   it('renders correctly', async () => {
@@ -100,5 +113,26 @@ describe('LocationSearch', () => {
 
     const searchBar = await findByTestId("location-search--input");
     expect(searchBar).toBeInTheDocument();
+  });
+
+  it("updates the search bar value when text is entered", async () => {
+    const { getByTestId, debug } = render(
+      <LocationSearch onSelectLocation={mockOnSelectLocation} itinerary={mockItinerary} />
+    );
+
+    const searchBar = getByTestId("location-search--input");
+    fireEvent.change(searchBar, { target: { value: 'Test' } });
+    expect(usePlacesAutocomplete().setValue).toHaveBeenCalledWith("Test");
+  });
+
+  it("calls onSelectLocation when a location is selected", async () => {
+    const { getByTestId, findByTestId, debug } = render(
+      <LocationSearch onSelectLocation={mockOnSelectLocation} itinerary={mockItinerary} />
+    );
+
+    const searchBar = getByTestId("location-search--input");
+    fireEvent.change(searchBar, { target: { value: 'Test' } });
+    fireEvent.click(await findByTestId("location-search--suggestion-1"));
+    await waitFor(() => expect(mockOnSelectLocation).toHaveBeenCalledTimes(1));
   });
 });

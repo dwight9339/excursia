@@ -58,10 +58,11 @@ const SearchBar: React.FC<LocationSearchProps> = ({ onSelectLocation, itinerary 
   };
 
   const renderSuggestions = () =>
-    data.map((suggestion) => (
+    data.map((suggestion, index) => (
       <li
-      className={styles.suggestion}
-        key={suggestion.place_id}
+        className={styles.suggestion}
+        key={`suggestion-${index}`}
+        data-testid={`location-search--suggestion-${index}`}
         onClick={() => handleSelect(suggestion.description)}
       >
         {suggestion.description}
