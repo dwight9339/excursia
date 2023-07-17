@@ -66,6 +66,7 @@ const GridCheckbox: React.FC<GridCheckboxProps> = ({
               type="checkbox"
               name={name}
               value={item.value}
+              data-testid={`grid-checkbox--box-${item.value}`}
               onChange={onChange}
             />
             <div className={styles.imageContainer}>

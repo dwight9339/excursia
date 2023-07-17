@@ -11,7 +11,7 @@ describe('GridCheckbox', () => {
   const mockInterestList = ['test1'];
 
   test('renders without crashing', () => {
-    const { getByRole } = render(
+    const { getByTestId, getByText } = render(
       <GridCheckbox 
         name="test"
         onChange={mockOnChange}
@@ -21,11 +21,16 @@ describe('GridCheckbox', () => {
       />
     );
 
-    expect(getByRole('checkbox')).toBeInTheDocument();
+    for (let item of mockItems) {
+      const checkbox = getByTestId(`grid-checkbox--box-${item.value}`);
+      const label = getByText(item.label);
+      expect(checkbox).toBeInTheDocument();
+      expect(label).toBeInTheDocument();
+    }
   });
 
   test('calls onChange when checkbox is clicked', () => {
-    const { getByRole } = render(
+    const { getByTestId } = render(
       <GridCheckbox 
         name="test"
         onChange={mockOnChange}
@@ -35,13 +40,13 @@ describe('GridCheckbox', () => {
       />
     );
 
-    const checkbox = getByRole('checkbox');
+    const checkbox = getByTestId(`grid-checkbox--box-${mockItems[0].value}`);
     fireEvent.click(checkbox);
     expect(mockOnChange).toHaveBeenCalled();
   });
 
   test('renders correct number of checkboxes', () => {
-    const { getByRole } = render(
+    const { queryAllByTestId } = render(
       <GridCheckbox 
         name="test"
         onChange={mockOnChange}
@@ -51,7 +56,7 @@ describe('GridCheckbox', () => {
       />
     );
 
-    const checkboxes = screen.getAllByRole('checkbox');
+    const checkboxes = queryAllByTestId(/grid-checkbox--box-/);
     expect(checkboxes.length).toBe(mockItems.length);
   });
 });
