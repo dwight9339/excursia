@@ -58,7 +58,7 @@ const GridCheckbox: React.FC<GridCheckboxProps> = ({
               ${styles.gridItem} 
               ${(index + 1) % 3 !== 0 ? styles.rightBorder : ""} 
               ${index + 1 <= items.length - numColumns ? styles.bottomBorder : ""}
-              ${interestList.includes(item.value) ? styles.selected : ""}
+              ${interestList?.includes(item.value) ? styles.selected : ""}
               ${cornerClass}
             `}
           >

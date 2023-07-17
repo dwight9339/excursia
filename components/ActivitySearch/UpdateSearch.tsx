@@ -39,15 +39,27 @@ const UpdateSearch: React.FC<UpdateSearchProps> = ({ itinerary }) => {
 
   return (
     <>
-      <div className={styles.modalContent}>
+      <div className={styles.modalContent} data-testid="update-search--activity-search-container">
         <ActivitySearchForm
           itinerary={updatedItinerary}
           updateItinerary={updateItinerary}
         />
       </div>
-      <div className={styles.modalFooter}>
-        <div className={styles.action} onClick={handleSaveItinerary}>Update</div>
-        <div className={styles.action} onClick={closeModal}>Cancel</div>
+      <div className={styles.modalFooter} data-testid="update-search--footer">
+        <div
+          className={styles.action}
+          data-testid="update-search--update-button"
+          onClick={handleSaveItinerary}
+        >
+          Update
+        </div>
+        <div
+          className={styles.action}
+          data-testid="update-search--cancel-button"
+          onClick={closeModal}
+        >
+          Cancel
+        </div>
       </div>
     </>
   );
