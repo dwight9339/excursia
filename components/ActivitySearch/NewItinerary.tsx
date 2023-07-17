@@ -52,20 +52,21 @@ const NewItinerary: React.FC = () => {
   };
 
   return (
-    <div className={styles.newItineraryContainer}>
-      <div className={styles.newItineraryHeader}>
+    <div className={styles.newItineraryContainer} data-testid="new-itinerary--container">
+      <div className={styles.newItineraryHeader} data-testid="new-itinerary--header">
         <h1 className={styles.newItineraryTitle}>Where would you like to explore?</h1>
       </div>
-      <div className={styles.newItineraryForm}>
+      <div className={styles.newItineraryForm} data-testid="new-itinerary--form">
         <ActivitySearchForm
           itinerary={itinerary}
           updateItinerary={setItinerary}
           isDraft={true}
         />
       </div>
-      <div className={styles.newItineraryFooter}>
+      <div className={styles.newItineraryFooter} data-testid="new-itinerary--footer">
         <button
           className={styles.createItineraryButton}
+          data-testid="new-itinerary--submit-button"
           onClick={handleCreateItinerary}
           disabled={itinerary.startingAddress === "" || creatingItinerary}
         >
