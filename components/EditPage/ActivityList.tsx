@@ -83,6 +83,7 @@ const ListItem: React.FC<ListItemProps> = ({
         </span>
       </div>
       <div
+        data-testid={`activity-list--delete-button-activity-${index}`}
         className={styles.deleteButton}
         onClick={() => onDelete(index)}
       >
@@ -152,13 +153,6 @@ const ActivityList: React.FC<ActivityListProps> = ({
                       onTimeUpdate={onTimeUpdate}
                       onDelete={onDelete}
                     />
-                    // <div
-                    //   ref={provided.innerRef}
-                    //   {...provided.draggableProps}
-                    //   {...provided.dragHandleProps}
-                    // >
-                    //   {activity.name}
-                    // </div>
                   )}
                 </Draggable>
               );
