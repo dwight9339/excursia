@@ -54,7 +54,10 @@ const AddActivity: React.FC<AddActivityProps> = ({ itinerary, onSubmit }) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div
+      data-testid="add-activity--form-container"
+      className={styles.container}
+    >
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -62,11 +65,15 @@ const AddActivity: React.FC<AddActivityProps> = ({ itinerary, onSubmit }) => {
       >
         {({ values, handleChange, handleBlur, setFieldValue }) => (
           <Form className={styles.form}>
-            <div className={styles.fieldContainer}>
+            <div
+              data-testid="add-activity--name-field-container"
+              className={styles.fieldContainer}
+            >
               <div className={styles.fieldLabel}>
                 Name
               </div>
               <input
+                data-testid="add-activity--name-field"
                 className={styles.textField}
                 type="text"
                 name="name"
@@ -75,21 +82,10 @@ const AddActivity: React.FC<AddActivityProps> = ({ itinerary, onSubmit }) => {
                 onBlur={handleBlur}
               />
             </div>
-            {/* <div className={styles.fieldContainer}>
-              <div className={styles.fieldLabel}>
-                Type
-              </div>
-              <select
-                className={styles.selectField}
-                name="activityType"
-                value={values.description}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              >
-                <option value="restaurant">Restaurant</option>
-              </select>
-            </div> */}
-            <div className={styles.fieldContainer}>
+            <div
+              data-testid="add-activity--location-field-container"
+              className={styles.fieldContainer}
+            >
               <div className={styles.fieldLabel}>
                 Location
               </div>
@@ -103,11 +99,13 @@ const AddActivity: React.FC<AddActivityProps> = ({ itinerary, onSubmit }) => {
             </div>
             <div className={styles.addActivityButton}>
               <button
+                data-testid="add-activity--submit-button"
                 className={commonStyles.buttonPrimary}
                 type="submit"
                 style={{
                   fontSize: "0.9em"
                 }}
+                disabled={!values.name || !values.location}
               >
                 Add Activity
               </button>
