@@ -38,13 +38,13 @@ const Tablet: React.FC<TabletProps> = ({
   return (
     <div className={styles.columnContainer}>
       <div className={styles.column}>
-        <div className={styles.titleContainer}>
+        <div className={styles.titleContainer} data-testid="edit-page--title-container">
           <EditableText
             text={itinerary.name}
             onEdit={(newName) => updateItinerary({...itinerary, name: newName})}
           />
         </div>
-        <div className={styles.mapContainer}>
+        <div className={styles.mapContainer} data-testid="edit-page--map-container">
           <ItineraryMap
             location={itinerary.startingLocation}
             activities={itinerary.activities}
@@ -53,7 +53,7 @@ const Tablet: React.FC<TabletProps> = ({
             mapHeight={mapHeight}
           />
         </div>
-        <div className={styles.selectedActivitiesContainer}>
+        <div className={styles.selectedActivitiesContainer} data-testid="edit-page--selected-activities-container">
           <h3>Selected Activities</h3>
           <ActivityList
             activities={itinerary.activities}
@@ -66,8 +66,9 @@ const Tablet: React.FC<TabletProps> = ({
             onDelete={handleDeleteActivity}
           />
         </div>
-        <div className={styles.addCustomButtonContainer}>
+        <div className={styles.addCustomButtonContainer} data-testid="edit-page--add-custom-button-container">
           <div
+            data-testid="edit-page--add-custom-button"
             className={styles.addCustomButton} 
             onClick={() => {
               openModal(
@@ -85,7 +86,7 @@ const Tablet: React.FC<TabletProps> = ({
         </div>
       </div>
       <div className={styles.column}>
-        <div className={styles.SuggestedActivitiesContainer}>
+        <div className={styles.SuggestedActivitiesContainer} data-testid="edit-page--suggested-activities-container">
           <h3>Suggested Activities</h3>
           <SuggestedActivities
             selectedActivities={itinerary.activities.map((activity) => activity.place?.place_id).filter((placeId) => placeId) as string[]}
@@ -100,19 +101,24 @@ const Tablet: React.FC<TabletProps> = ({
             }} 
           />
         </div>
-        <div className={styles.updateSearchContainer}>
-          <div className={styles.updateSearchButton} onClick={() => openModal(
-            "Update Search Options",
-            <UpdateSearch
-              itinerary={itinerary}
-            />,
-            []
-          )}>
+        <div className={styles.updateSearchContainer} data-testid="edit-page--update-search-button-container">
+          <div
+            data-testid="edit-page--update-search-button"
+            className={styles.updateSearchButton}
+            onClick={() => openModal(
+              "Update Search Options",
+              <UpdateSearch
+                itinerary={itinerary}
+              />,
+              []
+            )}
+          >
             Update search options
           </div>
         </div>
-        <div className={styles.saveButtonContainer}>
+        <div className={styles.saveButtonContainer} data-testid="edit-page--save-button-container">
           <button 
+            data-testid="edit-page--save-button"
             className={styles.saveButton}
             disabled={isSaving}
             onClick={handleSaveItinerary}
