@@ -20,9 +20,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const itineraries = await itinerariesCollection.find({ ownerId: userId }).toArray();
       client.close();
       const itinerariesWithId = itineraries.map((itinerary) => {
+        const { _id, ...rest } = itinerary;
         return {
-          id: itinerary._id,
-          ...itinerary,
+          id: _id,
+          ...rest,
         };
       });
 
