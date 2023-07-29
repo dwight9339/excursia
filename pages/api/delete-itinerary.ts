@@ -15,13 +15,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const itinerary = await itinerariesCollection.findOne({ _id: new ObjectId(itineraryId as string) });
 
       // Check if the itinerary exists
-      if (!itinerary) {
-        res.status(404).json({ success: false, error: 'Itinerary not found' });
-        return;
+      if (itinerary) {
+       await itinerariesCollection.deleteOne({ _id: new ObjectId(itineraryId as string) });
       }
 
-      const deleteResult = await itinerariesCollection.deleteOne({ _id: new ObjectId(itineraryId as string) });
-      res.status(200).json({ success: true, deleteResult });
+      res.status(200).json({ success: true });
     } catch (error) {
       console.error(error);
       res.status(500).json({ success: false, error });
