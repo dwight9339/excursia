@@ -42,10 +42,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       // Return itinerary ID
       insertResult 
         ? res.status(201).json({ user_id: insertResult.insertedId })
-        : res.status(500).json({ message: "Unable to create user"});
+        : res.status(500).json({ error: "Unable to create user"});
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Error creating user' });
+      res.status(500).json({ error: `Unable to create user: ${error}` });
     } finally {
       await client.close();
     }
