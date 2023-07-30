@@ -65,7 +65,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Error generating draft itinerary' });
+      res.status(500).json({ message: "Error saving itinerary" });
     } finally {
       await client.close();
     }
