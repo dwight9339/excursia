@@ -1,10 +1,6 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 
-export const fetchItinerary = async (id: string) => {
-  const client: MongoClient = new MongoClient(`${process.env.MONGO_DB_URI}`);
-
-  try {
-    await client.connect();
+export const fetchItinerary = async (client: MongoClient, id: string) => {
     const db: Db = client.db(`${process.env.DB_NAME}`);
     const itineraryCollection: Collection = db.collection("itinerary");
     
@@ -15,12 +11,6 @@ export const fetchItinerary = async (id: string) => {
     const { _id, ..._itinerary } = itinerary;
 
     return { id: `${_id}`, ..._itinerary } as Itinerary;
-  } catch(err) {
-    console.log(`Itinerary fetch error: ${err}`);
-    return null;
-  } finally {
-    await client.close();
-  }
 }
 
 export const fetchUserById = async (id: string) => {
