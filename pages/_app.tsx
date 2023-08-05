@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { SessionProvider } from 'next-auth/react';
+import { Analytics } from "@vercel/analytics/react";
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Header from "../components/Header";
@@ -22,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Modal />
           <Header />
           <Component {...pageProps} />
+          <Analytics />
         </ModalProvider>
       </LocalizationProvider>
     </SessionProvider>
