@@ -27,6 +27,7 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
   const { openModal, closeModal } = React.useContext(ModalContext);
   const [deviceType, setDeviceType] = useState<string>("desktop");
   const [screenWidth, setScreenWidth] = useState<number>(0);
+  const isOwner = userData?.id === itinerary?.ownerId;
 
   const ShareComponent = dynamic(() => import('./ShareItinerary').then(mod => mod), { ssr: false });
 
@@ -57,7 +58,7 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
     }
   };
 
-  const otherOptions = [
+  const fullOptions = [
     {
       name: "Share",
       onClick: () => {
@@ -98,6 +99,19 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
     }
   ];
 
+  const reducedOptions = [
+    {
+      name: "Share",
+      onClick: () => {
+        openModal(
+          "Share Itinerary",
+          <ShareComponent itinerary={itinerary} />,
+          []
+        );
+      }
+    }
+  ];
+
   const pageContent = useMemo(() => {
     if (!isLoaded) {
       return (
@@ -114,7 +128,7 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
         <Desktop 
           itinerary={itinerary}
           screenWidth={screenWidth}
-          moreOptions={otherOptions}
+          moreOptions={isOwner ? fullOptions : reducedOptions}
         />
       );
     }
@@ -123,7 +137,7 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
       <Mobile
         itinerary={itinerary}
         screenWidth={screenWidth}
-        moreOptions={otherOptions}
+        moreOptions={isOwner ? fullOptions : reducedOptions}
       />
     );
   }, [isLoaded, deviceType, screenWidth]);

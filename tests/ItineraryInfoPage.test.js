@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, within } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import ItineraryInfoPage from "../components/ItineraryInfoPage";
 import { SessionProvider } from "next-auth/react";
 import ModalContext from "../contexts/ModalContext";
@@ -141,8 +141,16 @@ describe("ItineraryInfoPage", () => {
   it("doesn't show edit or delete options when user is not owner", () => {
     const nonOwnerSession = {
       user: {
-        id: "0987654321",
-        ...mockSession.user
+        name: {
+          firstName: 'Jane',
+          lastName: 'Doe',
+        },
+        email: 'jane.doe@example.com',
+        preferences: {
+          language: 'english',
+          distanceUnit: 'miles'
+        },
+        id: '1234567891',
       }
     };
     const { getByTestId, queryAllByTestId } = render(
@@ -156,9 +164,9 @@ describe("ItineraryInfoPage", () => {
     const optionsButton = getByTestId("options-button--options-button");
     fireEvent.click(optionsButton);
     const optionsDisplayed = queryAllByTestId("options-button--option");
-    expectedOptions.forEach((option, index) => {
-      expect(optionsDisplayed[index]).not.toHaveTextContent("Edit");
-      expect(optionsDisplayed[index]).not.toHaveTextContent("Delete");
+    optionsDisplayed.forEach((option) => {
+      expect(option).not.toHaveTextContent("Edit");
+      expect(option).not.toHaveTextContent("Delete");
     });
   });
 });
