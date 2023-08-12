@@ -1,5 +1,5 @@
 import { render, fireEvent } from '@testing-library/react';
-import EditableText from '../components/EditableText';
+import EditableText from '../../components/EditableText';
 
 describe('EditableText', () => {
   const mockText = 'Test text';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import GridCheckbox from '../components/ActivitySearch/GridCheckbox';
+import GridCheckbox from '../../components/ActivitySearch/GridCheckbox';
 
 describe('GridCheckbox', () => {
   const mockOnChange = jest.fn();

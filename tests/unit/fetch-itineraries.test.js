@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import handler from "../pages/api/fetch-itineraries";
+import handler from "../../pages/api/fetch-itineraries";
 
 jest.mock("mongodb", () => {
   const mCollection = {

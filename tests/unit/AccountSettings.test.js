@@ -1,13 +1,13 @@
 import { render, fireEvent } from '@testing-library/react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import AccountSettings from '../components/AccountSettings';
-import ModalContext from '../contexts/ModalContext';
-import Modal from '../components/Modal';
+import AccountSettings from '../../components/AccountSettings';
+import ModalContext from '../../contexts/ModalContext';
+import Modal from '../../components/Modal';
 
 jest.mock('axios');
 jest.mock('next-auth/react');
-jest.mock('../contexts/ModalContext');
+jest.mock('../../contexts/ModalContext');
 
 describe('AccountSettings', () => {
   // Mock session data

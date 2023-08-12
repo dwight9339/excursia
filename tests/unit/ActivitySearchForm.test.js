@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import ActivitySearchForm from '../components/ActivitySearch/ActivitySearchForm';
+import ActivitySearchForm from '../../components/ActivitySearch/ActivitySearchForm';
 import { SessionProvider } from 'next-auth/react';
 import { useLoadScript } from '@react-google-maps/api';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';

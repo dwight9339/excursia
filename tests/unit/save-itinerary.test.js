@@ -1,5 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
-import handler from "../pages/api/save-itinerary";
+import handler from "../../pages/api/save-itinerary";
 
 jest.mock("mongodb", () => {
   const mCollection = {
@@ -24,7 +24,7 @@ jest.mock("mongodb", () => {
   return { MongoClient, ObjectId: mObjectId };
 });
 
-jest.mock("../lib/suggestions", () => ({
+jest.mock("../../lib/suggestions", () => ({
   fetchSuggestions: jest.fn(),
 }));
 

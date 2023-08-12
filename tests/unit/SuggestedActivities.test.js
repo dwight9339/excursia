@@ -1,5 +1,5 @@
 import { render, fireEvent } from '@testing-library/react';
-import SuggestedActivities from '../components/EditPage/SuggestedActivities';
+import SuggestedActivities from '../../components/EditPage/SuggestedActivities';
 import { useRouter } from 'next/router';
 
 

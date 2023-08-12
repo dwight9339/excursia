@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb";
 import bcrypt from 'bcrypt';
-import handler from '../pages/api/create-user';
+import handler from '../../pages/api/create-user';
 
 // Mock the MongoDB client
 jest.mock("mongodb", () => {

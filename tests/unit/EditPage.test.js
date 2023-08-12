@@ -1,8 +1,8 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import EditPage from "../components/EditPage";
+import EditPage from "../../components/EditPage";
 import { SessionProvider } from "next-auth/react";
-import ModalContext from "../contexts/ModalContext";
+import ModalContext from "../../contexts/ModalContext";
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),

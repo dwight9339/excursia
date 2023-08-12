@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import ModalContext from '../contexts/ModalContext';
-import Modal from '../components/Modal';
+import ModalContext from '../../contexts/ModalContext';
+import Modal from '../../components/Modal';
 import { createContext } from 'react';
 
 describe('Modal', () => {

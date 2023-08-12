@@ -1,5 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
-import handler from "../pages/api/update-user";
+import handler from "../../pages/api/update-user";
 
 jest.mock("mongodb", () => {
   const mCollection = {

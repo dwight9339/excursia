@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import AddActivity from '../components/EditPage/AddActivity';
+import AddActivity from '../../components/EditPage/AddActivity';
 import { useLoadScript } from '@react-google-maps/api';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
-import ModalContext from '../contexts/ModalContext';
+import ModalContext from '../../contexts/ModalContext';
 
 const mockModalContext = {
   closeModal: jest.fn()

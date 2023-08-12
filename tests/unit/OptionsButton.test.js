@@ -1,5 +1,5 @@
 import { render, fireEvent } from "@testing-library/react";
-import OptionsButton from "../components/OptionsButton";
+import OptionsButton from "../../components/OptionsButton";
 
 describe("OptionsButton", () => {
   const mockOptions = [

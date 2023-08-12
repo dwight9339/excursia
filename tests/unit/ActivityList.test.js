@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import ActivityList from '../components/EditPage/ActivityList';
+import ActivityList from '../../components/EditPage/ActivityList';
 
 // Mock the react-beautiful-dnd dependencies
 jest.mock('react-beautiful-dnd', () => ({

@@ -1,12 +1,9 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import UpdateSearch from '../components/ActivitySearch/UpdateSearch';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+import NewItinerary from '../../components/ActivitySearch/NewItinerary';
+import { SessionProvider } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useLoadScript } from '@react-google-maps/api';
-import { SessionProvider, useSession } from 'next-auth/react';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
-import ModalContext from '../contexts/ModalContext';
-import Modal from '../components/Modal';
 
 jest.mock('@react-google-maps/api', () => ({
   useLoadScript: jest.fn(),
@@ -42,17 +39,7 @@ global.fetch = jest.fn(() =>
   })
 );
 
-describe('UpdateSearch', () => {
-  // Mock ModalContext
-  const mockCloseModal = jest.fn();
-
-  const mockModalContext = {
-    isModalOpen: true,
-    closeModal: mockCloseModal,
-    modalTitle: 'Test Modal Title',
-    modalContent: <UpdateSearch />,
-    modalActions: []
-  };
+describe('NewItinerary', () => {
   const mockSession = {
     user: {
       name: {
@@ -117,46 +104,57 @@ describe('UpdateSearch', () => {
     getLatLng.mockImplementation(() => Promise.resolve({ lat: 50.79, lng: -85.07 }));
   });
 
-  it ('renders without crashing', () => {
-    const { getByTestId } = render(
+  it("renders all sections without crashing", () => {
+    const { getByTestId, debug } = render(
       <SessionProvider session={mockSession}>
-        <ModalContext.Provider value={mockModalContext}>
-          <Modal />
-        </ModalContext.Provider>
+        <NewItinerary />
       </SessionProvider>
     );
 
-    expect(getByTestId("update-search--activity-search-container")).toBeInTheDocument();
-    expect(getByTestId("update-search--footer")).toBeInTheDocument();
-    expect(getByTestId("update-search--update-button")).toBeInTheDocument();
-    expect(getByTestId("update-search--cancel-button")).toBeInTheDocument();
+    expect(getByTestId("new-itinerary--container")).toBeInTheDocument();
+    expect(getByTestId("new-itinerary--header")).toBeInTheDocument();
+    expect(getByTestId("new-itinerary--form")).toBeInTheDocument();
+    expect(getByTestId("new-itinerary--footer")).toBeInTheDocument();
   });
 
-  it ("calls fetch when update button is clicked", () => {
+  it("prevents form submission when no location is selected", () => {
     const { getByTestId } = render(
       <SessionProvider session={mockSession}>
-        <ModalContext.Provider value={mockModalContext}>
-          <Modal />
-        </ModalContext.Provider>
+        <NewItinerary />
       </SessionProvider>
     );
 
-    fireEvent.click(getByTestId("update-search--update-button"));
-
-    expect(global.fetch).toHaveBeenCalledTimes(1);
+    const submitButton = getByTestId("new-itinerary--submit-button");
+    expect(submitButton).toBeDisabled();
   });
 
-  it ("calls closeModal when cancel button is clicked", () => {
-    const { getByTestId } = render(
+  it("enables form submission when a location is selected", async () => {
+    const { getByTestId, findByTestId, debug } = render(
       <SessionProvider session={mockSession}>
-        <ModalContext.Provider value={mockModalContext}>
-          <Modal />
-        </ModalContext.Provider>
+        <NewItinerary />
       </SessionProvider>
     );
 
-    fireEvent.click(getByTestId("update-search--cancel-button"));
+    const searchBar = getByTestId("location-search--input");
+    fireEvent.change(searchBar, { target: { value: 'Test Suggestion 1' } });
+    fireEvent.click(getByTestId("location-search--suggestion-0"));
+    const submitButton = await findByTestId("new-itinerary--submit-button");
+    await waitFor(() => expect(submitButton).toBeEnabled());
+  });
 
-    expect(mockCloseModal).toHaveBeenCalledTimes(1);
+  it("makes a POST request to the API when the form is submitted", async () => {
+    const { getByTestId, findByTestId, debug } = render(
+      <SessionProvider session={mockSession}>
+        <NewItinerary />
+      </SessionProvider>
+    );
+
+    const searchBar = getByTestId("location-search--input");
+    fireEvent.change(searchBar, { target: { value: 'Test Suggestion 1' } });
+    fireEvent.click(getByTestId("location-search--suggestion-0"));
+    const submitButton = await findByTestId("new-itinerary--submit-button");
+    await waitFor(() => expect(submitButton).toBeEnabled());
+    fireEvent.click(submitButton);
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
   });
 });

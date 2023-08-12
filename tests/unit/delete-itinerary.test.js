@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb";
 import bcrypt from 'bcrypt';
-import handler from '../pages/api/delete-itinerary';
+import handler from '../../pages/api/delete-itinerary';
 
 // Mock the MongoDB client
 jest.mock("mongodb", () => {
