@@ -17,7 +17,6 @@ interface ItineraryPageProps {
 
 const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
   const router = useRouter();
-  const { id: itineraryId } = router.query;
   const { data, status } = useSession();
   const userData: any = { ...data?.user };
   const libraries = useMemo(() => ["places"], []);
@@ -40,7 +39,7 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
 
   const deleteItinerary = async () => {
     try {
-      const res = await fetch(`/api/delete-itinerary?itineraryId=${itineraryId}`, {
+      const res = await fetch(`/api/delete-itinerary?itineraryId=${itinerary.id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json"
@@ -61,7 +60,6 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
   const otherOptions = [
     {
       name: "Share",
-      // TODO: Implement share functionality
       onClick: () => {
         openModal(
           "Share Itinerary",
@@ -76,7 +74,6 @@ const ItineraryPage: React.FC<ItineraryPageProps> = ({ itinerary }) => {
     },
     {
       name: "Delete",
-      // TODO: Implement delete functionality
       onClick: () => {
         openModal(
           "Delete Itinerary",

@@ -28,11 +28,11 @@ const Desktop: React.FC<ItineraryPageProps> = ({
     <div className={styles.container}>
       <div className={styles.column}>
         <div className={styles.itineraryNameContainer}>
-          <div className={styles.itineraryName}>
+          <div className={styles.itineraryName} data-testid="itinerary-info-page--itinerary-name">
             {itinerary.name}
           </div>
         </div>
-        <div className={styles.mapContainer}>
+        <div className={styles.mapContainer} data-testid="itinerary-info-page--map-container">
           <ItineraryMap
             activities={itinerary.activities}
             location={itinerary.startingLocation}
@@ -43,6 +43,7 @@ const Desktop: React.FC<ItineraryPageProps> = ({
         </div>
         <div className={styles.directionsButtonContainer}>
           <div
+            data-testid="itinerary-info-page--directions-button"
             className={styles.directionsButton}
             onClick={() => window.open(generateDirectionsUrl(itinerary.startingLocation, itineraryLocations), "_blank")}
           >
@@ -55,7 +56,7 @@ const Desktop: React.FC<ItineraryPageProps> = ({
           <OptionsButton options={moreOptions} />
         </div>
         <div className={styles.activityListContainer}>
-          <div className={styles.activityList}>
+          <div className={styles.activityList} data-testid="itinerary-info-page--activity-list">
             {itinerary.activities && itinerary.activities.map((activity, index) => {
              const placeId = activity.place?.place_id;
              const lat = activity.place?.geometry?.location?.lat || activity.location?.lat;
@@ -63,7 +64,11 @@ const Desktop: React.FC<ItineraryPageProps> = ({
              const placeLink = `https://www.google.com/maps/search/?api=1&query=${lat}%2C${lng}${placeId ? `&query_place_id=${placeId} ` : ""}`;
 
               return (
-                <div key={index} className={styles.activityListItem}>
+                <div
+                  key={index}
+                  className={styles.activityListItem}
+                  data-testid="itinerary-info-page--activity-list-item"  
+                >
                   <div className={styles.leftSide}>
                     <a href={placeLink} target="_blank">
                       <div className={styles.activityName}>

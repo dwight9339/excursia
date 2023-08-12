@@ -33,7 +33,7 @@ const Mobile: React.FC<ItineraryPageProps> = ({
           </div>
           <OptionsButton options={moreOptions} />
         </div>
-        <div className={styles.mapContainer}>
+        <div className={styles.mapContainer} data-testid="itinerary-info-page--map-container">
           <ItineraryMap
             activities={itinerary.activities}
             location={itinerary.startingLocation}
@@ -44,6 +44,7 @@ const Mobile: React.FC<ItineraryPageProps> = ({
         </div>
         <div className={styles.directionsButtonContainer}>
           <div
+            data-testid="itinerary-info-page--directions-button"
             className={styles.directionsButton}
             onClick={() => window.open(generateDirectionsUrl(itinerary.startingLocation, itineraryLocations), "_blank")}
           >
@@ -51,7 +52,7 @@ const Mobile: React.FC<ItineraryPageProps> = ({
           </div>
         </div>
         <div className={styles.activityListContainer}>
-          <ul className={styles.activityList}>
+          <ul className={styles.activityList} data-testid="itinerary-info-page--activity-list">
             {itinerary.activities && itinerary.activities.map((activity, index) => {
               const placeId = activity.place?.place_id;
               const lat = activity.place?.geometry?.location?.lat || activity.location?.lat;
@@ -59,7 +60,11 @@ const Mobile: React.FC<ItineraryPageProps> = ({
               const placeLink = `https://www.google.com/maps/search/?api=1&query=${lat}%2C${lng}${placeId ? `&query_place_id=${placeId} ` : ""}`;
 
               return (
-                <li key={index} className={styles.activityListItem}>
+                <li
+                  key={index}
+                  className={styles.activityListItem}
+                  data-testid="itinerary-info-page--activity-list-item"
+                >
                   <div className={styles.leftSide}>
                     <a href={placeLink} target="_blank">
                       <div className={styles.activityName}>
