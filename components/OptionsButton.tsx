@@ -18,7 +18,7 @@ const OptionsButton: React.FC<OptionsButtonProps> = ({
     <div className={styles.container}>
       <div 
         className={styles.optionsButton}
-        data-testid="options-button"
+        data-testid="options-button--options-button"
         onClick={() => setOptionsOpen(!optionsOpen)}
       >
         <Image
@@ -35,7 +35,7 @@ const OptionsButton: React.FC<OptionsButtonProps> = ({
             <div
               key={index}
               className={styles.option}
-              data-testid={`option-${index}`}
+              data-testid={`options-button--option`}
               onClick={() => {
                 option.onClick();
                 setOptionsOpen(false);
