@@ -10,8 +10,8 @@ describe("OptionsButton", () => {
   it("renders the button correctly", () => {
     const { getByTestId } = render(<OptionsButton options={mockOptions} />);
 
-    const button = getByTestId("options-button");
-    const buttonIcon = getByTestId("options-button-icon");
+    const button = getByTestId("options-button--options-button");
+    const buttonIcon = getByTestId("options-button--options-button-icon");
     expect(button).toBeInTheDocument();
     expect(buttonIcon).toBeInTheDocument();
   });
@@ -19,7 +19,7 @@ describe("OptionsButton", () => {
   it("renders the options when the button is clicked", () => {
     const { getByTestId, getByText } = render(<OptionsButton options={mockOptions} />);
 
-    const button = getByTestId("options-button");
+    const button = getByTestId("options-button--options-button");
     fireEvent.click(button);
 
     mockOptions.forEach((option) => {
@@ -31,7 +31,7 @@ describe("OptionsButton", () => {
   it("closes the options and calls the option's onClick function when an option is clicked", () => {
     const { getByTestId, getByText } = render(<OptionsButton options={mockOptions} />);
 
-    const button = getByTestId("options-button");
+    const button = getByTestId("options-button--options-button");
     fireEvent.click(button);
 
     const option1 = getByText(mockOptions[0].name);

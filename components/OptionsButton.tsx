@@ -24,7 +24,7 @@ const OptionsButton: React.FC<OptionsButtonProps> = ({
         <Image
           src="/images/more-options.png"
           alt="more options"
-          data-testid="options-button-icon"
+          data-testid="options-button--options-button-icon"
           width={20}
           height={20}
         />
