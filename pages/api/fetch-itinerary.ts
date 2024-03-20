@@ -14,7 +14,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       console.log(error);
       res.status(500).json({ message: "Unable to fetch itinerary" });
     } finally {
-      client.close();
+      if (client) {
+        client.close();
+      }
     }
   } else {
     res.status(405).json({ message: "Method not allowed" });

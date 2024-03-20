@@ -34,7 +34,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       console.error(error);
       res.status(500).json({ error: 'Error creating user' });
     } finally {
-      await client.close();
+      if (client) {
+        client.close();
+      }
     }
   } else {
     // Return 405 Method Not Allowed for other request methods
