@@ -33,7 +33,7 @@ const UpdateSearch: React.FC<UpdateSearchProps> = ({ itinerary }) => {
       }
     } catch (error) {
       // Handle any network errors
-      console.error('Error fetching itinerary:', error);
+      console.error('Error updating itinerary:', error);
     }
   };
 

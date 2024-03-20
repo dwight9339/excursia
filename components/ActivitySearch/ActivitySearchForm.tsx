@@ -45,6 +45,15 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ itinerary, updateI
     return Math.floor(zoomLevel) * 0.98;
   };
 
+  const handleInterestSelection = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (!itinerary.interests.includes(e.target.value)) {
+      updateItinerary({ ...itinerary, interests: [...itinerary.interests, e.target.value] });
+    } else {
+      updateItinerary({ ...itinerary, interests: itinerary.interests.filter((interest) => interest !== e.target.value) });
+    }
+  };
+
   useEffect(() => {
     if (!isDefaultLocation) {
       setZoomLevel(calculateZoomLevel(itinerary.searchRadius));
@@ -161,13 +170,7 @@ const ActivitySearchForm: React.FC<PreferencesFormProps> = ({ itinerary, updateI
             ]}
             interestList={itinerary.interests}
             device={deviceType}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              if (e.target.checked) {
-                updateItinerary({...itinerary, interests: [...itinerary.interests, e.target.value]});
-              } else {
-                updateItinerary({...itinerary, interests: itinerary.interests.filter((interest) => interest !== e.target.value)});
-              }
-            }}
+            onChange={handleInterestSelection}
           /> 
         </div>
       </form>
